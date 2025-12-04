@@ -94,6 +94,7 @@ in
     packages = (
       with pkgs;
       [
+        duti
       ]
     );
   };
@@ -116,6 +117,7 @@ in
       "reMarkable" = 1276493162; # (3.19.0)
       "Tailscale" = 1475387142;
       "Things" = 904280696;
+      "Xcode" = 497799835;
     };
 
     brews = [
@@ -207,6 +209,8 @@ in
       # Hello environment.loginShellInit
       eval "$(/opt/homebrew/bin/brew shellenv)"
     '';
+
+    systemPath = [ "$HOME/.cargo/bin" ];
   };
 
   services = {

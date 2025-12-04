@@ -22,8 +22,8 @@ with pkgs;
 
     settings = {
       user = {
-        name = "Ocean Armstrong Lewis";
-        email = "6754950+oceanlewis@users.noreply.github.com";
+        name = "Hazel Ocean Lewis";
+        email = "6754950+hazel-ocean@users.noreply.github.com";
       };
 
       aliases = {
@@ -89,7 +89,7 @@ with pkgs;
     includes = [
       {
         path = ./onesignal/includes;
-        condition = "gitdir:~/Developer/onesignal/";
+        condition = "gitdir:~/OneSignal/";
       }
     ];
   };

@@ -9,7 +9,7 @@
 {
   "helix_mode": true,
   "vim_mode": true,
-  "disable_ai": true,
+  "disable_ai": false,
   "icon_theme": {
     "mode": "system",
     "light": "Catppuccin Macchiato",
@@ -42,7 +42,7 @@
     "light": "kontras-light",
     "dark": "Tim's Experiments Dark"
   },
-  "ui_font_size": 12.0,
+  "ui_font_size": 13.0,
   "buffer_font_family": "JetBrainsMono Nerd Font Propo",
   "buffer_font_size": 13.0,
   "soft_wrap": "editor_width",
@@ -66,6 +66,21 @@
     },
     "Nu": {
       "tab_size": 2
+    },
+    "Ruby": {
+      "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."]
+    },
+    // Enable herb and ruby-lsp for *.html.erb files
+    "HTML+ERB": {
+      "language_servers": ["herb", "ruby-lsp", "..."]
+    },
+    // Enable ruby-lsp for *.js.erb files
+    "JS+ERB": {
+      "language_servers": ["ruby-lsp", "..."]
+    },
+    // Enable ruby-lsp for *.yaml.erb files
+    "YAML+ERB": {
+      "language_servers": ["ruby-lsp", "..."]
     }
   },
   "lsp": {
