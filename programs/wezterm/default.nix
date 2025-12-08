@@ -58,6 +58,16 @@ let
       "Comic Mono" = {
         family = "Comic Mono";
       };
+      "Intel Mono" = {
+        family = "IntoneMono Nerd Font Propo";
+        line_height = 1.0;
+        light.normal = defaults.light.normal // {
+          weight = 500;
+        };
+        dark.normal = defaults.dark.normal // {
+          weight = 400;
+        };
+      };
       "DM Mono" = {
         family = "DM Mono";
       };
@@ -141,7 +151,8 @@ let
     right = "'1cell'";
     top = "'0.5cell'";
     bottom = "'0.0cell'";
-  } // (if pkgs.stdenv.isDarwin then { top = "'65px'"; } else { });
+  }
+  // (if pkgs.stdenv.isDarwin then { top = "'65px'"; } else { });
 
   recompute_window_padding = ''
     function recompute_padding(window)

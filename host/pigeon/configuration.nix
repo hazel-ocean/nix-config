@@ -186,6 +186,7 @@ in
       "orion"
       "plex"
       "protonvpn"
+      "qbittorrent"
       "raspberry-pi-imager"
       "raycast"
       "rectangle-pro"

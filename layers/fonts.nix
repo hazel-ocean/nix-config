@@ -15,6 +15,7 @@ in
   go-mono
   hack
   inconsolata
+  intone-mono
   jetbrains-mono
   meslo-lg
   zed-mono
