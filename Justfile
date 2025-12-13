@@ -35,7 +35,8 @@ brew-upgrade:
     brew upgrade --greedy-latest
 
 _theme host=`hostname`:
-    @hx --hsplit \
+    @hx --config ./programs/helix/basic-config.toml \
+        --hsplit \
     	./host/{{ host }}/configuration.nix \
     	./host/{{ host }}/theme.nix:3:14
 

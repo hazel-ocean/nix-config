@@ -7,8 +7,26 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "buffer_font_weight": 400.0,
-  "buffer_line_height": "comfortable",
+  "ui_font_family": "Inter",
+  "ui_font_weight": 400.0,
+  "use_system_window_tabs": false,
+  "tabs": {
+    "file_icons": false
+  },
+  "title_bar": {
+    "show_menus": false,
+    "show_branch_icon": false
+  },
+  "file_finder": {
+    "modal_max_width": "small"
+  },
+  "search": {
+    "center_on_match": false
+  },
+  "buffer_font_weight": 350.0,
+  "buffer_line_height": {
+    "custom": 1.8
+  },
   "helix_mode": true,
   "vim_mode": true,
   "disable_ai": false,
@@ -41,18 +59,19 @@
   },
   "theme": {
     "mode": "system",
-    "light": "kontras-light",
-    "dark": "Tim's Experiments Dark"
+    "light": "Dracula Light (Alucard)",
+    "dark": "Fleet Dark Purple"
   },
-  "ui_font_size": 12.0,
-  "buffer_font_family": "IntoneMono Nerd Font Propo",
+  "ui_font_size": 13.0,
+  "buffer_font_family": "CaskaydiaCove Nerd Font Mono",
   "buffer_font_size": 13.0,
   "soft_wrap": "editor_width",
   "terminal": {
-    "dock": "right",
+    "font_weight": 350.0,
+    "dock": "bottom",
     "option_as_meta": true,
-    "font_size": 12.0,
-    "line_height": "standard"
+    "font_size": 13.0,
+    "line_height": "comfortable"
   },
   // "vim_mode": true,
   // "vim": { "default_mode": "helix_normal" },
@@ -70,34 +89,19 @@
       "tab_size": 2
     },
     "Ruby": {
-      "language_servers": [
-        "ruby-lsp",
-        "rubocop",
-        "!solargraph",
-        "..."
-      ]
+      "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."]
     },
     // Enable herb and ruby-lsp for *.html.erb files
     "HTML+ERB": {
-      "language_servers": [
-        "herb",
-        "ruby-lsp",
-        "..."
-      ]
+      "language_servers": ["herb", "ruby-lsp", "..."]
     },
     // Enable ruby-lsp for *.js.erb files
     "JS+ERB": {
-      "language_servers": [
-        "ruby-lsp",
-        "..."
-      ]
+      "language_servers": ["ruby-lsp", "..."]
     },
     // Enable ruby-lsp for *.yaml.erb files
     "YAML+ERB": {
-      "language_servers": [
-        "ruby-lsp",
-        "..."
-      ]
+      "language_servers": ["ruby-lsp", "..."]
     }
   },
   "lsp": {
@@ -108,5 +112,24 @@
         }
       }
     }
+  },
+  "auto_install_extensions": {
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "dockerfile": true,
+    "dracula": true,
+    "fleet-themes": true,
+    "github-theme": true,
+    "html": true,
+    "just": true,
+    "just-ls": true,
+    "nix": true,
+    "nu": true,
+    "proto": true,
+    "rose-pine-theme": true,
+    "ruby": true,
+    "snazzy": true,
+    "sql": true,
+    "toml": true
   }
 }

@@ -95,6 +95,7 @@ in
   };
 
   home.packages = with pkgs; [
+    buf
     nodePackages.vscode-langservers-extracted
     typescript-language-server
     docker-compose-language-service

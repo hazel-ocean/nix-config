@@ -30,7 +30,6 @@
     ];
 
     sessionVariables = {
-      PAGER = "less -R";
       EDITOR = "hx";
       VISUAL = "hx";
       TERM = "xterm-256color";
@@ -38,7 +37,6 @@
       # TODO: Refactor
       FZF_DEFAULT_COMMAND = "fd --type f";
       BAT_CONFIG_PATH = "${homeDirectory}/.config/bat/config";
-      GOPATH = "${homeDirectory}/Developer/go/";
     };
   };
 }

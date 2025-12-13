@@ -1,0 +1,24 @@
+theme = "base16_default"
+
+[editor]
+bufferline = "multiple"
+end-of-line-diagnostics = "hint"
+line-number = "relative"
+
+[editor.inline-diagnostics]
+cursor-line = "error"
+other-lines = "error"
+
+[editor.soft-wrap]
+enable = true
+
+[keys.normal]
+A-backspace = ":buffer-close"
+A-h = "goto_previous_buffer"
+A-l = "goto_next_buffer"
+A-w = ":buffer-close"
+
+[keys.normal.space]
+"=" = ":format"
+F = "file_picker"
+f = "file_picker_in_current_directory"

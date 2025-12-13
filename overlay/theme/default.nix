@@ -101,7 +101,7 @@ let
     gruvbox.black = "Gruvbox dark, hard (base16)";
 
     monalisa.dark = "IC_Orange_PPL";
-    monalisa.black = monalisa.black;
+    monalisa.black = monalisa.dark;
 
     nord.dark = "nord";
   };
