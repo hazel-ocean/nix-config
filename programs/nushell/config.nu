@@ -24,6 +24,9 @@ alias za = zellij attach
 alias ze = zellij list-sessions
 alias zd = zellij delete-all-sessions --yes
 
+# Yazi
+alias fe = yazi
+
 def tf [] { terraform }
 
 def zvi [] { nvim (fzf --preview 'bat --style=numbers --color=always {}') }
