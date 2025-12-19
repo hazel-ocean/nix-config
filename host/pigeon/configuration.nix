@@ -156,10 +156,9 @@ in
     };
 
     brews = [
-      "asdf"
       "cocoapods"
       "mas"
-      "ollama"
+      "mise"
     ];
 
     casks = [
@@ -183,7 +182,6 @@ in
       "nvidia-geforce-now"
       "obsidian"
       "orbstack"
-      "orion"
       "plex"
       "protonvpn"
       "qbittorrent"
@@ -197,7 +195,6 @@ in
       "swiftformat-for-xcode"
       "tableplus"
       "thingsmacsandboxhelper"
-      "transmission"
       "utm"
       "visual-studio-code"
       "vlc"
