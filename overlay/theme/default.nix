@@ -27,9 +27,10 @@ let
   };
 
   helix-themes = rec {
-    # standard.light = "_flatwhite";
-    standard.light = "_papercolor-light";
-    standard.dark = "_dracula";
+    # standard.light = "_papercolor-light";
+    # standard.dark = "_dracula";
+    standard.light = "_base16_terminal";
+    standard.dark =  "_base16_terminal";
     # standard.black = "_varua";
     # standard.black = "_papercolor-dark";
     # standard.black = "_base16_default_dark";
@@ -160,13 +161,22 @@ let
         terminal
         ;
 
-      helix = opt.helix or (selectTheme "helix" helix-themes name variant);
+      helix = {
+        dark = selectTheme "helix" helix-themes name "dark";
+        light = selectTheme "helix" helix-themes name "light";
+        fallback = opt.helix or (
+          selectTheme "helix" helix-themes name variant
+        );
+      };
       zellij = selectTheme "zellij" zellij-themes name variant;
       bat = {
         dark = selectTheme "bat" bat-themes name "dark";
         light = selectTheme "bat" bat-themes name "light";
       };
-      wezterm = selectTheme "wezterm" wezterm-themes name variant;
+      wezterm = {
+        dark = selectTheme "wezterm" wezterm-themes name "dark";
+        light = selectTheme "wezterm" wezterm-themes name "light";
+      };
       delta = selectTheme "bat" bat-themes name variant;
       difftastic = difftasticTheme variant;
     };

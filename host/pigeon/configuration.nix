@@ -173,11 +173,13 @@ in
       "firefox"
       "focusrite-control"
       "gog-galaxy"
+      "ghostty"
       "handbrake-app"
       "jordanbaird-ice"
       "librewolf"
       "lunar"
       "musescore"
+      "monocle-app"
       "notion"
       "nvidia-geforce-now"
       "obsidian"
@@ -188,6 +190,7 @@ in
       "raspberry-pi-imager"
       "raycast"
       "rectangle-pro"
+      "rio"
       "signal"
       "slack"
       "spotify"
@@ -228,6 +231,8 @@ in
     loginShellInit = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
     '';
+
+    systemPath = [ "$HOME/.cargo/bin" ];
   };
 
   services = {

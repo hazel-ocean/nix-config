@@ -248,6 +248,7 @@ in
     enable = true;
     silent = true;
     nix-direnv.enable = true;
+    mise.enable = true;
   };
 
   # Program Definition

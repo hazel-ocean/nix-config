@@ -151,6 +151,7 @@ in
       "chatgpt"
       "claude"
       "docker-desktop"
+      "ghostty"
       "granola"
       "handbrake-app"
       "jordanbaird-ice"

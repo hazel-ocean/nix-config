@@ -57,10 +57,15 @@ in
 
   programs.helix = {
     enable = true;
+    package = pkgs.helix-latest;
 
     inherit themes;
     settings = {
-      theme = pkgs.theme.helix;
+      theme = {
+        light = pkgs.theme.helix.light;
+        dark = pkgs.theme.helix.dark;
+        fallback = pkgs.theme.helix.fallback;
+      };
 
       editor = {
         line-number = "relative";

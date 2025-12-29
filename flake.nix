@@ -17,6 +17,10 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
+    helix = {
+      url = "github:helix-editor/helix";
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     tuios = {
       url = "github:Gaurav-Gosain/tuios";
       inputs.nixpkgs.follows = "nixpkgs-unstable"; # keep it compatible with your pkgs
@@ -33,6 +37,7 @@
       nix-darwin,
       flake-utils,
       zjstatus,
+      helix,
       tuios,
       nixos-raspberrypi,
       ...
@@ -41,6 +46,7 @@
       baseOverlays = [
         (final: prev: {
           zjstatus = zjstatus.packages.${prev.stdenv.hostPlatform.system}.default;
+          helix-latest = helix.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         (import ./overlay/vimPlugins.nix)
       ];

@@ -189,6 +189,27 @@ let
       recompute_padding(window)
     end)
   '';
+
+  color_scheme = ''
+    -- wezterm.gui is not available to the mux server, so take care to
+    -- do something reasonable when this config is evaluated by the mux
+    function get_appearance()
+      if wezterm.gui then
+        return wezterm.gui.get_appearance()
+      end
+      return 'Dark'
+    end
+
+    function scheme_for_appearance(appearance)
+      if appearance:find 'Dark' then
+        return '${theme.wezterm.dark}'
+      else
+        return '${theme.wezterm.light}'
+      end
+    end
+
+    config.color_scheme = scheme_for_appearance(get_appearance())
+  '';
 in
 {
   programs.wezterm = {
@@ -205,7 +226,6 @@ in
           config.font_size = ${toString font.size}
           config.line_height = ${toString font.line_height}
           config.adjust_window_size_when_changing_font_size = false
-          config.color_scheme = '${theme.wezterm}'
           config.hide_tab_bar_if_only_one_tab = true
           config.tab_bar_at_bottom = true
           config.native_macos_fullscreen_mode = true
@@ -216,6 +236,7 @@ in
           }
           config.window_close_confirmation = 'NeverPrompt'
         ''
+        color_scheme
         (fancy_tab_bar true)
         (background_variant_override variant)
         (background_transparency terminal.transparency)
