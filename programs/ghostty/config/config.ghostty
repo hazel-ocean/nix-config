@@ -64,7 +64,24 @@ cursor-style = block
 shell-integration-features = no-cursor
 
 macos-option-as-alt = true
-macos-titlebar-style = tabs
+
+# [visible | hidden]
+macos-window-buttons = hidden
+
+# [native | transparent | tabs | hidden]
+macos-titlebar-style = transparent
+
+# [visible | hidden]
+macos-titlebar-proxy-icon = hidden
+
+## NOTE: Disables tabs on macOS
+## [none | auto | client | server ]
+# window-decoration = false
+
+window-padding-y = 0,6
+
+# [false | working-directory]
+window-subtitle = false
 
 # Quick Terminal
 keybind = global:super+alt+ctrl+shift+t=toggle_quick_terminal

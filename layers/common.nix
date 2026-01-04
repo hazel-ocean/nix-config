@@ -1,6 +1,7 @@
 {
-  pkgs,
+  config,
   lib,
+  pkgs,
   ...
 }:
 with pkgs;
@@ -263,6 +264,7 @@ in
       shellAliases = shell.aliases;
       initContent = shell.init;
       defaultKeymap = "viins";
+      dotDir = "${config.xdg.configHome}/zsh";
 
       # enableFzfCompletion = true;
       # enableFzfGit = true;

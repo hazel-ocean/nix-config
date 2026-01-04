@@ -1,4 +1,4 @@
-z_session := "nix"
+z_session := "nix-config"
 
 _default:
     @clear -x; just --list --unsorted
