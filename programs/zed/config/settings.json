@@ -7,10 +7,17 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "tab_bar": {
+    "show": true
+  },
   "ui_font_family": "Inter",
   "ui_font_weight": 400.0,
   "use_system_window_tabs": false,
   "tabs": {
+    "show_close_button": "hover",
+    "show_diagnostics": "off",
+    "close_position": "left",
+    "git_status": true,
     "file_icons": false
   },
   "title_bar": {
@@ -68,7 +75,7 @@
   "soft_wrap": "editor_width",
   "terminal": {
     "font_weight": 350.0,
-    "dock": "bottom",
+    "dock": "right",
     "option_as_meta": true,
     "font_size": 13.0,
     "line_height": "comfortable"
@@ -89,19 +96,34 @@
       "tab_size": 2
     },
     "Ruby": {
-      "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."]
+      "language_servers": [
+        "ruby-lsp",
+        "rubocop",
+        "!solargraph",
+        "..."
+      ]
     },
     // Enable herb and ruby-lsp for *.html.erb files
     "HTML+ERB": {
-      "language_servers": ["herb", "ruby-lsp", "..."]
+      "language_servers": [
+        "herb",
+        "ruby-lsp",
+        "..."
+      ]
     },
     // Enable ruby-lsp for *.js.erb files
     "JS+ERB": {
-      "language_servers": ["ruby-lsp", "..."]
+      "language_servers": [
+        "ruby-lsp",
+        "..."
+      ]
     },
     // Enable ruby-lsp for *.yaml.erb files
     "YAML+ERB": {
-      "language_servers": ["ruby-lsp", "..."]
+      "language_servers": [
+        "ruby-lsp",
+        "..."
+      ]
     }
   },
   "lsp": {

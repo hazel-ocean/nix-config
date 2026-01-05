@@ -854,4 +854,28 @@
   //     "g c": "editor::ToggleComments"
   //   }
   // }
+
+,
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "ctrl-alt-[": "pane::GoBack"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "ctrl-alt-]": "pane::GoForward"
+    }
+  },
+  {
+    "bindings": {
+      "alt-]": "workspace::ActivateNextWindow"
+    }
+  },
+  {
+    "bindings": {
+      "alt-[": "workspace::ActivatePreviousWindow"
+    }
+  }
 ]

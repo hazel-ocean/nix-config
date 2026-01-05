@@ -165,7 +165,6 @@ in
       "spotify"
       "tableplus"
       "thingsmacsandboxhelper"
-      "visual-studio-code"
       "vlc"
       {
         name = "wezterm@nightly";
