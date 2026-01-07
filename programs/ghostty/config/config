@@ -66,7 +66,7 @@ shell-integration-features = no-cursor
 macos-option-as-alt = true
 
 # [visible | hidden]
-macos-window-buttons = hidden
+macos-window-buttons = visible
 
 # [native | transparent | tabs | hidden]
 macos-titlebar-style = transparent
