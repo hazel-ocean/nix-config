@@ -30,7 +30,7 @@
   "search": {
     "center_on_match": false
   },
-  "buffer_font_weight": 350.0,
+  "buffer_font_weight": 400.0,
   "buffer_line_height": {
     "custom": 1.8
   },
@@ -66,8 +66,8 @@
   },
   "theme": {
     "mode": "system",
-    "light": "One Hunter Light",
-    "dark": "Fleet Dark Purple"
+    "light": "kontras-light",
+    "dark": "Perf Warm"
   },
   "ui_font_size": 13.0,
   "buffer_font_family": "CaskaydiaCove Nerd Font Mono",

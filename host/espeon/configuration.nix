@@ -156,6 +156,7 @@ in
       "handbrake-app"
       "jordanbaird-ice"
       "miro"
+      "monocle-app"
       # "orbstack"
       "orion"
       "obsidian"
