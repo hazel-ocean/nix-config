@@ -98,7 +98,7 @@ let
     # Nix
     cachix
     alejandra
-    nixfmt-rfc-style
+    nixfmt
     nil
     nixd
     nix-tree

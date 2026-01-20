@@ -108,7 +108,7 @@ in
     marksman
     nixd
     alejandra
-    nixfmt-rfc-style
+    nixfmt
     ruby-lsp
     solargraph
 
