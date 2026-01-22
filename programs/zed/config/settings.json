@@ -48,8 +48,8 @@
   "agent": {
     "default_profile": "ask",
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4"
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-latest"
     }
   },
   "language_models": {

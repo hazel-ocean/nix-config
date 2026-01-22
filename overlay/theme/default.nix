@@ -27,10 +27,10 @@ let
   };
 
   helix-themes = rec {
-    # standard.light = "_papercolor-light";
-    # standard.dark = "_dracula";
-    standard.light = "_base16_terminal";
-    standard.dark =  "_base16_terminal";
+    standard.light = "_papercolor-light";
+    standard.dark = "_dracula";
+    # standard.light = "_base16_terminal";
+    # standard.dark =  "_base16_terminal";
     # standard.black = "_varua";
     # standard.black = "_papercolor-dark";
     # standard.black = "_base16_default_dark";
