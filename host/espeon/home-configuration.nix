@@ -1,5 +1,8 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
+  home.packages = [
+    pkgs.things-mcp
+  ];
 
   programs.direnv.mise.enable = true;
   programs.mise = {
