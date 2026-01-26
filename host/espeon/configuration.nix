@@ -158,6 +158,7 @@ in
       "granola"
       "handbrake-app"
       "jordanbaird-ice"
+      "logi-options+"
       "macwhisper"
       "mimestream"
       "miro"
