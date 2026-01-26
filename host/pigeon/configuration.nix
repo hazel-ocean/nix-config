@@ -181,6 +181,7 @@ in
       "lunar"
       "musescore"
       "monocle-app"
+      "moonlight"
       # "notion"
       "nvidia-geforce-now"
       "obsidian"
