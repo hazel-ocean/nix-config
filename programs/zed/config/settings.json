@@ -7,13 +7,14 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "when_closing_with_no_tabs": "platform_default",
   "format_on_save": "off",
   "tab_bar": {
     "show": true
   },
   "ui_font_family": "Inter",
   "ui_font_weight": 400.0,
-  "use_system_window_tabs": false,
+  "use_system_window_tabs": true,
   "tabs": {
     "show_close_button": "hover",
     "show_diagnostics": "off",
@@ -36,7 +37,7 @@
     "custom": 1.8
   },
   "helix_mode": true,
-  "vim_mode": true,
+  "vim_mode": false,
   "disable_ai": false,
   "icon_theme": {
     "mode": "system",
@@ -47,10 +48,16 @@
     "mode": "subtle"
   },
   "agent": {
+    "always_allow_tool_actions": true,
+    "play_sound_when_agent_done": true,
+    "inline_assistant_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-thinking-latest"
+    },
     "default_profile": "ask",
     "default_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-thinking-latest"
+      "model": "claude-opus-4-5-thinking-latest"
     }
   },
   "language_models": {

@@ -115,6 +115,7 @@ in
       "1Password for Safari" = 1569813296;
       "Craft" = 1487937127;
       "reMarkable" = 1276493162; # (3.19.0)
+      "Screen Focus" = 1337028713;
       "Tailscale" = 1475387142;
       "Things" = 904280696;
       "Xcode" = 497799835;

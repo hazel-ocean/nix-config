@@ -100,19 +100,19 @@ in
   };
 
   home.packages = with pkgs; [
+    alejandra
     buf
-    nodePackages.vscode-langservers-extracted
-    typescript-language-server
     docker-compose-language-service
-    terraform-ls
+    gopls
     marksman
     nixd
-    alejandra
     nixfmt
+    nodePackages.vscode-langservers-extracted
     ruby-lsp
     solargraph
+    terraform-ls
+    typescript-language-server
 
-    # SQL formatter
-    sleek
+    sleek # SQL formatter
   ];
 }
