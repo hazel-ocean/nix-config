@@ -2,6 +2,7 @@
 {
   home.packages = [
     pkgs.things-mcp
+    pkgs.obsidian-mcp
   ];
 
   programs.direnv.mise.enable = true;
