@@ -4,8 +4,8 @@
   fetchFromGitHub,
 }:
 
-buildNpmPackage rec {
-  pname = "obsidian-mcp";
+buildNpmPackage {
+  pname = "mcp-obsidian";
   version = "0.7.4";
 
   src = fetchFromGitHub {
@@ -24,6 +24,5 @@ buildNpmPackage rec {
     homepage = "https://github.com/bitbonsai/mcp-obsidian";
     license = licenses.mit;
     mainProgram = "mcp-obsidian";
-    maintainers = [ ];
   };
 }

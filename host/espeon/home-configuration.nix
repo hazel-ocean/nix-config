@@ -1,8 +1,8 @@
 { lib, pkgs, ... }:
 {
-  home.packages = [
-    pkgs.things-mcp
-    pkgs.obsidian-mcp
+  home.packages = with pkgs; [
+    mcp-things
+    mcp-obsidian
   ];
 
   programs.direnv.mise.enable = true;

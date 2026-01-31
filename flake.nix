@@ -185,8 +185,7 @@
           system = "aarch64-darwin";
           overlays = baseOverlays ++ [
             (final: prev: { tuios = tuios.packages.${system}.default; })
-            (import ./overlay/things-mcp.nix)
-            (import ./overlay/obsidian-mcp.nix)
+            (import ./overlay/mcp-servers.nix)
             (import ./overlay/theme {
               source = ./host/espeon/theme.nix;
             })

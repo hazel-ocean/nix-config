@@ -8,7 +8,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  pname = "things-mcp";
+  pname = "mcp-things";
   version = "0.6.0";
 
   src = fetchFromGitHub {
@@ -41,18 +41,18 @@ stdenv.mkDerivation rec {
     runHook preInstall
 
     # Install the application and its virtualenv
-    mkdir -p $out/share/things-mcp
+    mkdir -p $out/share/mcp-things
 
     # Copy source files
-    cp -r *.py pyproject.toml uv.lock $out/share/things-mcp/
+    cp -r *.py pyproject.toml uv.lock $out/share/mcp-things/
 
     # Copy the built virtual environment
-    cp -r .venv $out/share/things-mcp/.venv
+    cp -r .venv $out/share/mcp-things/.venv
 
     # Create wrapper that uses the pre-built virtualenv
     mkdir -p $out/bin
-    makeWrapper $out/share/things-mcp/.venv/bin/python $out/bin/things-mcp \
-      --add-flags "$out/share/things-mcp/things_server.py"
+    makeWrapper $out/share/mcp-things/.venv/bin/python $out/bin/mcp-things \
+      --add-flags "$out/share/mcp-things/things_server.py"
 
     runHook postInstall
   '';
@@ -61,7 +61,7 @@ stdenv.mkDerivation rec {
     description = "Things.app MCP Server - interact with Things 3 via Claude";
     homepage = "https://github.com/hald/things-mcp";
     license = licenses.mit;
-    platforms = platforms.darwin; # Things is macOS only
-    mainProgram = "things-mcp";
+    platforms = platforms.darwin;
+    mainProgram = "mcp-things";
   };
 }
