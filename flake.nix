@@ -126,6 +126,7 @@
                   homeDirectory = "/home/hazel";
                   stateVersion = "25.11";
                   imports = [
+                    ./programs/zed
                     ./host/korriban/home-configuration.nix
                   ];
                 };
