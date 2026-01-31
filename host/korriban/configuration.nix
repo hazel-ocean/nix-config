@@ -5,14 +5,15 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-    
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+
   nix.settings.experimental-features = [
     "flakes"
     "nix-command"
+    "pipe-operators"
   ];
 
   # Bootloader.
@@ -27,9 +28,9 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelParams = [
-    # "usbcore.autosuspend=-1"
-    # "pcie_aspm=off"
-    # "video=DP-5:3048x2032R@60D"
+  # "usbcore.autosuspend=-1"
+  # "pcie_aspm=off"
+  # "video=DP-5:3048x2032R@60D"
   # ];
 
   # services.udev.packages = [ pkgs.sunshine ];
@@ -44,7 +45,7 @@
 
   # Microcode updates for Ryzen
   hardware.cpu.amd.updateMicrocode = true;
-  
+
   # Graphics
   hardware.amdgpu = {
     initrd.enable = true;
@@ -63,7 +64,7 @@
       libva-utils
     ];
 
-    enable32Bit = true;    
+    enable32Bit = true;
     extraPackages32 = with pkgs.pkgsi686Linux; [
       mesa
       vulkan-loader
@@ -75,7 +76,7 @@
       libva-utils
     ];
   };
-  
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -147,7 +148,8 @@
     mplus-outline-fonts.githubRelease
     dina-font
     proggyfonts
-    inter inter-nerdfont
+    inter
+    inter-nerdfont
   ];
 
   # Configure keymap in X11
@@ -182,6 +184,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hazel = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     description = "Hazel Ocean Lewis";
     extraGroups = [
       "wheel"
@@ -192,9 +195,13 @@
     ];
     packages = with pkgs; [
       # kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
+
+  programs.bash.enable = true;
+  programs.zsh.enable = true;
+  # programs.nushell.enable = true;
 
   programs.firefox.enable = true;
 
@@ -214,7 +221,7 @@
       proton-ge-bin
     ];
   };
-  
+
   services.sunshine = {
     enable = true;
     autoStart = true;
@@ -254,9 +261,17 @@
           cmd = "${pkgs.gamescope}/bin/gamescope";
           args = [
             "--steam"
-            "--backend" "headless"
-            "--prefer-vk-device" "/dev/dri/renderD128"
-            "-W" "2048" "-H" "1280" "-r" "60" "-e"
+            "--backend"
+            "headless"
+            "--prefer-vk-device"
+            "/dev/dri/renderD128"
+            "-W"
+            "2048"
+            "-H"
+            "1280"
+            "-r"
+            "60"
+            "-e"
             "--"
             "${pkgs.steam}/bin/steam"
             "-tenfoot"
@@ -285,47 +300,50 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    helix
-    lapce
-    zed-editor
-    zellij
-    yazi
-    ripgrep
-    fd
-    entr
+  environment.systemPackages =
+    with pkgs;
+    [
+      helix
+      lapce
+      zed-editor
+      zellij
+      yazi
+      ripgrep
+      fd
+      entr
 
-    dconf-editor
-    gnome-tweaks
-    gnome-remote-desktop
-    ghostty
-    
-    wayland-utils
-    wl-clipboard
-    pciutils
-    libva-utils
-    radeontop
+      dconf-editor
+      gnome-tweaks
+      gnome-remote-desktop
+      ghostty
 
-    sunshine
-    moonlight-qt
-    gamescope
-    steam
-    steam-run
-    protonup-ng
-    lutris
-    heroic
-    bottles
-  ] ++ (with pkgs.kdePackages; [
-    discover
-    kcalc
-    ksystemlog
-    sddm-kcm
-    isoimagewriter
-    partitionmanager
-  ]);
+      wayland-utils
+      wl-clipboard
+      pciutils
+      libva-utils
+      radeontop
+
+      sunshine
+      moonlight-qt
+      gamescope
+      steam
+      steam-run
+      protonup-ng
+      lutris
+      heroic
+      bottles
+    ]
+    ++ (with pkgs.kdePackages; [
+      discover
+      kcalc
+      ksystemlog
+      sddm-kcm
+      isoimagewriter
+      partitionmanager
+    ]);
 
   environment.sessionVariables = {
-  #   AMD_VULKAN_ICSD = "RADV";
+    #   AMD_VULKAN_ICSD = "RADV";
     STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/hazel/.steam/root/compatibilitytools.d";
   };
 

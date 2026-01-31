@@ -2,14 +2,15 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixos-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     zjstatus.url = "github:dj95/zjstatus";
     nix-darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager-nixos = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixos-stable";
     };
     home-manager-master = {
@@ -100,21 +101,34 @@
       nixosConfigurations.korriban =
         let
           system = "x86_64-linux";
-          overlays = baseOverlays;
+          # config = config // { allowUnfree = true; };
+          overlays = baseOverlays ++ [
+            (import ./overlay/theme {
+              source = ./host/korriban/theme.nix;
+            })
+          ];
         in
-        nixpkgs-unstable.lib.nixosSystem {
+        nixos-stable.lib.nixosSystem {
           inherit system;
           modules = [
             ./host/korriban/configuration.nix
-            home-manager-master.nixosModules.home-manager
+            home-manager-nixos.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.hazel = import ./home/desktop-user.nix {
-                username = "hazel";
-                homeDirectory = "/home/hazel";
-                stateVersion = "25.11";
-                imports = [ ];
+              nixpkgs = {
+                inherit config overlays;
+              };
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                users.hazel = import ./home/desktop-user.nix {
+                  username = "hazel";
+                  homeDirectory = "/home/hazel";
+                  stateVersion = "25.11";
+                  imports = [
+                    ./host/korriban/home-configuration.nix
+                  ];
+                };
               };
             }
           ];

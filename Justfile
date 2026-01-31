@@ -14,9 +14,17 @@ edit: && _cleanup
 
 alias rebuild := apply
 
-# Runs the `just` target for the current host
+# Runs the `just` target for the current host to apply the current config
 apply target=`hostname`:
-    just {{ target }}
+    just {{ target }} apply
+
+# Runs the `just` target for the current host to create a new boot entry
+boot target=`hostname`:
+    just {{ target }} boot
+
+# Runs the `just` target for the current host to apply the NixOS configuration
+switch target=`hostname`:
+    just {{ target }} switch
 
 dev *recipe:
     nix develop --command just {{ recipe }}
@@ -52,13 +60,17 @@ _cleanup:
     zellij delete-session {{ z_session }}
 
 [private]
-pigeon:
-    sudo darwin-rebuild switch --flake .#pigeon
+pigeon cmd:
+    sudo darwin-rebuild {{ cmd }} --flake .#pigeon
 
 [private]
-espeon:
-    sudo darwin-rebuild switch --flake .#espeon
+espeon cmd:
+    sudo darwin-rebuild {{ cmd }} --flake .#espeon
 
 [private]
-ghastly:
-    sudo nixos-rebuild switch --flake .#ghastly
+korriban cmd:
+    sudo nixos-rebuild {{ cmd }} --flake .#korriban
+
+[private]
+ghastly cmd:
+    sudo nixos-rebuild {{ cmd }} --flake .#ghastly
