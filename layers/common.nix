@@ -105,9 +105,6 @@ let
 
     # Kubernetes
     k9s
-
-    # LLMs
-    claude-code
   ]
   ++ lib.optionals isLinux [
     xsel # rmesg
