@@ -155,7 +155,10 @@ in
       "claude-code"
       "cursor"
       "docker-desktop"
-      "ghostty@tip"
+      {
+        name = "ghostty@tip";
+        greedy = true;
+      }
       "granola"
       "handbrake-app"
       "jordanbaird-ice"

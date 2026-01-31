@@ -173,12 +173,16 @@ in
       "firefox"
       "focusrite-control"
       "gog-galaxy"
-      "ghostty"
+      {
+        name = "ghostty@tip";
+        greedy = true;
+      }
       "granola"
       "handbrake-app"
       "jordanbaird-ice"
       "librewolf"
-      "lunar"
+      "logi-options+"
+      "macwhisper"
       "musescore"
       "monocle-app"
       "moonlight"
