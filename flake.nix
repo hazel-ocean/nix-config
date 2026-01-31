@@ -97,6 +97,29 @@
           ];
         };
 
+      nixosConfigurations.korriban =
+        let
+          system = "x86_64-linux";
+          overlays = baseOverlays;
+        in
+        nixpkgs-unstable.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./host/korriban/configuration.nix
+            home-manager-master.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.hazel = import ./home/desktop-user.nix {
+                username = "hazel";
+                homeDirectory = "/home/hazel";
+                stateVersion = "25.11";
+                imports = [ ];
+              };
+            }
+          ];
+        };
+
       nixosConfigurations.rpi5 = nixos-raspberrypi.lib.nixosInstaller {
         specialArgs = inputs;
         modules = [

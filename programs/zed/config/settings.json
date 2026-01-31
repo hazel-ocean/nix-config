@@ -7,6 +7,14 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "ssh_connections": [
+    {
+      "host": "korriban.local",
+      "username": "hazel",
+      "args": [],
+      "projects": []
+    }
+  ],
   "when_closing_with_no_tabs": "platform_default",
   "format_on_save": "off",
   "tab_bar": {

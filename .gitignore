@@ -4,3 +4,7 @@ result
 keys
 
 nixos.qcow2
+
+# ssh keys
+id_*
+!id_*.pub
