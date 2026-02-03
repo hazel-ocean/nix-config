@@ -97,7 +97,7 @@
   "theme": {
     "mode": "system",
     "light": "kontras-light",
-    "dark": "Perf Warm"
+    "dark": "Catppuccin Mocha"
   },
   "ui_font_size": 13.0,
   "buffer_font_family": "CaskaydiaCove Nerd Font Mono",

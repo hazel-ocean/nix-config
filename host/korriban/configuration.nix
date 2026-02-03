@@ -41,7 +41,9 @@
   # Firmware
   services.fwupd.enable = true; # Rescue with `system76-firmware-cli schedule --proprietary`
   hardware.system76.enableAll = true;
+  hardware.steam-hardware.enable = true;
   hardware.enableAllHardware = true;
+  hardware.uinput.enable = true;
 
   # Microcode updates for Ryzen
   hardware.cpu.amd.updateMicrocode = true;
@@ -94,6 +96,13 @@
   # Enable networking
   networking.networkmanager.enable = true;
   services.timesyncd.enable = true;
+
+  #### Network discovery
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true; # makes .local discovery nicer
+    openFirewall = true;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -189,6 +198,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "audio"
       "video"
       "render"
       "input"
@@ -196,6 +206,10 @@
     packages = with pkgs; [
       # kdePackages.kate
       #  thunderbird
+    ];
+    openssh.authorizedKeys.keyFiles = [
+      ../pigeon/ssh/id_ed25519.pub
+      ../espeon/ssh/id_ed25519.pub
     ];
   };
 
@@ -332,6 +346,8 @@
       lutris
       heroic
       bottles
+
+      vesktop
     ]
     ++ (with pkgs.kdePackages; [
       discover
@@ -357,12 +373,12 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
+  # Enable the OpenSSH daemon, start at boot
+  boot.initrd.network.ssh.enable = true;
   services.openssh = {
     enable = true;
-    settings = {
-      PasswordAuthentication = true;
-    };
+    startWhenNeeded = true;
+    settings.PasswordAuthentication = false;
   };
 
   # Open ports in the firewall.
