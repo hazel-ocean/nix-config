@@ -6,25 +6,21 @@ _default:
 # Start a Zellij session to make quick edits
 edit: && _cleanup
     @zellij \
-    		--config-dir=$HOME/.config/zellij \
-    		--layout=zellij-layout.kdl \
-    	attach {{ z_session }} \
-    		--force-run-commands \
-    		--create
+          --config-dir=$HOME/.config/zellij \
+          --layout=zellij-layout.kdl \
+        attach {{ z_session }} \
+          --force-run-commands \
+          --create
 
-alias rebuild := apply
+alias switch := apply
 
-# Runs the `just` target for the current host to apply the current config
-apply target=`hostname`:
-    just {{ target }} apply
+# Applies the host's config
+apply:
+    just _switch_`hostname`
 
-# Runs the `just` target for the current host to create a new boot entry
-boot target=`hostname`:
-    just {{ target }} boot
-
-# Runs the `just` target for the current host to apply the NixOS configuration
-switch target=`hostname`:
-    just {{ target }} switch
+# Creates a new boot entry for the host's config
+boot:
+    just _boot_`hostname`
 
 dev *recipe:
     nix develop --command just {{ recipe }}
@@ -45,8 +41,8 @@ brew-upgrade:
 _theme host=`hostname`:
     @hx --config ./programs/helix/basic-config.toml \
         --hsplit \
-    	./host/{{ host }}/configuration.nix \
-    	./host/{{ host }}/theme.nix:3:14
+        ./host/{{ host }}/configuration.nix \
+        ./host/{{ host }}/theme.nix:3:14
 
 # Runs the `just` target when file changes are detected
 watch:
@@ -59,18 +55,14 @@ watch:
 _cleanup:
     zellij delete-session {{ z_session }}
 
-[private]
-pigeon cmd:
-    sudo darwin-rebuild {{ cmd }} --flake .#pigeon
+_switch_pigeon:
+    sudo darwin-rebuild switch --flake .#pigeon
 
-[private]
-espeon cmd:
-    sudo darwin-rebuild {{ cmd }} --flake .#espeon
+_switch_espeon:
+    sudo darwin-rebuild switch --flake .#espeon
 
-[private]
-korriban cmd:
-    sudo nixos-rebuild {{ cmd }} --flake .#korriban
+_switch_korriban:
+    sudo nixos-rebuild switch --flake .#korriban
 
-[private]
-ghastly cmd:
-    sudo nixos-rebuild {{ cmd }} --flake .#ghastly
+_boot_korriban:
+    sudo nixos-rebuild boot --flake .#korriban
