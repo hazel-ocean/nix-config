@@ -10,7 +10,7 @@ let
         nu ${./make-trans-themes.nu} ${pkgs.helix}/lib/runtime/themes > $out/themes.json
       '';
 
-  themes = "${transThemes}/themes.json" |> builtins.readFile |> builtins.fromJSON;
+  themes = builtins.fromJSON (builtins.readFile "${transThemes}/themes.json");
 in
 {
   xdg.configFile."helix/languages.toml".text = ''
@@ -106,7 +106,8 @@ in
     gopls
     marksman
     nixd
-    nixfmt
+    # nixfmt
+    nixfmt-tree
     nodePackages.vscode-langservers-extracted
     ruby-lsp
     solargraph

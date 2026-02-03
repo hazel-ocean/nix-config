@@ -182,6 +182,7 @@ in
       "jordanbaird-ice"
       "librewolf"
       "logi-options+"
+      # "lunar"
       "macwhisper"
       "musescore"
       "monocle-app"

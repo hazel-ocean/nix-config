@@ -16,11 +16,11 @@ alias switch := apply
 
 # Applies the host's config
 apply:
-    just _switch_`hostname`
+    @just _switch_`hostname`
 
 # Creates a new boot entry for the host's config
 boot:
-    just _boot_`hostname`
+    @just _boot_`hostname`
 
 dev *recipe:
     nix develop --command just {{ recipe }}

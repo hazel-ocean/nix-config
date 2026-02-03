@@ -12,13 +12,17 @@
       "host": "korriban.local",
       "username": "hazel",
       "args": [],
-      "projects": []
-    }
+      "projects": [
+        {
+          "paths": ["/home/hazel/.config/nix-config"],
+        },
+      ],
+    },
   ],
   "when_closing_with_no_tabs": "platform_default",
   "format_on_save": "off",
   "tab_bar": {
-    "show": true
+    "show": true,
   },
   "ui_font_family": "Inter",
   "ui_font_weight": 400.0,
@@ -28,21 +32,21 @@
     "show_diagnostics": "off",
     "close_position": "left",
     "git_status": true,
-    "file_icons": false
+    "file_icons": false,
   },
   "title_bar": {
     "show_menus": false,
-    "show_branch_icon": false
+    "show_branch_icon": false,
   },
   "file_finder": {
-    "modal_max_width": "small"
+    "modal_max_width": "small",
   },
   "search": {
-    "center_on_match": false
+    "center_on_match": false,
   },
   "buffer_font_weight": 400.0,
   "buffer_line_height": {
-    "custom": 1.8
+    "custom": 1.8,
   },
   "helix_mode": true,
   "vim_mode": false,
@@ -50,37 +54,37 @@
   "icon_theme": {
     "mode": "system",
     "light": "Catppuccin Macchiato",
-    "dark": "Catppuccin Macchiato"
+    "dark": "Catppuccin Macchiato",
   },
   "edit_predictions": {
-    "mode": "subtle"
+    "mode": "subtle",
   },
   "agent": {
     "favorite_models": [
       {
         "provider": "anthropic",
-        "model": "claude-opus-4-5-thinking-latest"
+        "model": "claude-opus-4-5-thinking-latest",
       },
       {
         "provider": "anthropic",
-        "model": "claude-sonnet-4-5-thinking-latest"
+        "model": "claude-sonnet-4-5-thinking-latest",
       },
       {
         "provider": "anthropic",
-        "model": "claude-haiku-4-5-latest"
-      }
+        "model": "claude-haiku-4-5-latest",
+      },
     ],
     "always_allow_tool_actions": true,
     "play_sound_when_agent_done": true,
     "inline_assistant_model": {
       "provider": "anthropic",
-      "model": "claude-sonnet-4-5-thinking-latest"
+      "model": "claude-sonnet-4-5-thinking-latest",
     },
     "default_profile": "ask",
     "default_model": {
       "provider": "anthropic",
-      "model": "claude-opus-4-5-thinking-latest"
-    }
+      "model": "claude-opus-4-5-thinking-latest",
+    },
   },
   "language_models": {
     "ollama": {
@@ -89,18 +93,18 @@
         {
           "name": "qwen3:32b",
           "display_name": "Qwen3-32B",
-          "max_tokens": 32768
-        }
-      ]
-    }
+          "max_tokens": 32768,
+        },
+      ],
+    },
   },
   "theme": {
     "mode": "system",
     "light": "kontras-light",
-    "dark": "Catppuccin Mocha"
+    "dark": "Twig_Dracula_ORIG",
   },
   "ui_font_size": 13.0,
-  "buffer_font_family": "CaskaydiaCove Nerd Font Mono",
+  "buffer_font_family": "CaskaydiaCove Nerd Font Propo",
   "buffer_font_size": 13.0,
   "soft_wrap": "editor_width",
   "terminal": {
@@ -108,62 +112,47 @@
     "dock": "right",
     "option_as_meta": true,
     "font_size": 13.0,
-    "line_height": "comfortable"
+    "line_height": "comfortable",
   },
   // "vim_mode": true,
   // "vim": { "default_mode": "helix_normal" },
   "load_direnv": "shell_hook",
   "languages": {
     "Nix": {
-      "format_on_save": "on",
+      // "format_on_save": "on",
       "formatter": {
         "external": {
-          "command": "nixfmt"
-        }
-      }
+          "command": "nixfmt",
+        },
+      },
     },
     "Nu": {
-      "tab_size": 2
+      "tab_size": 2,
     },
     "Ruby": {
-      "language_servers": [
-        "ruby-lsp",
-        "rubocop",
-        "!solargraph",
-        "..."
-      ]
+      "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."],
     },
     // Enable herb and ruby-lsp for *.html.erb files
     "HTML+ERB": {
-      "language_servers": [
-        "herb",
-        "ruby-lsp",
-        "..."
-      ]
+      "language_servers": ["herb", "ruby-lsp", "..."],
     },
     // Enable ruby-lsp for *.js.erb files
     "JS+ERB": {
-      "language_servers": [
-        "ruby-lsp",
-        "..."
-      ]
+      "language_servers": ["ruby-lsp", "..."],
     },
     // Enable ruby-lsp for *.yaml.erb files
     "YAML+ERB": {
-      "language_servers": [
-        "ruby-lsp",
-        "..."
-      ]
-    }
+      "language_servers": ["ruby-lsp", "..."],
+    },
   },
   "lsp": {
     "rust-analyzer": {
       "initialization_options": {
         "cargo": {
-          "features": "all"
-        }
-      }
-    }
+          "features": "all",
+        },
+      },
+    },
   },
   "auto_install_extensions": {
     "catppuccin": true,
@@ -182,6 +171,6 @@
     "ruby": true,
     "snazzy": true,
     "sql": true,
-    "toml": true
-  }
+    "toml": true,
+  },
 }

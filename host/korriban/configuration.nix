@@ -1,9 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
+{
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -122,6 +124,10 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "hazel";
+  };
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = false;
@@ -130,36 +136,21 @@
   programs.niri.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  # services.desktopManager.plasma6.enable = true;
-  # services.displayManager.sddm = {
-  #   enable = true;
-  #   wayland.enable = false;
-  #   # autoLogin = {
-  #   #   enable = true;
-  #   #   user = "hazel";
-  #   # };
-  # };
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
 
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  # services.displayManager.gdm.enable = true;
+  # services.desktopManager.gnome.enable = true;
 
   # Enable the Cosmic Desktop Environment
   # services.displayManager.cosmic-greeter.enable = true;
   # services.desktopManager.cosmic.enable = true;
 
   fonts.enableDefaultPackages = true;
-  fonts.packages = with pkgs; [
-    noto-fonts-cjk-sans
-    noto-fonts-color-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    inter
-    inter-nerdfont
-  ];
+  fonts.packages = import ../../layers/fonts.nix { inherit pkgs; };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -217,12 +208,21 @@
   programs.zsh.enable = true;
   # programs.nushell.enable = true;
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
+  };
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "hazel" ];
+  };
+  programs.kdeconnect.enable = true;
 
   programs.gamemode.enable = true;
   programs.gamescope = {
     enable = true;
-    capSysNice = true;
+    # capSysNice = true;
   };
   programs.steam = {
     enable = true;
@@ -244,45 +244,43 @@
 
     settings = {
       sunshine_name = config.networking.hostName;
-      adapter_name = "/dev/dri/renderD128"; # Radeon 9070 XT
+      # adapter_name = "/dev/dri/renderD128"; # Radeon 9070 XT
       capture = "kms";
       encoder = "vaapi";
-      # output_name = 0;
-      # monitor = 0;
     };
 
     applications = {
       apps = [
-        {
-          name = "Steam Big Picture";
+        # {
+        #   name = "Steam Big Picture";
 
-          # Steam’s own URI approach (matches Sunshine docs)
-          detached = [
-            "setsid steam steam://open/bigpicture"
-          ];
+        #   # Steam’s own URI approach (matches Sunshine docs)
+        #   detached = [
+        #     "setsid steam steam://open/bigpicture"
+        #   ];
 
-          # Close Big Picture on exit (matches Sunshine docs)
-          prep-cmd = [
-            { undo = "setsid steam steam://close/bigpicture"; }
-          ];
+        #   # Close Big Picture on exit (matches Sunshine docs)
+        #   prep-cmd = [
+        #     { undo = "setsid steam steam://close/bigpicture"; }
+        #   ];
 
-          auto-detach = "true";
-          exclude-global-prep-cmd = "false";
-        }
+        #   auto-detach = "true";
+        #   exclude-global-prep-cmd = "false";
+        # }
         {
           name = "Steam Big Picture - 00";
           image = "steam.png";
           cmd = "${pkgs.gamescope}/bin/gamescope";
           args = [
-            "--steam"
-            "--backend"
-            "headless"
+            "--grab"
+            "--force-grab-cursor"
+            "--expose-wayland"
             "--prefer-vk-device"
             "/dev/dri/renderD128"
             "-W"
             "2048"
             "-H"
-            "1280"
+            "1330"
             "-r"
             "60"
             "-e"
@@ -317,6 +315,7 @@
   environment.systemPackages =
     with pkgs;
     [
+      firefoxpwa
       helix
       lapce
       zed-editor
