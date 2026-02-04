@@ -114,15 +114,18 @@ in
     isHidden = false;
     shell = pkgs.zsh;
 
-    packages =
-      (with pkgs; [
+    packages = (
+      with pkgs;
+      [
         imagemagick
         poppler-utils
-      ])
-      ++ (with rosetta-pkgs; [
-        # wineWow64Packages.stableFull
-        # winetricks
-      ]);
+      ]
+    );
+
+    openssh.authorizedKeys.keyFiles = [
+      ../espeon/ssh/id_ed25519.pub
+      ../korriban/ssh/id_ed25519.pub
+    ];
   };
 
   homebrew = {
