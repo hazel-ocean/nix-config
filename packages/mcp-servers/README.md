@@ -8,6 +8,7 @@ This directory contains Nix packages for [Model Context Protocol (MCP)](https://
 |---------|---------|-------------|
 | `mcp-things` | `mcp-things` | Interact with Things 3 task manager |
 | `mcp-obsidian` | `mcp-obsidian` | Read/write access to Obsidian vaults |
+| `mcp-asana` | `mcp-asana` | Interact with Asana tasks and projects |
 
 ## Installation
 
@@ -19,6 +20,7 @@ All MCP servers are automatically available via the `mcp-servers` overlay. Add t
   home.packages = with pkgs; [
     mcp-things
     mcp-obsidian
+    mcp-asana
   ];
 }
 ```
@@ -58,6 +60,9 @@ claude mcp add-json things --scope user '{"type":"stdio","command":"/etc/profile
 
 # Obsidian
 claude mcp add-json obsidian --scope user '{"type":"stdio","command":"/etc/profiles/per-user/$USER/bin/mcp-obsidian","args":["/path/to/your/vault"]}'
+
+# Asana (requires token setup - see below)
+claude mcp add-json asana --scope user '{"type":"stdio","command":"/bin/sh","args":["-c","export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec /etc/profiles/per-user/$USER/bin/mcp-asana"]}'
 ```
 
 ## Server-Specific Setup
@@ -82,6 +87,30 @@ claude mcp add-json obsidian --scope user '{"type":"stdio","command":"/etc/profi
 - "List files in my Obsidian vault"
 - "Read my note called 'project-ideas.md'"
 - "Create a new note with today's date"
+
+### mcp-asana
+
+**Prerequisites:**
+- An Asana account with API access
+
+**Token Setup:**
+
+1. Generate a Personal Access Token at https://app.asana.com/0/my-apps
+2. Create the config directory and token file:
+   ```bash
+   mkdir -p ~/.config/mcp-asana
+   chmod 700 ~/.config/mcp-asana
+   echo "YOUR_TOKEN_HERE" > ~/.config/mcp-asana/access-token
+   chmod 600 ~/.config/mcp-asana/access-token
+   ```
+
+The token is read from `~/.config/mcp-asana/access-token` at server startup and passed via the `ASANA_ACCESS_TOKEN` environment variable.
+
+**Example prompts:**
+- "Show me my Asana tasks"
+- "Create a task in project X to review the proposal"
+- "What tasks are due this week?"
+- "Mark task Y as complete"
 
 ## Adding a New MCP Server
 
@@ -138,6 +167,7 @@ The server should start and wait for MCP protocol input. Press `Ctrl+C` to exit.
 packages/mcp-servers/
 ├── default.nix      # Exports all servers as an attribute set
 ├── README.md        # This file
+├── asana.nix        # mcp-asana package (Node.js/npm)
 ├── obsidian.nix     # mcp-obsidian package (Node.js/npm)
 └── things.nix       # mcp-things package (Python/uv)
 ```
@@ -149,3 +179,4 @@ The overlay at `overlay/mcp-servers.nix` makes all packages available as `pkgs.m
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [things-mcp](https://github.com/hald/things-mcp)
 - [mcp-obsidian](https://github.com/bitbonsai/mcp-obsidian)
+- [mcp-server-asana](https://github.com/roychri/mcp-server-asana)

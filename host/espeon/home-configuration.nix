@@ -3,8 +3,10 @@
   home.packages = with pkgs; [
     mcp-things
     mcp-obsidian
+    mcp-asana
     obsidian-agent-client
     claude-code-acp
+    prettier
     # mcp-nixos # TODO: use flake from github repo
   ];
 
@@ -18,8 +20,16 @@
       };
       things = {
         type = "stdio";
-        command = "${pkgs.mcp-things}/bin/things-mcp";
+        command = "${pkgs.mcp-things}/bin/mcp-things";
         args = [ ];
+      };
+      asana = {
+        type = "stdio";
+        command = "/bin/sh";
+        args = [
+          "-c"
+          "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
+        ];
       };
     };
   };
