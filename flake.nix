@@ -23,6 +23,7 @@
     };
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     helix.url = "github:helix-editor/helix";
+    mcp-servers.url = "path:./packages/mcp-servers";
     tuios = {
       url = "github:Gaurav-Gosain/tuios";
       inputs.nixpkgs.follows = "nixpkgs-unstable"; # keep it compatible with your pkgs
@@ -42,6 +43,7 @@
       flake-utils,
       zjstatus,
       helix,
+      mcp-servers,
       tuios,
       nixos-raspberrypi,
       ...
@@ -229,7 +231,7 @@
           system = "aarch64-darwin";
           overlays = baseOverlays ++ [
             (final: prev: { tuios = tuios.packages.${system}.default; })
-            (import ./overlay/mcp-servers.nix)
+            mcp-servers.overlays.default
             (import ./overlay/obsidian-plugins.nix)
             (import ./overlay/theme {
               source = ./host/espeon/theme.nix;

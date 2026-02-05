@@ -1,19 +1,14 @@
 {
   lib,
   buildNpmPackage,
-  fetchFromGitHub,
+  src,
 }:
 
-buildNpmPackage rec {
+buildNpmPackage {
   pname = "mcp-server-asana";
-  version = "1.6.0";
+  version = src.shortRev;
 
-  src = fetchFromGitHub {
-    owner = "roychri";
-    repo = "mcp-server-asana";
-    rev = "v${version}";
-    hash = "sha256-FD23+mVGcxQrFxBOZh8Oo2XNAFveGR8jEeZS2a6mb9E=";
-  };
+  inherit src;
 
   npmDepsHash = "sha256-Ir6V9JC1Z8r4sbhAfJ73+5f7HlfKbbzOhgwS9GYYO0w=";
 

@@ -1,19 +1,14 @@
 {
   lib,
   buildNpmPackage,
-  fetchFromGitHub,
+  src,
 }:
 
 buildNpmPackage {
   pname = "mcp-obsidian";
-  version = "0.7.4";
+  version = src.shortRev;
 
-  src = fetchFromGitHub {
-    owner = "bitbonsai";
-    repo = "mcp-obsidian";
-    rev = "main";
-    hash = "sha256-yoRsDD+RkuyqNCakz/GZsLEP/1b9OM7/4XwyByYtPNU=";
-  };
+  inherit src;
 
   npmDepsHash = "sha256-gDcG8axrutOv4kLDrHtUdO7oh9YmGhrKErFtN5ZUu1k=";
 

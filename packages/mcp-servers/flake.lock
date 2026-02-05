@@ -1,0 +1,64 @@
+{
+  "nodes": {
+    "mcp-obsidian-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769293325,
+        "narHash": "sha256-yoRsDD+RkuyqNCakz/GZsLEP/1b9OM7/4XwyByYtPNU=",
+        "owner": "bitbonsai",
+        "repo": "mcp-obsidian",
+        "rev": "884fe8f3fd29038d5be6412e4707576c23a743db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bitbonsai",
+        "ref": "main",
+        "repo": "mcp-obsidian",
+        "type": "github"
+      }
+    },
+    "mcp-server-asana-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1739041085,
+        "narHash": "sha256-FD23+mVGcxQrFxBOZh8Oo2XNAFveGR8jEeZS2a6mb9E=",
+        "owner": "roychri",
+        "repo": "mcp-server-asana",
+        "rev": "8509a5c4a2bf58115f89524913cd2623602bf9b5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "roychri",
+        "ref": "v1.6.0",
+        "repo": "mcp-server-asana",
+        "type": "github"
+      }
+    },
+    "mcp-things-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768496664,
+        "narHash": "sha256-SLvyDOFWuXBKzVk/rhIuvudM+1iFQdc0W4YhhgISRWc=",
+        "owner": "hald",
+        "repo": "things-mcp",
+        "rev": "1ab39479d6021e7c114518cb9bb8f250e4b3af90",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hald",
+        "ref": "v0.6.0",
+        "repo": "things-mcp",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "mcp-obsidian-src": "mcp-obsidian-src",
+        "mcp-server-asana-src": "mcp-server-asana-src",
+        "mcp-things-src": "mcp-things-src"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

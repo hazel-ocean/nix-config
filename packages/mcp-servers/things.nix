@@ -1,22 +1,17 @@
 {
   lib,
   stdenv,
-  fetchFromGitHub,
+  src,
   makeWrapper,
   uv,
   python312,
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "mcp-things";
-  version = "0.6.0";
+  version = src.shortRev;
 
-  src = fetchFromGitHub {
-    owner = "hald";
-    repo = "things-mcp";
-    rev = "v${version}";
-    hash = "sha256-SLvyDOFWuXBKzVk/rhIuvudM+1iFQdc0W4YhhgISRWc=";
-  };
+  inherit src;
 
   nativeBuildInputs = [
     makeWrapper
