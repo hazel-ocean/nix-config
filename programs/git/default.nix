@@ -9,7 +9,6 @@ with pkgs;
     delta
     git-crypt
     github-cli
-    gitu
     act
     difftastic
     riffdiff

@@ -194,10 +194,6 @@
       "render"
       "input"
     ];
-    packages = with pkgs; [
-      # kdePackages.kate
-      #  thunderbird
-    ];
     openssh.authorizedKeys.keyFiles = [
       ../pigeon/ssh/id_ed25519.pub
       ../espeon/ssh/id_ed25519.pub
@@ -222,7 +218,7 @@
   programs.gamemode.enable = true;
   programs.gamescope = {
     enable = true;
-    # capSysNice = true;
+    capSysNice = true;
   };
   programs.steam = {
     enable = true;
@@ -238,66 +234,28 @@
 
   services.sunshine = {
     enable = true;
-    autoStart = true;
+    autoStart = false;
     openFirewall = true;
     capSysAdmin = true;
 
     settings = {
       sunshine_name = config.networking.hostName;
       # adapter_name = "/dev/dri/renderD128"; # Radeon 9070 XT
-      capture = "kms";
+      # capture = "kms";
       encoder = "vaapi";
     };
 
     applications = {
       apps = [
-        # {
-        #   name = "Steam Big Picture";
-
-        #   # Steam’s own URI approach (matches Sunshine docs)
-        #   detached = [
-        #     "setsid steam steam://open/bigpicture"
-        #   ];
-
-        #   # Close Big Picture on exit (matches Sunshine docs)
-        #   prep-cmd = [
-        #     { undo = "setsid steam steam://close/bigpicture"; }
-        #   ];
-
-        #   auto-detach = "true";
-        #   exclude-global-prep-cmd = "false";
-        # }
         {
-          name = "Steam Big Picture - 00";
+          name = "Steam Big Picture - 01";
           image = "steam.png";
-          cmd = "${pkgs.gamescope}/bin/gamescope";
-          args = [
-            "--grab"
-            "--force-grab-cursor"
-            "--expose-wayland"
-            "--prefer-vk-device"
-            "/dev/dri/renderD128"
-            "-W"
-            "2048"
-            "-H"
-            "1330"
-            "-r"
-            "60"
-            "-e"
-            "--"
-            "${pkgs.steam}/bin/steam"
-            "-tenfoot"
-          ];
-          # args = [
-          #   "--expose-wayland"
-          #   "--backend" "drm"
-          #   "--prefer-vk-device" "/dev/dri/renderD128"
-          #   "-W" "1920" "-H" "1440" "-r" "60" "-e"
-          #   "--"
-          #   "${pkgs.steam}/bin/steam"
-          #   "steam://open/bigpicture"
-          #   # "-bigpicture"
-          # ];
+          auto-detach = "true";
+          # gamescope --grab --force-grab-cursor --expose-wayland --prefer-vk-device /dev/dri/renderD128 -W 2048 -H 1330 -r 60 -e \
+          # -- \
+          cmd = ''
+            gamescope --fullscreen --grab --force-grab-cursor --prefer-vk-device /dev/dri/renderD128 -w 1920 -h 1080 -W 2704 -H 1756 -r 80 -- sudo -u hazel setsid steam steam://open/bigpicture
+          '';
         }
       ];
     };
@@ -306,6 +264,34 @@
   #   "LIBVA_DRIVER_NAME=radeonsi"
   #   "VAAPI_DEVICE=/dev/dri/renderD128"
   # ];
+
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+    forceEncodingConfig = true;
+    hardwareAcceleration = {
+      enable = true;
+      device = "/dev/dri/renderD128";
+      type = "vaapi";
+    };
+    transcoding = {
+      enableHardwareEncoding = true;
+      hardwareDecodingCodecs = {
+        h264 = true;
+        vp9 = true;
+        hevc = true;
+        hevc10bit = true;
+        av1 = true;
+      };
+      hardwareEncodingCodecs = {
+        hevc = true;
+        av1 = true;
+      };
+      # enableHardwareEncoding = true;
+      # hardware
+    };
+  };
+  users.extraUsers.jellyfin.createHome = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -336,14 +322,25 @@
       libva-utils
       radeontop
 
-      sunshine
+      jellyfin
+      jellyfin-ffmpeg
+      jellyfin-desktop
+      jellyfin-web
+
       moonlight-qt
+      sunshine
       gamescope
       steam
       steam-run
       protonup-ng
       lutris
-      heroic
+      (heroic.override {
+        extraPkgs =
+          pkgs: with pkgs; [
+            gamescope
+            gamemode
+          ];
+      })
       bottles
 
       vesktop

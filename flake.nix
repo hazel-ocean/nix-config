@@ -9,9 +9,13 @@
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    home-manager-nixos = {
+    home-manager-nixos-stable = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixos-stable";
+    };
+    home-manager-nixos-unstable = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixos-unstable";
     };
     home-manager-master = {
       url = "github:nix-community/home-manager/master";
@@ -32,8 +36,10 @@
     inputs@{
       # self,
       home-manager-master,
-      home-manager-nixos,
+      home-manager-nixos-stable,
+      home-manager-nixos-unstable,
       nixpkgs-unstable,
+      nixos-unstable,
       nixos-stable,
       nix-darwin,
       flake-utils,
@@ -83,7 +89,7 @@
           inherit system;
           modules = [
             ./host/ghastly/configuration.nix
-            home-manager-nixos.nixosModules.home-manager
+            home-manager-nixos-stable.nixosModules.home-manager
             {
               home-manager.users.ocean = import ./home/console-user.nix {
                 pkgs = import nixos-stable { inherit overlays system config; };
@@ -108,11 +114,11 @@
             })
           ];
         in
-        nixos-stable.lib.nixosSystem {
+        nixos-unstable.lib.nixosSystem {
           inherit system;
           modules = [
             ./host/korriban/configuration.nix
-            home-manager-nixos.nixosModules.home-manager
+            home-manager-nixos-unstable.nixosModules.home-manager
             {
               nixpkgs = {
                 inherit config overlays;
