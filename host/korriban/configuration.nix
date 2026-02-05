@@ -234,7 +234,7 @@
 
   services.sunshine = {
     enable = true;
-    autoStart = false;
+    autoStart = true;
     openFirewall = true;
     capSysAdmin = true;
 
@@ -291,7 +291,8 @@
       # hardware
     };
   };
-  users.extraUsers.jellyfin.createHome = true;
+
+  services.tailscale.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -321,6 +322,8 @@
       pciutils
       libva-utils
       radeontop
+
+      tailscale
 
       jellyfin
       jellyfin-ffmpeg
@@ -378,10 +381,15 @@
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    trustedInterfaces = [ "tailscale0" ];
+    allowedUDPPorts = [
+      config.services.tailscale.port
+      3389
+    ];
+    allowedTCPPorts = [ 3389 ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

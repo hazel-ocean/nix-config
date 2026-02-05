@@ -7,7 +7,7 @@ in
   home.activation.linkZedConfiguration = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p ${source}
 
-    run ln -sf $VERBOSE_ARG \
+    run ln -fsn $VERBOSE_ARG \
         ${source}/* ${target}/
   '';
 }
