@@ -3,6 +3,8 @@
   home.packages = with pkgs; [
     mcp-things
     mcp-obsidian
+    obsidian-agent-client
+    claude-code-acp
     # mcp-nixos # TODO: use flake from github repo
   ];
 
@@ -38,6 +40,14 @@
     run ln -fsn $VERBOSE_ARG \
       ~/.config/nix-config/programs/ghostty/config \
       ~/.config/ghostty
+
+    # Obsidian plugins
+    run mkdir -p $VERBOSE_ARG \
+      "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/.obsidian/plugins/agent-client"
+
+    run ln -fsn $VERBOSE_ARG \
+      ${pkgs.obsidian-agent-client}/* \
+      "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/.obsidian/plugins/agent-client/"
   '';
 
 }

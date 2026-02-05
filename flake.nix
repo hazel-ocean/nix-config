@@ -224,6 +224,7 @@
           overlays = baseOverlays ++ [
             (final: prev: { tuios = tuios.packages.${system}.default; })
             (import ./overlay/mcp-servers.nix)
+            (import ./overlay/obsidian-plugins.nix)
             (import ./overlay/theme {
               source = ./host/espeon/theme.nix;
             })
