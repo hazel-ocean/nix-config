@@ -5,7 +5,7 @@
 }:
 
 buildNpmPackage {
-  pname = "mcp-server-asana";
+  pname = "mcp-asana";
   version = src.shortRev;
 
   inherit src;
@@ -14,9 +14,9 @@ buildNpmPackage {
 
   npmBuildScript = "build";
 
-  # Create mcp-asana symlink for naming consistency with other MCP servers
+  # Rename for naming consistency with other MCP servers
   postInstall = ''
-    ln -s $out/bin/mcp-server-asana $out/bin/mcp-asana
+    mv $out/bin/mcp-server-asana $out/bin/mcp-asana
   '';
 
   meta = with lib; {

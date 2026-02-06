@@ -1,5 +1,9 @@
 { lib, pkgs, ... }:
 {
+  imports = [
+    ../../programs/claude
+  ];
+
   home.packages = with pkgs; [
     mcp-things
     mcp-obsidian
@@ -9,6 +13,26 @@
     prettier
     # mcp-nixos # TODO: use flake from github repo
   ];
+
+  home.file."Library/Application Support/Claude/claude_desktop_config.json".text = builtins.toJSON {
+    mcpServers = {
+      obsidian = {
+        command = "${pkgs.mcp-obsidian}/bin/mcp-obsidian";
+        args = [ "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/" ];
+      };
+      things = {
+        command = "${pkgs.mcp-things}/bin/mcp-things";
+        args = [ ];
+      };
+      asana = {
+        command = "/bin/sh";
+        args = [
+          "-c"
+          "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
+        ];
+      };
+    };
+  };
 
   programs.claude-code = {
     enable = true;
