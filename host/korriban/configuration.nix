@@ -21,24 +21,10 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.kernelModules = [
-    "amdgpu"
-    # "vkms"
-    "uinput"
-  ];
+  boot.initrd.kernelModules = [ "uinput" ];
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.kernelParams = [
-  # "usbcore.autosuspend=-1"
-  # "pcie_aspm=off"
-  # "video=DP-5:3048x2032R@60D"
-  # ];
-
-  # services.udev.packages = [ pkgs.sunshine ];
-  services.udev.extraRules = ''
-    KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
-  '';
 
   # Firmware
   services.fwupd.enable = true; # Rescue with `system76-firmware-cli schedule --proprietary`
