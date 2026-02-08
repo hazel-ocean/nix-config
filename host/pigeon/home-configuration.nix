@@ -1,5 +1,18 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
+
+  home.packages = with pkgs; [
+    mcp-things
+    mcp-obsidian
+    obsidian-agent-client
+    claude-code-acp
+    # mcp-nixos # TODO: use flake from github repo
+  ];
+
+  programs.claude-code = {
+    enable = true;
+    mcpServers = { };
+  };
 
   programs.direnv.mise.enable = true;
   programs.mise = {

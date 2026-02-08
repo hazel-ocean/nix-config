@@ -24,6 +24,7 @@
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     helix.url = "github:helix-editor/helix";
     mcp-servers.url = "path:./packages/mcp-servers";
+    obsidian-plugins.url = "path:./packages/obsidian-plugins";
     tuios = {
       url = "github:Gaurav-Gosain/tuios";
       inputs.nixpkgs.follows = "nixpkgs-unstable"; # keep it compatible with your pkgs
@@ -32,7 +33,6 @@
 
   outputs =
     inputs@{
-      # self,
       home-manager-master,
       home-manager-nixos-stable,
       home-manager-nixos-unstable,
@@ -44,6 +44,7 @@
       zjstatus,
       helix,
       mcp-servers,
+      obsidian-plugins,
       tuios,
       nixos-raspberrypi,
       ...
@@ -56,7 +57,10 @@
             # Filter out the broken grammar
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
+          tuios = tuios.packages.${final.system}.default;
         })
+        mcp-servers.overlays.default
+        obsidian-plugins.overlays.default
         (import ./overlay/vimPlugins.nix)
       ];
       config = {
@@ -230,9 +234,6 @@
           homeDirectory = "/Users/hazel";
           system = "aarch64-darwin";
           overlays = baseOverlays ++ [
-            (final: prev: { tuios = tuios.packages.${system}.default; })
-            mcp-servers.overlays.default
-            (import ./overlay/obsidian-plugins.nix)
             (import ./overlay/theme {
               source = ./host/espeon/theme.nix;
             })

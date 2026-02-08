@@ -1,0 +1,44 @@
+{
+  "nodes": {
+    "claude-code-acp-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770456650,
+        "narHash": "sha256-mILCBqKq75JYRAAdz/xmMZSs+keaoV9Y87GzLxxfFcM=",
+        "owner": "zed-industries",
+        "repo": "claude-code-acp",
+        "rev": "7c87fe7a8c042a312f5c1645ded151c17bb73e9c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zed-industries",
+        "repo": "claude-code-acp",
+        "type": "github"
+      }
+    },
+    "obsidian-agent-client-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770476835,
+        "narHash": "sha256-cDeTbMMJ7XBIoTBtrAWKpQOTLJFUa7x03/13FuHchC8=",
+        "owner": "RAIT-09",
+        "repo": "obsidian-agent-client",
+        "rev": "2a2f75d2e1484ec4a110a32bd6917a83fdcbe430",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RAIT-09",
+        "repo": "obsidian-agent-client",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "claude-code-acp-src": "claude-code-acp-src",
+        "obsidian-agent-client-src": "obsidian-agent-client-src"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  rosetta-pkgs,
-  ...
-}:
+{ pkgs, ... }:
 let
   HOST_NAME = "pigeon";
   USER = "ocean";
