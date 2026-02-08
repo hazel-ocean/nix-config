@@ -67,6 +67,86 @@
         allowUnfree = true;
         allowUnfreePredicate = _: true;
       };
+
+      mkDarwinHost =
+        {
+          hostname,
+          username,
+          stateVersion,
+          system ? "aarch64-darwin",
+          extraImports ? [ ],
+          extraSpecialArgs ? { },
+        }:
+        let
+          homeDirectory = "/Users/${username}";
+          overlays = baseOverlays ++ [
+            (import ./overlay/theme { source = ./host/${hostname}/theme.nix; })
+          ];
+        in
+        nix-darwin.lib.darwinSystem {
+          pkgs = import nixpkgs-unstable { inherit system config overlays; };
+          specialArgs = extraSpecialArgs;
+          modules = [
+            ./host/${hostname}/configuration.nix
+            home-manager-master.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.${username} = import ./home/desktop-user.nix {
+                  inherit username homeDirectory stateVersion;
+                  imports = [
+                    ./programs/zed
+                    ./host/${hostname}/home-configuration.nix
+                  ] ++ extraImports;
+                };
+              };
+            }
+          ];
+        };
+
+      mkNixosHost =
+        {
+          hostname,
+          username,
+          stateVersion,
+          system,
+          nixpkgs ? nixos-unstable,
+          home-manager ? home-manager-nixos-unstable,
+          extraImports ? [ ],
+          extraSpecialArgs ? { },
+        }:
+        let
+          homeDirectory = "/home/${username}";
+          overlays = baseOverlays ++ [
+            (import ./overlay/theme { source = ./host/${hostname}/theme.nix; })
+          ];
+        in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = extraSpecialArgs;
+          modules = [
+            ./host/${hostname}/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              nixpkgs = {
+                inherit config overlays;
+              };
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                users.${username} = import ./home/desktop-user.nix {
+                  inherit username homeDirectory stateVersion;
+                  imports = [
+                    ./programs/zed
+                    ./host/${hostname}/home-configuration.nix
+                  ] ++ extraImports;
+                };
+              };
+            }
+          ];
+        };
     in
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -110,42 +190,12 @@
           ];
         };
 
-      nixosConfigurations.korriban =
-        let
-          system = "x86_64-linux";
-          # config = config // { allowUnfree = true; };
-          overlays = baseOverlays ++ [
-            (import ./overlay/theme {
-              source = ./host/korriban/theme.nix;
-            })
-          ];
-        in
-        nixos-unstable.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./host/korriban/configuration.nix
-            home-manager-nixos-unstable.nixosModules.home-manager
-            {
-              nixpkgs = {
-                inherit config overlays;
-              };
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                users.hazel = import ./home/desktop-user.nix {
-                  username = "hazel";
-                  homeDirectory = "/home/hazel";
-                  stateVersion = "25.11";
-                  imports = [
-                    ./programs/zed
-                    ./host/korriban/home-configuration.nix
-                  ];
-                };
-              };
-            }
-          ];
-        };
+      nixosConfigurations.korriban = mkNixosHost {
+        hostname = "korriban";
+        username = "hazel";
+        stateVersion = "25.11";
+        system = "x86_64-linux";
+      };
 
       nixosConfigurations.rpi5 = nixos-raspberrypi.lib.nixosInstaller {
         specialArgs = inputs;
@@ -185,85 +235,25 @@
         ];
       };
 
-      darwinConfigurations.pigeon =
-        let
-          username = "ocean";
-          homeDirectory = "/Users/ocean";
-          system = "aarch64-darwin";
-          overlays = baseOverlays ++ [
-            (import ./overlay/theme {
-              source = ./host/pigeon/theme.nix;
-            })
-          ];
-        in
-        nix-darwin.lib.darwinSystem {
-          pkgs = import nixpkgs-unstable {
-            inherit system config overlays;
+      darwinConfigurations.pigeon = mkDarwinHost {
+        hostname = "pigeon";
+        username = "ocean";
+        stateVersion = "24.11";
+        extraSpecialArgs = {
+          rosetta-pkgs = import nixpkgs-unstable {
+            inherit config;
+            overlays = baseOverlays ++ [
+              (import ./overlay/theme { source = ./host/pigeon/theme.nix; })
+            ];
+            system = "x86_64-darwin";
           };
-          specialArgs = {
-            rosetta-pkgs = import nixpkgs-unstable {
-              inherit config overlays;
-              system = "x86_64-darwin";
-            };
-          };
-          modules = [
-            ./host/pigeon/configuration.nix
-            home-manager-master.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.${username} = (
-                  import ./home/desktop-user.nix {
-                    inherit username homeDirectory;
-                    stateVersion = "24.11";
-                    imports = [
-                      ./programs/zed
-                      ./host/pigeon/home-configuration.nix
-                    ];
-                  }
-                );
-              };
-            }
-          ];
         };
+      };
 
-      darwinConfigurations.espeon =
-        let
-          username = "hazel";
-          homeDirectory = "/Users/hazel";
-          system = "aarch64-darwin";
-          overlays = baseOverlays ++ [
-            (import ./overlay/theme {
-              source = ./host/espeon/theme.nix;
-            })
-          ];
-        in
-        nix-darwin.lib.darwinSystem {
-          pkgs = import nixpkgs-unstable {
-            inherit system config overlays;
-          };
-          specialArgs = { };
-          modules = [
-            ./host/espeon/configuration.nix
-            home-manager-master.darwinModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.${username} = (
-                  import ./home/desktop-user.nix {
-                    inherit username homeDirectory;
-                    stateVersion = "25.05";
-                    imports = [
-                      ./programs/zed
-                      ./host/espeon/home-configuration.nix
-                    ];
-                  }
-                );
-              };
-            }
-          ];
-        };
+      darwinConfigurations.espeon = mkDarwinHost {
+        hostname = "espeon";
+        username = "hazel";
+        stateVersion = "25.05";
+      };
     };
 }
