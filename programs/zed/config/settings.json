@@ -15,9 +15,7 @@
       "args": [],
       "projects": [
         {
-          "paths": [
-            "/home/hazel/.config/nix-config"
-          ],
+          "paths": ["/home/hazel/.config/nix-config"],
         },
       ],
     },
@@ -27,9 +25,7 @@
       "args": [],
       "projects": [
         {
-          "paths": [
-            "/Users/ocean/.config/nix-config"
-          ],
+          "paths": ["/Users/ocean/.config/nix-config"],
         },
       ],
     },
@@ -61,10 +57,28 @@
   },
   "buffer_font_weight": 400.0,
   "buffer_line_height": {
-    "custom": 1.8,
+    "custom": 1.6,
+  },
+  "buffer_font_features": {
+    "cv02": true,
+    "cv03": true,
+    "cv05": true,
+    "cv38": true,
+    "cv61": true,
+    "cv62": true,
+    "cv66": true,
+    "ss03": true,
+    "ss04": true,
+    "ss05": true,
+    "ss07": true,
+    "ss08": true,
+    "ss09": true,
+    "ss10": true,
+    "ss11": true,
+    "zero": true,
+    "calt": true
   },
   "helix_mode": true,
-  "vim_mode": false,
   "disable_ai": false,
   "icon_theme": {
     "mode": "system",
@@ -78,7 +92,7 @@
     "tool_permissions": {
       "tools": {
         "mcp:obsidian:list_directory": {
-          "default_mode": "allow"
+          "default_mode": "allow",
         },
         "fetch": {
           "default_mode": "allow",
@@ -155,21 +169,25 @@
   "theme": {
     "mode": "system",
     "light": "kontras-light",
-    "dark": "Twig_Dracula_ORIG"
+    "dark": "Twig_Dracula_ORIG",
   },
   "ui_font_size": 13.0,
-  "buffer_font_family": "CaskaydiaCove Nerd Font Propo",
+  "buffer_font_family": "Maple Mono NF",
   "buffer_font_size": 13.0,
+  "experimental.theme_overrides": {
+    "syntax": {
+      "comment": {
+        "font_style": "italic"
+      }
+    }
+  },
   "soft_wrap": "editor_width",
   "terminal": {
     "font_weight": 350.0,
     "dock": "right",
     "option_as_meta": true,
-    "font_size": 13.0,
-    "line_height": "comfortable",
+    // "font_size": 13.0,
   },
-  // "vim_mode": true,
-  // "vim": { "default_mode": "helix_normal" },
   "load_direnv": "shell_hook",
   "languages": {
     "Nix": {
@@ -184,34 +202,19 @@
       "tab_size": 2,
     },
     "Ruby": {
-      "language_servers": [
-        "ruby-lsp",
-        "rubocop",
-        "!solargraph",
-        "..."
-      ],
+      "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."],
     },
     // Enable herb and ruby-lsp for *.html.erb files
     "HTML+ERB": {
-      "language_servers": [
-        "herb",
-        "ruby-lsp",
-        "..."
-      ],
+      "language_servers": ["herb", "ruby-lsp", "..."],
     },
     // Enable ruby-lsp for *.js.erb files
     "JS+ERB": {
-      "language_servers": [
-        "ruby-lsp",
-        "..."
-      ],
+      "language_servers": ["ruby-lsp", "..."],
     },
     // Enable ruby-lsp for *.yaml.erb files
     "YAML+ERB": {
-      "language_servers": [
-        "ruby-lsp",
-        "..."
-      ],
+      "language_servers": ["ruby-lsp", "..."],
     },
   },
   "lsp": {

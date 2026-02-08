@@ -141,6 +141,7 @@
     enable = true;
     wayland.enable = true;
   };
+  security.pam.services.hazel.kwallet.enable = true;
 
   # services.displayManager.gdm.enable = true;
   # services.desktopManager.gnome.enable = true;
@@ -212,8 +213,7 @@
     enable = true;
     enablePlasmaBrowserIntegration = true;
     extensions = [
-      "chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
-      "mbniclmhobmnbdlbpiphghaielnnpgdp" # lightshot
+      "aeblfdkhhhdcdjpifhhbdiojplfjncoa" # 1Password
       "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
     ];

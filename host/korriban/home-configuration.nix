@@ -1,23 +1,7 @@
 { lib, pkgs, ... }:
 {
-  # home.packages = with pkgs; [
-  # ];
 
-  # programs.claude-code = {
-  #   enable = true;
-  #   mcpServers = {
-  #     obsidian = {
-  #       type = "stdio";
-  #       command = "${pkgs.mcp-obsidian}/bin/mcp-obsidian";
-  #       args = [ "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/" ];
-  #     };
-  #     things = {
-  #       type = "stdio";
-  #       command = "${pkgs.mcp-things}/bin/things-mcp";
-  #       args = [ ];
-  #     };
-  #   };
-  # };
+  programs.claude-code.enable = true;
 
   programs.direnv.mise.enable = true;
   programs.mise = {

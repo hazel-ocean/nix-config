@@ -1,18 +1,23 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
-  transThemes =
-    pkgs.runCommandLocal "helix-transparent-themes"
+  mkTransCustomThemes =
+    pkgs.runCommandLocal "helix-transcust-themes"
       {
         buildInputs = [ pkgs.nushell ];
       }
       ''
         mkdir $out
-        nu ${./make-trans-themes.nu} ${pkgs.helix}/lib/runtime/themes > $out/themes.json
+        nu ${./setup/make-custom-themes.nu} ${pkgs.helix}/lib/runtime/themes $out
       '';
-
-  themes = builtins.fromJSON (builtins.readFile "${transThemes}/themes.json");
 in
 {
+  home.file.".config/helix/themes" = {
+    source = mkTransCustomThemes;
+    # target = ".config/helix";
+    recursive = true;
+    force = true;
+  };
+
   xdg.configFile."helix/languages.toml".text = ''
     [[language]]
     name = "sql"
@@ -58,8 +63,8 @@ in
   programs.helix = {
     enable = true;
     package = pkgs.helix-latest;
+    defaultEditor = true;
 
-    inherit themes;
     settings = {
       theme = {
         light = pkgs.theme.helix.light;
@@ -96,7 +101,6 @@ in
         };
       };
     };
-
   };
 
   home.packages = with pkgs; [

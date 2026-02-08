@@ -3,6 +3,7 @@ let
   nerd-fonts = pkgs.nerd-fonts;
 in
 (with pkgs; [
+  maple-mono.NF-unhinted
   victor-mono
   inter
 ])
