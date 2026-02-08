@@ -178,13 +178,9 @@
             home-manager-nixos-stable.nixosModules.home-manager
             {
               home-manager.users.ocean = import ./home/console-user.nix {
-                pkgs = import nixos-stable { inherit overlays system config; };
-                config = {
-                  user = "ocean";
-                  home = "/home/ocean";
-                  state_version = "22.11";
-                };
-                theme-config.helix = "base16_transparent";
+                username = "ocean";
+                homeDirectory = "/home/ocean";
+                stateVersion = "22.11";
               };
             }
           ];

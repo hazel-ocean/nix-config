@@ -1,10 +1,12 @@
 {
-  # pkgs,
-  config,
+  username,
+  homeDirectory,
+  stateVersion,
+  imports ? [ ],
   ...
 }:
 {
-  imports = [
+  imports = imports ++ [
     ../layers/common.nix
     ../programs/nushell
     ../programs/tmux.nix
@@ -17,9 +19,7 @@
   programs.home-manager.enable = true;
 
   home = {
-    stateVersion = config.state_version;
-    username = config.user;
-    homeDirectory = config.home;
+    inherit stateVersion username homeDirectory;
 
     sessionVariables = {
       PAGER = "less -R";
@@ -28,7 +28,7 @@
       TERM = "xterm-256color";
 
       FZF_DEFAULT_COMMAND = "fd --type f";
-      BAT_CONFIG_PATH = "${config.home}/.config/bat/config";
+      BAT_CONFIG_PATH = "${homeDirectory}/.config/bat/config";
     };
   };
 }
