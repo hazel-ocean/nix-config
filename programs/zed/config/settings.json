@@ -7,6 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "enable_language_server": true,
   "ssh_connections": [
     {
       "host": "korriban.local",
@@ -14,7 +15,9 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/home/hazel/.config/nix-config"],
+          "paths": [
+            "/home/hazel/.config/nix-config"
+          ],
         },
       ],
     },
@@ -24,7 +27,9 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/Users/ocean/.config/nix-config"],
+          "paths": [
+            "/Users/ocean/.config/nix-config"
+          ],
         },
       ],
     },
@@ -150,7 +155,7 @@
   "theme": {
     "mode": "system",
     "light": "kontras-light",
-    "dark": "kontras-dark",
+    "dark": "Twig_Dracula_ORIG"
   },
   "ui_font_size": 13.0,
   "buffer_font_family": "CaskaydiaCove Nerd Font Propo",
@@ -179,19 +184,34 @@
       "tab_size": 2,
     },
     "Ruby": {
-      "language_servers": ["ruby-lsp", "rubocop", "!solargraph", "..."],
+      "language_servers": [
+        "ruby-lsp",
+        "rubocop",
+        "!solargraph",
+        "..."
+      ],
     },
     // Enable herb and ruby-lsp for *.html.erb files
     "HTML+ERB": {
-      "language_servers": ["herb", "ruby-lsp", "..."],
+      "language_servers": [
+        "herb",
+        "ruby-lsp",
+        "..."
+      ],
     },
     // Enable ruby-lsp for *.js.erb files
     "JS+ERB": {
-      "language_servers": ["ruby-lsp", "..."],
+      "language_servers": [
+        "ruby-lsp",
+        "..."
+      ],
     },
     // Enable ruby-lsp for *.yaml.erb files
     "YAML+ERB": {
-      "language_servers": ["ruby-lsp", "..."],
+      "language_servers": [
+        "ruby-lsp",
+        "..."
+      ],
     },
   },
   "lsp": {

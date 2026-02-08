@@ -204,9 +204,26 @@
   programs.zsh.enable = true;
   # programs.nushell.enable = true;
 
-  programs.firefox = {
+  # programs.firefox = {
+  #   enable = true;
+  #   nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
+  # };
+  programs.chromium = {
     enable = true;
-    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
+    enablePlasmaBrowserIntegration = true;
+    extensions = [
+      "chlffgpmiacpedhhbkiomidkjlcfhogd" # pushbullet
+      "mbniclmhobmnbdlbpiphghaielnnpgdp" # lightshot
+      "gcbommkclmclpchllfjekcdonpmejbdp" # https everywhere
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+    ];
+    extraOpts = {
+      "BrowserSignin" = 0;
+      "SyncDisabled" = true;
+      "PasswordManagerEnabled" = false;
+      "SpellcheckEnabled" = true;
+      "SpellcheckLanguage" = [ "en-US" ];
+    };
   };
   programs._1password.enable = true;
   programs._1password-gui = {
@@ -302,7 +319,8 @@
   environment.systemPackages =
     with pkgs;
     [
-      firefoxpwa
+      brave
+      # firefoxpwa
       helix
       lapce
       zed-editor
