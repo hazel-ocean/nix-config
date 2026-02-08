@@ -56,6 +56,7 @@ theme = light:Xcode Light,dark:Xcode Dark hc
 # Violite
 # Xcode Dark hc
 # Mellow
+font-size = 10
 font-family = Maple Mono NF
 font-thicken = true
 font-thicken-strength = 200
@@ -96,6 +97,8 @@ macos-titlebar-proxy-icon = hidden
 # window-decoration = false
 
 window-padding-y = 0,6
+window-height = 25
+window-width = 106
 
 # [false | working-directory]
 window-subtitle = false
