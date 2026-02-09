@@ -74,6 +74,10 @@
 
   #services.blueman.enable = true;
 
+  # AirPlay receiver (shairport-sync) runs as a user service via home-manager
+  # so it can access the user's PipeWire session and follow KDE audio routing.
+  # We just need the firewall ports open and the package available.
+
   networking.hostName = "korriban"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -90,6 +94,10 @@
     enable = true;
     nssmdns4 = true; # makes .local discovery nicer
     openFirewall = true;
+    publish = {
+      enable = true;
+      userServices = true; # allow user services (e.g. shairport-sync) to advertise via mDNS
+    };
   };
 
   # Set your time zone.
@@ -127,7 +135,7 @@
     enable = true;
     wayland.enable = true;
   };
-  security.pam.services.hazel.kwallet.enable = true;
+  security.pam.services.sddm.enableKwallet = true;
 
   # services.displayManager.gdm.enable = true;
   # services.desktopManager.gnome.enable = true;
@@ -157,6 +165,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    # systemWide = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -295,6 +304,7 @@
       radeontop
 
       tailscale
+      shairport-sync
 
       jellyfin
       jellyfin-ffmpeg
@@ -356,8 +366,11 @@
     allowedUDPPorts = [
       config.services.tailscale.port
       3389
+    ] ++ (builtins.genList (i: 6001 + i) 11); # UDP 6001-6011 for AirPlay audio
+    allowedTCPPorts = [
+      3389
+      5000 # AirPlay RTSP (shairport-sync)
     ];
-    allowedTCPPorts = [ 3389 ];
   };
 
   # This value determines the NixOS release from which the default
