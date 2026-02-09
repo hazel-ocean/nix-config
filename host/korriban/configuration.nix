@@ -23,6 +23,22 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "uinput" ];
 
+  # Virtual display via EDID on unused DP-2 port
+  hardware.firmware = [
+    (pkgs.runCommand "edid-firmware" { } ''
+            mkdir -p $out/lib/firmware/edid
+            echo 'AP///////wBMLUBwAA4AAQEeAQOApV14Cqgzq1BFpScNSEi974BxT4HAgQCBgJUAqcCzANHACOgA
+      MPJwWoCwWIoAUB10AAAeb8IAoKCgVVAwIDUAUB10AAAaAAAA/QAYeA//dwAKICAgICAgAAAA/ABT
+      QU1TVU5HCiAgICAgAW4CA2fwXWEQHwQTBRQgISJdXl9gZWZiZD9AdXba28LDxMbHLAkHBxUHUFcH
+      AGdUAIMBAADiAE/jBcMBbgMMAEAAmDwoAIABAgMEbdhdxAF4gFkCAADBNAvjBg0B5Q8B4PAf5QGL
+      hJABb8IAoKCgVVAwIDUAUB10AAAaAAAAAAAAZw==' | base64 -d > $out/lib/firmware/edid/samsung-q800t.bin
+    '')
+  ];
+  boot.kernelParams = [
+    "drm.edid_firmware=DP-2:edid/samsung-q800t.bin"
+    "video=DP-2:e" # Enable the port
+  ];
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -120,6 +136,10 @@
   # services.xserver.videoDrivers
   programs.xwayland.enable = true;
   programs.niri.enable = true;
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
 
   # Enable the KDE Plasma Desktop Environment.
   services.desktopManager.plasma6.enable = true;
@@ -237,30 +257,41 @@
 
   services.sunshine = {
     enable = true;
-    autoStart = true;
+    autoStart = false; # We run Sunshine inside headless Sway instead
     openFirewall = true;
-    capSysAdmin = true;
+    # capSysAdmin = true;
+  };
 
-    settings = {
-      sunshine_name = config.networking.hostName;
-      # adapter_name = "/dev/dri/renderD128"; # Radeon 9070 XT
-      # capture = "kms";
-      encoder = "vaapi";
-    };
+  security.wrappers.sunshine = {
+    owner = "root";
+    group = "root";
+    capabilities = "cap_sys_admin+ep";
+    source = "${pkgs.sunshine}/bin/sunshine";
+  };
 
-    applications = {
-      apps = [
-        {
-          name = "Steam Big Picture - 01";
-          image = "steam.png";
-          auto-detach = "true";
-          # gamescope --grab --force-grab-cursor --expose-wayland --prefer-vk-device /dev/dri/renderD128 -W 2048 -H 1330 -r 60 -e \
-          # -- \
-          cmd = ''
-            gamescope --fullscreen --grab --force-grab-cursor --prefer-vk-device /dev/dri/renderD128 -w 1920 -h 1080 -W 2704 -H 1756 -r 80 -- sudo -u hazel setsid steam steam://open/bigpicture
-          '';
-        }
-      ];
+  # Sunshine config file for streaming session (uses virtual display on DP-2)
+  # DP-2 is enabled via EDID firmware to appear as a connected display
+  environment.etc."sunshine-streaming.conf".text = ''
+    encoder = vaapi
+    capture = kms
+    adapter_name = /dev/dri/card1
+    output_name = DP-2
+    sunshine_name = ${config.networking.hostName}
+    port = 47989
+  '';
+
+  # Sunshine streaming service using KMS capture on DP-2
+  systemd.user.services.sunshine-streaming = {
+    description = "Sunshine streaming via KMS on virtual DP-2 display";
+    after = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+
+    serviceConfig = {
+      Type = "simple";
+      # Use wrapper path for CAP_SYS_ADMIN capability (required for KMS capture)
+      ExecStart = "/run/wrappers/bin/sunshine /etc/sunshine-streaming.conf";
+      Restart = "on-failure";
+      RestartSec = "5";
     };
   };
   # systemd.user.services.sunshine.serviceConfig.Environment = [
