@@ -235,39 +235,6 @@
     ];
   };
 
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    openFirewall = true;
-    capSysAdmin = true;
-
-    settings = {
-      sunshine_name = config.networking.hostName;
-      # adapter_name = "/dev/dri/renderD128"; # Radeon 9070 XT
-      # capture = "kms";
-      encoder = "vaapi";
-    };
-
-    applications = {
-      apps = [
-        {
-          name = "Steam Big Picture - 01";
-          image = "steam.png";
-          auto-detach = "true";
-          # gamescope --grab --force-grab-cursor --expose-wayland --prefer-vk-device /dev/dri/renderD128 -W 2048 -H 1330 -r 60 -e \
-          # -- \
-          cmd = ''
-            gamescope --fullscreen --grab --force-grab-cursor --prefer-vk-device /dev/dri/renderD128 -w 1920 -h 1080 -W 2704 -H 1756 -r 80 -- sudo -u hazel setsid steam steam://open/bigpicture
-          '';
-        }
-      ];
-    };
-  };
-  # systemd.user.services.sunshine.serviceConfig.Environment = [
-  #   "LIBVA_DRIVER_NAME=radeonsi"
-  #   "VAAPI_DEVICE=/dev/dri/renderD128"
-  # ];
-
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -334,8 +301,6 @@
       jellyfin-desktop
       jellyfin-web
 
-      moonlight-qt
-      sunshine
       gamescope
       steam
       steam-run
