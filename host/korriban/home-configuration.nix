@@ -7,6 +7,9 @@
   services.shairport-sync = {
     enable = true;
     name = "Korriban";
+    resyncThreshold = 0;
+    driftTolerance = 0;
+    bufferLength = 10;
   };
 
   programs.claude-code.enable = true;

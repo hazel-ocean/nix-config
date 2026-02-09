@@ -20,8 +20,8 @@ in
     package = lib.mkPackageOption pkgs "shairport-sync" { };
 
     driftTolerance = lib.mkOption {
-      type = lib.types.float;
-      default = 0.001;
+      type = lib.types.number;
+      default = 0.002;
       description = ''
         How much drift (in seconds) is tolerated before corrections are applied.
         Lower values keep sync tighter but may cause more frequent corrections.
@@ -30,8 +30,8 @@ in
     };
 
     resyncThreshold = lib.mkOption {
-      type = lib.types.float;
-      default = 0.025;
+      type = lib.types.number;
+      default = 0.050;
       description = ''
         If the sync drift exceeds this value (in seconds), a full resync is triggered
         rather than gradual correction. Lower values resync sooner.
@@ -40,8 +40,8 @@ in
     };
 
     bufferLength = lib.mkOption {
-      type = lib.types.float;
-      default = 0.15;
+      type = lib.types.number;
+      default = 0.350;
       description = ''
         Desired audio backend buffer length in seconds. Shorter buffers reduce latency
         but increase the chance of dropouts on slower networks.
@@ -87,7 +87,10 @@ in
     systemd.user.services.shairport-sync = {
       Unit = {
         Description = "Shairport Sync - AirPlay Audio Receiver";
-        After = [ "pipewire.service" "pipewire-pulse.service" ];
+        After = [
+          "pipewire.service"
+          "pipewire-pulse.service"
+        ];
         Requires = [ "pipewire.service" ];
       };
       Service = {

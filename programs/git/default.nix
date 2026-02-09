@@ -83,6 +83,9 @@ with pkgs;
       ".envrc"
       ".nix-mix"
       ".nix-hex"
+
+      # Claude
+      ".claude"
     ];
 
     includes = [
