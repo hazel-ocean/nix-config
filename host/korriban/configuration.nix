@@ -10,6 +10,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../layers/system-packages.nix
   ];
 
   nix.settings.experimental-features = [
@@ -288,8 +289,6 @@
       zed-editor
       zellij
       yazi
-      ripgrep
-      fd
       entr
 
       dconf-editor
@@ -302,6 +301,7 @@
       pciutils
       libva-utils
       radeontop
+      nvtopPackages.amd
 
       tailscale
       shairport-sync

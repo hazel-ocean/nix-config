@@ -10,6 +10,7 @@
   imports = [
     # Include the results of the hardware scan.
     ../../hardware/aarch64-utm.nix
+    ../../layers/system-packages.nix
   ];
 
   nix.settings.experimental-features = [

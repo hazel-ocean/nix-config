@@ -17,34 +17,15 @@ let
     # felix-fm
     # chafa # required for felix-fm file previews
 
-    file
-    eza
-    fd
-    ripgrep
     ack
-    sd
     grex
-    fzf
     zoxide
-    bat
     ijq
-    jq
-    yq-go
     # mdcat
     glow
     icdiff
     tokei
     entr
-    pv
-    wget
-    rsync
-    unzip
-    dua
-    duf
-    dust
-    hexyl
-    iconv
-    zstd
 
     # Multimedia
     ffmpeg
@@ -62,23 +43,6 @@ let
 
     ## Writing Tools
     mdbook
-
-    # Process Management
-    killall
-    htop
-    btop
-    procs
-    bandwhich
-    bottom
-
-    # Device Management
-    smartmontools
-
-    # Networking
-    nmap
-    # See https://github.com/NixOS/nixpkgs/issues/175875
-    # httpie
-    inetutils
 
     # Content
     yt-dlp
@@ -105,11 +69,6 @@ let
 
     # Kubernetes
     k9s
-  ]
-  ++ lib.optionals isLinux [
-    xsel # rmesg
-    xclip
-    usbutils # lsusb and others
   ];
 
   lsdAliases = {

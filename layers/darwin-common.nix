@@ -1,6 +1,7 @@
 # Shared configuration for Darwin (macOS) hosts
 { pkgs, lib, ... }:
 {
+  imports = [ ./system-packages.nix ];
   nix = {
     extraOptions = ''
       build-users-group = nixbld
