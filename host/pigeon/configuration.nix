@@ -5,7 +5,7 @@ let
   HOME = "/Users/${USER}";
 in
 {
-  imports = [ ../../layers/darwin-common.nix ];
+  imports = [ ../../system/darwin.nix ];
 
   nix = {
     linux-builder = {

@@ -12,7 +12,7 @@ in
   programs.home-manager.enable = true;
 
   imports = [
-    ../../layers/common.nix
+    ../../home/common.nix
     ../../services/lorri.nix
     ../../programs/nushell.nix
     ../../programs/tmux.nix

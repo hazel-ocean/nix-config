@@ -33,7 +33,7 @@ in
 
   fonts = {
     enableFontDir = true;
-    fonts = import ../../layers/fonts.nix { inherit pkgs; };
+    fonts = import ../../system/font-packages.nix { inherit pkgs; };
   };
 
   users.users."${USER}" = {
@@ -83,7 +83,7 @@ in
       { pkgs, ... }:
       {
         imports = [
-          ../../layers/common.nix
+          ../../home/common.nix
           ../../programs/nushell.nix
           ../../programs/zoxide.nix
           ../../programs/tmux.nix

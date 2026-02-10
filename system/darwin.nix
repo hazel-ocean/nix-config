@@ -1,7 +1,7 @@
 # Shared configuration for Darwin (macOS) hosts
 { pkgs, lib, ... }:
 {
-  imports = [ ./system-packages.nix ];
+  imports = [ ./packages.nix ];
   nix = {
     extraOptions = ''
       build-users-group = nixbld
@@ -66,7 +66,7 @@
     };
   };
 
-  fonts.packages = import ./fonts.nix { inherit pkgs; };
+  fonts.packages = import ./font-packages.nix { inherit pkgs; };
 
   environment = {
     shells = with pkgs; [

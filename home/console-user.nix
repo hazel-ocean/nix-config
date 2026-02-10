@@ -7,7 +7,7 @@
 }:
 {
   imports = imports ++ [
-    ../layers/common.nix
+    ./common.nix
     ../programs/nushell
     ../programs/tmux.nix
     ../programs/starship.nix

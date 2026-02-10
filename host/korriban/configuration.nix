@@ -10,18 +10,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../layers/system-packages.nix
+    ../../system/linux.nix
   ];
 
-  nix.settings.experimental-features = [
-    "flakes"
-    "nix-command"
-    "pipe-operators"
-  ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "uinput" ];
 
   # Use latest kernel.
@@ -86,8 +77,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
   services.timesyncd.enable = true;
 
   #### Network discovery
@@ -99,24 +88,6 @@
       enable = true;
       userServices = true; # allow user services (e.g. shairport-sync) to advertise via mDNS
     };
-  };
-
-  # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
   };
 
   services.displayManager.autoLogin = {
@@ -146,7 +117,7 @@
   # services.desktopManager.cosmic.enable = true;
 
   fonts.enableDefaultPackages = true;
-  fonts.packages = import ../../layers/fonts.nix { inherit pkgs; };
+  fonts.packages = import ../../system/font-packages.nix { inherit pkgs; };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -198,7 +169,6 @@
   };
 
   programs.bash.enable = true;
-  programs.zsh.enable = true;
   # programs.nushell.enable = true;
 
   # programs.firefox = {
@@ -273,9 +243,6 @@
   };
 
   services.tailscale.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
