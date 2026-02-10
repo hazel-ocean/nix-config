@@ -245,6 +245,31 @@ stdenv.mkDerivation {
 }
 ```
 
+### Go packages
+
+```nix
+{ lib, buildGoModule, src }:
+
+buildGoModule {
+  pname = "mcp-<service>";
+  version = src.shortRev or "unknown";
+
+  inherit src;
+
+  vendorHash = "sha256-...";
+
+  subPackages = [ "cmd/<upstream-binary-name>" ];
+
+  postInstall = ''
+    mv $out/bin/<upstream-binary-name> $out/bin/mcp-<service>
+  '';
+
+  meta = with lib; {
+    mainProgram = "mcp-<service>";
+  };
+}
+```
+
 ## Testing
 
 Verify MCP server connectivity:

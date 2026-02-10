@@ -339,6 +339,7 @@
       "inputs": {
         "mcp-obsidian-src": "mcp-obsidian-src",
         "mcp-server-asana-src": "mcp-server-asana-src",
+        "mcp-slack-src": "mcp-slack-src",
         "mcp-things-src": "mcp-things-src"
       },
       "locked": {
@@ -350,6 +351,23 @@
         "type": "path"
       },
       "parent": []
+    },
+    "mcp-slack-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1765317553,
+        "narHash": "sha256-tA0JzWaMtYF0DC5xUm+hGAVEPvxBTMLau5lrhOQU9gU=",
+        "owner": "korotovsky",
+        "repo": "slack-mcp-server",
+        "rev": "454398a7f749846328cf4c8108a916a4f4944c8b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "korotovsky",
+        "ref": "v1.1.28",
+        "repo": "slack-mcp-server",
+        "type": "github"
+      }
     },
     "mcp-things-src": {
       "flake": false,

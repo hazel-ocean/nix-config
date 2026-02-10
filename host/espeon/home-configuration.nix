@@ -8,6 +8,7 @@
     mcp-things
     mcp-obsidian
     mcp-asana
+    mcp-slack
     obsidian-agent-client
     claude-code-acp
     prettier
@@ -29,6 +30,13 @@
         args = [
           "-c"
           "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
+        ];
+      };
+      slack = {
+        command = "/bin/sh";
+        args = [
+          "-c"
+          "export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec ${pkgs.mcp-slack}/bin/mcp-slack"
         ];
       };
     };
@@ -53,6 +61,14 @@
         args = [
           "-c"
           "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
+        ];
+      };
+      slack = {
+        type = "stdio";
+        command = "/bin/sh";
+        args = [
+          "-c"
+          "export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec ${pkgs.mcp-slack}/bin/mcp-slack"
         ];
       };
     };

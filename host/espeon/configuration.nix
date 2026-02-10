@@ -97,7 +97,6 @@ in
       "raycast"
       "rectangle-pro"
       "slack"
-      "spotify"
       "tableplus"
       "thingsmacsandboxhelper"
       "vlc"

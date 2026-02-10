@@ -9,6 +9,7 @@ This directory contains Nix packages for [Model Context Protocol (MCP)](https://
 | `mcp-things` | `mcp-things` | Interact with Things 3 task manager |
 | `mcp-obsidian` | `mcp-obsidian` | Read/write access to Obsidian vaults |
 | `mcp-asana` | `mcp-asana` | Interact with Asana tasks and projects |
+| `mcp-slack` | `mcp-slack` | Interact with Slack workspaces (messages, channels, search) |
 
 ## Installation
 
@@ -21,6 +22,7 @@ All MCP servers are automatically available via the `mcp-servers` overlay. Add t
     mcp-things
     mcp-obsidian
     mcp-asana
+    mcp-slack
   ];
 }
 ```
@@ -63,6 +65,9 @@ claude mcp add-json obsidian --scope user '{"type":"stdio","command":"/etc/profi
 
 # Asana (requires token setup - see below)
 claude mcp add-json asana --scope user '{"type":"stdio","command":"/bin/sh","args":["-c","export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec /etc/profiles/per-user/$USER/bin/mcp-asana"]}'
+
+# Slack (requires token setup - see below)
+claude mcp add-json slack --scope user '{"type":"stdio","command":"/bin/sh","args":["-c","export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec /etc/profiles/per-user/$USER/bin/mcp-slack"]}'
 ```
 
 ## Server-Specific Setup
@@ -111,6 +116,31 @@ The token is read from `~/.config/mcp-asana/access-token` at server startup and 
 - "Create a task in project X to review the proposal"
 - "What tasks are due this week?"
 - "Mark task Y as complete"
+
+### mcp-slack
+
+**Prerequisites:**
+- A Slack workspace you're logged into via a browser
+
+**Token Setup (browser tokens):**
+
+1. Open your Slack workspace in a browser and extract `xoxc-` and `xoxd-` tokens from browser storage (see [auth docs](https://github.com/korotovsky/slack-mcp-server/blob/main/docs/auth-xoxc.md))
+2. Create the config directory and token files:
+   ```bash
+   mkdir -p ~/.config/mcp-slack
+   chmod 700 ~/.config/mcp-slack
+   echo "xoxc-YOUR_TOKEN_HERE" > ~/.config/mcp-slack/xoxc-token
+   echo "xoxd-YOUR_TOKEN_HERE" > ~/.config/mcp-slack/xoxd-token
+   chmod 600 ~/.config/mcp-slack/xoxc-token ~/.config/mcp-slack/xoxd-token
+   ```
+
+The tokens are read from `~/.config/mcp-slack/` at server startup and passed via the `SLACK_MCP_XOXC_TOKEN` and `SLACK_MCP_XOXD_TOKEN` environment variables.
+
+**Example prompts:**
+- "Read the last 10 messages in #general"
+- "Search Slack for messages about deployment"
+- "List all channels I'm in"
+- "What did Alice say in the thread about the release?"
 
 ## Adding a New MCP Server
 
@@ -180,3 +210,4 @@ The overlay at `overlay/mcp-servers.nix` makes all packages available as `pkgs.m
 - [things-mcp](https://github.com/hald/things-mcp)
 - [mcp-obsidian](https://github.com/bitbonsai/mcp-obsidian)
 - [mcp-server-asana](https://github.com/roychri/mcp-server-asana)
+- [slack-mcp-server](https://github.com/korotovsky/slack-mcp-server)
