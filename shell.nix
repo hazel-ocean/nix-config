@@ -14,5 +14,5 @@ mkShell {
     ncurses
     git
     entr
-  ] ++ lib.optionals stdenv.isDarwin [ nix-darwin.packages.${stdenv.system}.default ];
+  ] ++ lib.optionals stdenv.isDarwin [ nix-darwin.packages.${stdenv.hostPlatform.system}.default ];
 }

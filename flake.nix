@@ -57,7 +57,7 @@
             # Filter out the broken grammar
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
-          tuios = tuios.packages.${final.system}.default;
+          tuios = tuios.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default

@@ -23,10 +23,6 @@ in
     home = HOME;
     isHidden = false;
     shell = pkgs.zsh;
-
-    packages = with pkgs; [
-      duti
-    ];
   };
 
   homebrew = {
@@ -56,6 +52,8 @@ in
       "docker"
       "docker-compose"
       "graphviz"
+      "helm"
+      "helmfile"
       "imagemagick"
       "jemalloc"
       "libomp"
@@ -113,6 +111,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    duti
     ncurses
     nushell
     zsh

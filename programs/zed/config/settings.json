@@ -37,7 +37,7 @@
   },
   "ui_font_family": "Inter",
   "ui_font_weight": 400.0,
-  "use_system_window_tabs": true,
+  "use_system_window_tabs": false,
   "tabs": {
     "show_close_button": "hover",
     "show_diagnostics": "off",
@@ -115,11 +115,11 @@
       },
       {
         "provider": "anthropic",
-        "model": "claude-sonnet-4-6-thinking-latest",
+        "model": "claude-sonnet-4-5-thinking-latest",
       },
       {
         "provider": "anthropic",
-        "model": "claude-haiku-4-6-latest",
+        "model": "claude-haiku-4-5-latest",
       },
     ],
     "always_allow_tool_actions": false,
