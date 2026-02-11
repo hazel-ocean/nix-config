@@ -19,6 +19,7 @@
 
 ### Journal Structure
 - Location: `Asana/<Project Name>/Journal/YYYY.MM.DD.md`
+- Title (H1) should be a brief summary of the session's outcome, not the date (the date is already in the filename)
 - Format: Decision Log / ADR-lite style
 - Tags: `asana`, `<project-tag>`, `journal`
 
