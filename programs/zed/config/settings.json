@@ -37,7 +37,7 @@
   },
   "ui_font_family": "Inter",
   "ui_font_weight": 400.0,
-  "use_system_window_tabs": false,
+  "use_system_window_tabs": true,
   "tabs": {
     "show_close_button": "hover",
     "show_diagnostics": "off",

@@ -25,6 +25,7 @@
 
 ### Journal Conventions
 - Capture: problems encountered, decisions made, solutions implemented
+- **Never put TODOs or next steps in journal entries** — those belong exclusively in Things.app
 - **Always ask before updating the journal** - never auto-update
 - If we back out a change, document that with reasoning
 - Periodically prompt me to update the journal after completing a problem/solution cycle
