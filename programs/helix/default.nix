@@ -1,13 +1,19 @@
 { pkgs, lib, ... }:
 let
+  helix-themes-dir = "${pkgs.helix.runtime}/themes";
+
   mkTransCustomThemes =
     pkgs.runCommandLocal "helix-transcust-themes"
       {
-        buildInputs = [ pkgs.nushell ];
+        buildInputs = [
+          pkgs.nushell
+          pkgs.helix
+        ];
       }
       ''
         mkdir $out
-        nu ${./setup/make-custom-themes.nu} ${pkgs.helix}/lib/runtime/themes $out
+        echo ${helix-themes-dir}
+        nu ${./setup/make-custom-themes.nu} ${helix-themes-dir} $out
       '';
 in
 {

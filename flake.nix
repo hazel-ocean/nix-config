@@ -115,6 +115,7 @@
           home-manager ? home-manager-nixos-unstable,
           extraImports ? [ ],
           extraSpecialArgs ? { },
+          extraModules ? [ ],
         }:
         let
           homeDirectory = "/home/${username}";
@@ -145,7 +146,7 @@
                 };
               };
             }
-          ];
+          ] ++ extraModules;
         };
     in
     flake-utils.lib.eachDefaultSystem (
