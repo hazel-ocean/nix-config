@@ -15,9 +15,16 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/home/hazel/.config/nix-config"],
+          "paths": [
+            "/home/hazel/.config/nix-config"
+          ]
         },
-      ],
+        {
+          "paths": [
+            "/home/hazel/Developer/moonshine-dev"
+          ]
+        }
+      ]
     },
     {
       "host": "pigeon.local",
@@ -25,10 +32,12 @@
       "args": [],
       "projects": [
         {
-          "paths": ["/Users/ocean/.config/nix-config"],
-        },
-      ],
-    },
+          "paths": [
+            "/Users/ocean/.config/nix-config"
+          ]
+        }
+      ]
+    }
   ],
   "when_closing_with_no_tabs": "platform_default",
   "format_on_save": "off",

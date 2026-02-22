@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  helix-themes-dir = "${pkgs.helix.runtime}/themes";
+  helix-themes-dir = "${pkgs.helix}/lib/runtime/themes";
 
   mkTransCustomThemes =
     pkgs.runCommandLocal "helix-transcust-themes"
