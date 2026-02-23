@@ -104,6 +104,7 @@ in
         name = "wezterm@nightly";
         greedy = true;
       }
+      "wispr-flow"
       "zed"
       "zoom"
     ];

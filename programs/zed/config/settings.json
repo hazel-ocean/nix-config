@@ -7,6 +7,7 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "use_system_window_tabs": true,
   "enable_language_server": true,
   "ssh_connections": [
     {
@@ -46,7 +47,6 @@
   },
   "ui_font_family": "Inter",
   "ui_font_weight": 400.0,
-  "use_system_window_tabs": true,
   "tabs": {
     "show_close_button": "hover",
     "show_diagnostics": "off",
@@ -85,7 +85,7 @@
     "ss10": true,
     "ss11": true,
     "zero": true,
-    "calt": true
+    "calt": true,
   },
   "helix_mode": true,
   "disable_ai": false,
@@ -101,19 +101,19 @@
     "tool_permissions": {
       "tools": {
         "mcp:obsidian:list_directory": {
-          "default_mode": "allow",
+          "default": "allow",
         },
         "fetch": {
-          "default_mode": "allow",
+          "default": "allow",
         },
         "mcp:things:get_todos": {
-          "default_mode": "allow",
+          "default": "allow",
         },
         "mcp:obsidian:read_note": {
-          "default_mode": "allow",
+          "default": "allow",
         },
         "mcp:asana:asana_get_task": {
-          "default_mode": "allow",
+          "default": "allow",
         },
       },
     },
@@ -131,13 +131,12 @@
         "model": "claude-haiku-4-5-latest",
       },
     ],
-    "always_allow_tool_actions": false,
     "play_sound_when_agent_done": true,
     "inline_assistant_model": {
       "provider": "anthropic",
       "model": "claude-sonnet-4-6-thinking-latest",
     },
-    "default_profile": "write",
+    "default_profile": "ask",
     "default_model": {
       "provider": "anthropic",
       "model": "claude-opus-4-6-thinking-latest",
@@ -178,7 +177,7 @@
   "theme": {
     "mode": "system",
     "light": "kontras-light",
-    "dark": "Twig_Dracula_ORIG",
+    "dark": "Dracula Solid",
   },
   "ui_font_size": 13.0,
   "buffer_font_family": "Maple Mono NF",
@@ -186,9 +185,9 @@
   "experimental.theme_overrides": {
     "syntax": {
       "comment": {
-        "font_style": "italic"
-      }
-    }
+        "font_style": "italic",
+      },
+    },
   },
   "soft_wrap": "editor_width",
   "terminal": {
@@ -198,7 +197,31 @@
     // "font_size": 13.0,
   },
   "load_direnv": "shell_hook",
+  "prettier": {
+    "allowed": false,
+  },
   "languages": {
+    "TypeScript": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+    },
+    "TSX": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+    },
+    "JavaScript": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+    },
     "Nix": {
       // "format_on_save": "on",
       "formatter": {

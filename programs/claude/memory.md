@@ -7,28 +7,35 @@
 - MCP server: `mcp-things`
 
 ### Conventions
+- Starting a new project always mean creating a Project in Things underneath the OneSignal Area
 - Update todos as work progresses (mark complete, add notes)
 - Create new todos for discovered work
 - When backing out changes, update relevant todos accordingly
 
 ## Progress Logging (Obsidian)
 
-- **Obsidian** is used for detailed work journals
+- **Obsidian** is used for keeping detail progress notes
 - MCP server: `mcp-obsidian`
 - Vault: `OneSignal` (work-related)
 
 ### Journal Structure
 - Location: `Asana/<Project Name>/Journal/YYYY.MM.DD.md`
-- Title (H1) should be a brief summary of the session's outcome, not the date (the date is already in the filename)
+- The `Project Name` is a concice name that, if dash-cased, would be suitable for a `git branch`
+- The `project-tag` is the `Project Name` converted to dash-casing whose format is suitable for a `git branch`
+- Title (H1) should be a brief summary of the session's outcome, never mirror the name of the file in the Title
 - Format: Decision Log / ADR-lite style
 - Tags: `asana`, `<project-tag>`, `journal`
 
-### Journal Conventions
+### Project Journal Conventions
 - Capture: problems encountered, decisions made, solutions implemented
 - **Never put TODOs or next steps in journal entries** — those belong exclusively in Things.app
 - **Always ask before updating the journal** - never auto-update
 - If we back out a change, document that with reasoning
 - Periodically prompt me to update the journal after completing a problem/solution cycle
+
+### Daily Note Conventions
+- Daily Notes capture a chronological timeline of what's been worked on
+- Links are kept to relevant Project Journal documents
 
 ## Work Management (Asana)
 
@@ -47,12 +54,14 @@ The three systems should tell a coherent story:
 
 When beginning work on a task, offer to:
 1. Load the relevant Things project todos
-2. Read recent journal entries for context
+2. Read recent daily notes and project journal entries for context
 3. Check Asana for any updates
 
 ## Session End / Checkpoints
 
 Periodically (or when prompted), offer to:
 1. Update completed todos in Things
-2. Draft a journal entry summarizing progress
+2. Draft entries for both:
+  - Daily note (lightweight summary with links)
+  - Project journal (detailed technical decisions)
 3. Identify any new todos discovered during work

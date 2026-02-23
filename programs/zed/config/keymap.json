@@ -7,5 +7,59 @@
         "\u001b\r"
       ]
     }
+  },
+  {
+    "context": "((VimControl && !menu) || (!Editor && !Terminal))",
+    "bindings": {
+      "alt-]": "vim::GoToTab"
+    }
+  },
+  {
+    "context": "((VimControl && !menu) || (!Editor && !Terminal))",
+    "bindings": {
+      "alt-[": "vim::GoToPreviousTab"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "ctrl-alt-[": "pane::GoBack"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "alt-l": "pane::GoForward"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "space ] d": "editor::GoToDefinitionSplit"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "g ] t": "editor::GoToTypeDefinitionSplit"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+      "bindings": {
+      "space ] i": "editor::GoToImplementationSplit"
+    }
+  },
+  {
+    "context": "((os != macos && Editor) && edit_prediction_conflict)",
+    "bindings": {
+      "ctrl-alt-l": "editor::AcceptEditPrediction"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "alt-h": "pane::GoBack"
+    }
   }
 ]
