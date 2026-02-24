@@ -34,8 +34,11 @@
 - Periodically prompt me to update the journal after completing a problem/solution cycle
 
 ### Daily Note Conventions
+- Location: `Daily Notes/YYYY.MM.DD.md`
 - Daily Notes capture a chronological timeline of what's been worked on
 - Links are kept to relevant Project Journal documents
+- When appending to an existing daily note, use `mode: append` — never
+overwrite
 
 ## Work Management (Asana)
 
