@@ -80,10 +80,7 @@ in
       "claude-code"
       "cursor"
       "docker-desktop"
-      {
-        name = "ghostty@tip";
-        greedy = true;
-      }
+      "ghostty"
       "granola"
       "handbrake-app"
       "jordanbaird-ice"
