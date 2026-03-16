@@ -7,6 +7,14 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "agent_servers": {
+    "claude-acp": {
+      "default_config_options": {
+        "model": "opus"
+      },
+      "type": "registry"
+    }
+  },
   "use_system_window_tabs": true,
   "enable_language_server": true,
   "ssh_connections": [
@@ -192,7 +200,7 @@
   "soft_wrap": "editor_width",
   "terminal": {
     "font_weight": 350.0,
-    "dock": "right",
+    "dock": "bottom",
     "option_as_meta": true,
     // "font_size": 13.0,
   },
