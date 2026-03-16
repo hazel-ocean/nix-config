@@ -25,10 +25,6 @@
     helix.url = "github:helix-editor/helix";
     mcp-servers.url = "path:./packages/mcp-servers";
     obsidian-plugins.url = "path:./packages/obsidian-plugins";
-    tuios = {
-      url = "github:Gaurav-Gosain/tuios";
-      inputs.nixpkgs.follows = "nixpkgs-unstable"; # keep it compatible with your pkgs
-    };
   };
 
   outputs =
@@ -45,7 +41,6 @@
       helix,
       mcp-servers,
       obsidian-plugins,
-      tuios,
       nixos-raspberrypi,
       ...
     }:
@@ -57,7 +52,6 @@
             # Filter out the broken grammar
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
-          tuios = tuios.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default

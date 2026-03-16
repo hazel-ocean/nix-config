@@ -10,7 +10,7 @@ buildNpmPackage {
 
   inherit src;
 
-  npmDepsHash = "sha256-gDcG8axrutOv4kLDrHtUdO7oh9YmGhrKErFtN5ZUu1k=";
+  npmDepsHash = "sha256-cKEzttAbFBPZ7dhNs4JIcltkIftU2Y5PuxiCFCm14ew=";
 
   npmBuildScript = "build";
 
