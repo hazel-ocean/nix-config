@@ -3,11 +3,11 @@
     "mcp-obsidian-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1769293325,
-        "narHash": "sha256-yoRsDD+RkuyqNCakz/GZsLEP/1b9OM7/4XwyByYtPNU=",
+        "lastModified": 1773673169,
+        "narHash": "sha256-NsV4IjrO9CLd+9Jokpc6VidT1QNwNXwm61y7SrO22bQ=",
         "owner": "bitbonsai",
         "repo": "mcp-obsidian",
-        "rev": "884fe8f3fd29038d5be6412e4707576c23a743db",
+        "rev": "11f7ce29d633cdd569d51728878cb1b2b561a818",
         "type": "github"
       },
       "original": {

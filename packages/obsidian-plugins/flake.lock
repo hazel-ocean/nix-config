@@ -3,11 +3,11 @@
     "claude-code-acp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1770456650,
-        "narHash": "sha256-mILCBqKq75JYRAAdz/xmMZSs+keaoV9Y87GzLxxfFcM=",
+        "lastModified": 1773684415,
+        "narHash": "sha256-yPBP93O4pnhUMFG0gRw3KGVM6Rpvmvv2YZJsiuyxpNM=",
         "owner": "zed-industries",
         "repo": "claude-code-acp",
-        "rev": "7c87fe7a8c042a312f5c1645ded151c17bb73e9c",
+        "rev": "c40d7bc30f5485e2e2f20e27e17b72a8281cd1c2",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "obsidian-agent-client-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1770476835,
-        "narHash": "sha256-cDeTbMMJ7XBIoTBtrAWKpQOTLJFUa7x03/13FuHchC8=",
+        "lastModified": 1773563980,
+        "narHash": "sha256-cW3d845WflutfiZc+3oYBBI4WLhJTNADQta7y6L7VsQ=",
         "owner": "RAIT-09",
         "repo": "obsidian-agent-client",
-        "rev": "2a2f75d2e1484ec4a110a32bd6917a83fdcbe430",
+        "rev": "4fd43a341e234862642cf8687158e842e88e7975",
         "type": "github"
       },
       "original": {
