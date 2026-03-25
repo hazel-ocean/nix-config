@@ -9,7 +9,7 @@ buildNpmPackage {
   pname = "obsidian-agent-client";
   version = "0.7.5";
 
-  npmDepsHash = "sha256-kqZbJ5+TXUkGiQpZWoaCCQyd9Fbq4pRmDq25qEJM0/0=";
+  npmDepsHash = "sha256-xIUVigOXLbN3g0FyKiOANt89U3aitbrq8dk1YiGLNQk=";
   npmBuildScript = "build";
   dontNpmPack = true; # Don't try to run npm pack
 

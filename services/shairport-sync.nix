@@ -71,7 +71,7 @@ in
     xdg.configFile."shairport-sync/shairport-sync.conf".text = ''
       general = {
         name = "${cfg.name}";
-        output_backend = "pw";
+        output_backend = "alsa";
         drift_tolerance_in_seconds = ${toString cfg.driftTolerance};
         resync_threshold_in_seconds = ${toString cfg.resyncThreshold};
         audio_backend_buffer_desired_length_in_seconds = ${toString cfg.bufferLength};
@@ -79,7 +79,7 @@ in
       };
       sessioncontrol = {
         allow_session_interruption = "yes";
-        session_timeout = 20;
+        session_timeout = 60;
       };
       ${cfg.settings}
     '';
@@ -88,6 +88,8 @@ in
       Unit = {
         Description = "Shairport Sync - AirPlay Audio Receiver";
         After = [
+          "network.target"
+          "avahi-daemon.target"
           "pipewire.service"
           "pipewire-pulse.service"
         ];

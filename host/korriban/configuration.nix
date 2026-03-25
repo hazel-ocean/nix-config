@@ -16,7 +16,7 @@
   boot.initrd.kernelModules = [ "uinput" ];
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # Firmware
   services.fwupd.enable = true; # Rescue with `system76-firmware-cli schedule --proprietary`
@@ -196,17 +196,16 @@
     enable = true;
     polkitPolicyOwners = [ "hazel" ];
   };
-  programs.kdeconnect.enable = true;
 
   programs.gamemode.enable = true;
-  programs.gamescope = {
-    enable = true;
-    capSysNice = true;
-  };
+  programs.gamescope.enable = true;
   programs.steam = {
     enable = true;
     protontricks.enable = true;
-    gamescopeSession.enable = true;
+    gamescopeSession = {
+      enable = true;
+      env = { };
+    };
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
@@ -237,8 +236,6 @@
         hevc = true;
         av1 = true;
       };
-      # enableHardwareEncoding = true;
-      # hardware
     };
   };
 
@@ -250,7 +247,8 @@
     with pkgs;
     [
       brave
-      # firefoxpwa
+      firefox
+      google-chrome
       helix
       lapce
       zed-editor
@@ -278,9 +276,6 @@
       jellyfin-desktop
       jellyfin-web
 
-      gamescope
-      steam
-      steam-run
       protonup-ng
       lutris
       (heroic.override {
@@ -293,6 +288,9 @@
       bottles
 
       vesktop
+
+      jq
+      pulseaudio
     ]
     ++ (with pkgs.kdePackages; [
       discover
@@ -305,7 +303,6 @@
 
   environment.sessionVariables = {
     #   AMD_VULKAN_ICSD = "RADV";
-    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/hazel/.steam/root/compatibilitytools.d";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -323,7 +320,11 @@
   services.openssh = {
     enable = true;
     startWhenNeeded = true;
-    settings.PasswordAuthentication = false;
+    settings = {
+      PasswordAuthentication = false;
+      ClientAliveInterval = 30;
+      ClientAliveCountMax = 3;
+    };
   };
 
   # Open ports in the firewall.

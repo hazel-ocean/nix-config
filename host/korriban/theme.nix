@@ -1,6 +1,6 @@
 {
   name = "standard";
-  variant = "light";
+  variant = "dark";
   font.monospace = "Cascadia Code";
   terminal.transparency = false;
 }
