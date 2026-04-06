@@ -8,7 +8,10 @@ let
   HOME = "/Users/${USER}";
 in
 {
-  imports = [ ../../system/darwin.nix ];
+  imports = [
+    ../../system/common.nix
+    ../../system/darwin.nix
+  ];
 
   nix.settings.trusted-users = [ USER ];
 

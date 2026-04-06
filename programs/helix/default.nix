@@ -118,7 +118,7 @@ in
     nixd
     # nixfmt
     nixfmt-tree
-    nodePackages.vscode-langservers-extracted
+    vscode-langservers-extracted
     ruby-lsp
     solargraph
     terraform-ls
