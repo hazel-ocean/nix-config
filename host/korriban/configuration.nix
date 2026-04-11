@@ -16,7 +16,12 @@
   boot.initrd.kernelModules = [ "uinput" ];
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Workaround: HDMI wake black screen with amdgpu on recent kernels/Mesa.
+  # Disables PSR (Panel Self Refresh) which breaks HDMI handshake on wake,
+  # particularly with LG TVs. Remove once upstream regression is fixed.
+  boot.kernelParams = [ "video=HDMI-A-2:e" ];
 
   # Firmware
   services.fwupd.enable = true; # Rescue with `system76-firmware-cli schedule --proprietary`
@@ -103,11 +108,7 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
-  security.pam.services.sddm.enableKwallet = true;
+  services.displayManager.plasma-login-manager.enable = true;
 
   # services.displayManager.gdm.enable = true;
   # services.desktopManager.gnome.enable = true;
@@ -204,7 +205,14 @@
     protontricks.enable = true;
     gamescopeSession = {
       enable = true;
-      env = { };
+      args = [
+        "--hdr-enabled"
+        "--expose-wayland"
+      ];
+      env = {
+        DXVK_HDR = "1";
+        PROTON_ENABLE_WAYLAND = "1";
+      };
     };
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
@@ -278,6 +286,7 @@
 
       protonup-ng
       lutris
+      gamescope-wsi
       (heroic.override {
         extraPkgs =
           pkgs: with pkgs; [
@@ -303,6 +312,8 @@
 
   environment.sessionVariables = {
     #   AMD_VULKAN_ICSD = "RADV";
+    DXVK_HDR = "1";
+    PROTON_ENABLE_WAYLAND = "1";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -334,7 +345,8 @@
     allowedUDPPorts = [
       config.services.tailscale.port
       3389
-    ] ++ (builtins.genList (i: 6001 + i) 11); # UDP 6001-6011 for AirPlay audio
+    ]
+    ++ (builtins.genList (i: 6001 + i) 11); # UDP 6001-6011 for AirPlay audio
     allowedTCPPorts = [
       3389
       5000 # AirPlay RTSP (shairport-sync)

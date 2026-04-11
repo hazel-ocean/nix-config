@@ -185,9 +185,9 @@
     },
   },
   "theme": {
-    "mode": "system",
+    "mode": "dark",
     "light": "kontras-light",
-    "dark": "Dracula Solid",
+    "dark": "Twig_Dracula_ORIG",
   },
   "ui_font_size": 13.0,
   "buffer_font_family": "Maple Mono NF",
