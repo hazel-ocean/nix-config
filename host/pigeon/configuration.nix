@@ -100,7 +100,6 @@ in
     casks = [
       "1password"
       "android-studio"
-      "anytype"
       "brave-browser"
       "calibre"
       "chatgpt"
@@ -109,15 +108,10 @@ in
       "firefox"
       "focusrite-control"
       "gog-galaxy"
-      {
-        name = "ghostty@tip";
-        greedy = true;
-      }
+      "ghostty"
       "granola"
       "handbrake-app"
       "jordanbaird-ice"
-      "librewolf"
-      "logi-options+"
       "macwhisper"
       "musescore"
       "monocle-app"
@@ -139,7 +133,6 @@ in
       "swiftformat-for-xcode"
       "tableplus"
       "thingsmacsandboxhelper"
-      "utm"
       "visual-studio-code"
       "vlc"
       {
@@ -147,7 +140,6 @@ in
         greedy = true;
       }
       "zed"
-      "zen"
       "zoom"
     ];
   };
