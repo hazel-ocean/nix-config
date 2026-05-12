@@ -48,6 +48,8 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
+confirm-close-surface = false
+
 theme = light:Xcode Light,dark:Xcode Dark hc
 # theme = light:Xcode Light,dark:Violite
 # theme = light:Xcode Light,dark:Mellow

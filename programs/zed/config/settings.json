@@ -7,11 +7,21 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "agent_servers": {
     "claude-acp": {
-      "default_config_options": {
-        "model": "opus"
-      },
       "type": "registry"
     }
   },
@@ -64,7 +74,6 @@
   },
   "title_bar": {
     "show_menus": false,
-    "show_branch_icon": false,
   },
   "file_finder": {
     "modal_max_width": "small",
@@ -98,16 +107,20 @@
   "helix_mode": true,
   "disable_ai": false,
   "icon_theme": {
-    "mode": "system",
-    "light": "Catppuccin Macchiato",
+    "mode": "light",
+    "light": "Catppuccin Latte",
     "dark": "Catppuccin Macchiato",
   },
   "edit_predictions": {
     "mode": "subtle",
   },
   "agent": {
+    "dock": "right",
     "tool_permissions": {
       "tools": {
+        "mcp:things:get_headings": {
+          "default": "allow"
+        },
         "mcp:obsidian:list_directory": {
           "default": "allow",
         },
@@ -125,21 +138,8 @@
         },
       },
     },
-    "favorite_models": [
-      {
-        "provider": "anthropic",
-        "model": "claude-opus-4-6-thinking-latest",
-      },
-      {
-        "provider": "anthropic",
-        "model": "claude-sonnet-4-5-thinking-latest",
-      },
-      {
-        "provider": "anthropic",
-        "model": "claude-haiku-4-5-latest",
-      },
-    ],
-    "play_sound_when_agent_done": true,
+    "favorite_models": [],
+    "play_sound_when_agent_done": "when_hidden",
     "inline_assistant_model": {
       "provider": "anthropic",
       "model": "claude-sonnet-4-6-thinking-latest",
@@ -185,9 +185,9 @@
     },
   },
   "theme": {
-    "mode": "dark",
-    "light": "kontras-light",
-    "dark": "Twig_Dracula_ORIG",
+    "mode": "system",
+    "light": "Dracula Light (Alucard)",
+    "dark": "Catppuccin Mocha"
   },
   "ui_font_size": 13.0,
   "buffer_font_family": "Maple Mono NF",

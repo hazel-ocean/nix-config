@@ -15,29 +15,32 @@
     # mcp-nixos # TODO: use flake from github repo
   ];
 
-  home.file."Library/Application Support/Claude/claude_desktop_config.json".text = builtins.toJSON {
-    mcpServers = {
-      obsidian = {
-        command = "${pkgs.mcp-obsidian}/bin/mcp-obsidian";
-        args = [ "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/" ];
-      };
-      things = {
-        command = "${pkgs.mcp-things}/bin/mcp-things";
-        args = [ ];
-      };
-      asana = {
-        command = "/bin/sh";
-        args = [
-          "-c"
-          "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
-        ];
-      };
-      slack = {
-        command = "/bin/sh";
-        args = [
-          "-c"
-          "export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec ${pkgs.mcp-slack}/bin/mcp-slack"
-        ];
+  home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
+    force = true;
+    text = builtins.toJSON {
+      mcpServers = {
+        obsidian = {
+          command = "${pkgs.mcp-obsidian}/bin/mcp-obsidian";
+          args = [ "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/" ];
+        };
+        things = {
+          command = "${pkgs.mcp-things}/bin/mcp-things";
+          args = [ ];
+        };
+        asana = {
+          command = "/bin/sh";
+          args = [
+            "-c"
+            "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
+          ];
+        };
+        slack = {
+          command = "/bin/sh";
+          args = [
+            "-c"
+            "export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec ${pkgs.mcp-slack}/bin/mcp-slack"
+          ];
+        };
       };
     };
   };
