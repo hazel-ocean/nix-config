@@ -3,11 +3,17 @@
 {
   imports = [ ./packages.nix ];
 
-  nix.settings.experimental-features = [
-    "flakes"
-    "nix-command"
-    "pipe-operators"
-  ];
+  nix.settings = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+    experimental-features = [
+      "flakes"
+      "nix-command"
+      "pipe-operators"
+    ];
+  };
 
   # Bootloader
   boot.loader.systemd-boot.enable = true;

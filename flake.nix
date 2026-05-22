@@ -23,6 +23,10 @@
     };
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     helix.url = "github:helix-editor/helix";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     mcp-servers.url = "path:./packages/mcp-servers";
     obsidian-plugins.url = "path:./packages/obsidian-plugins";
   };
@@ -38,10 +42,11 @@
       nix-darwin,
       flake-utils,
       zjstatus,
+      nixos-raspberrypi,
       helix,
+      noctalia,
       mcp-servers,
       obsidian-plugins,
-      nixos-raspberrypi,
       ...
     }:
     let
@@ -52,6 +57,7 @@
             # Filter out the broken grammar
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
+          noctalia-git = noctalia.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default
@@ -92,7 +98,8 @@
                   imports = [
                     ./programs/zed
                     ./host/${hostname}/home-configuration.nix
-                  ] ++ extraImports;
+                  ]
+                  ++ extraImports;
                 };
               };
             }
@@ -115,6 +122,11 @@
           homeDirectory = "/home/${username}";
           overlays = baseOverlays ++ [
             (import ./overlay/theme { source = ./host/${hostname}/theme.nix; })
+            (final: prev: {
+              openldap = prev.openldap.overrideAttrs (_: {
+                doCheck = !prev.stdenv.hostPlatform.isi686;
+              });
+            })
           ];
         in
         nixpkgs.lib.nixosSystem {
@@ -136,11 +148,14 @@
                   imports = [
                     ./programs/zed
                     ./host/${hostname}/home-configuration.nix
-                  ] ++ extraImports;
+                    inputs.noctalia.homeModules.default
+                  ]
+                  ++ extraImports;
                 };
               };
             }
-          ] ++ extraModules;
+          ]
+          ++ extraModules;
         };
     in
     flake-utils.lib.eachDefaultSystem (

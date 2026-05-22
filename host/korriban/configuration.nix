@@ -259,6 +259,7 @@
       google-chrome
       helix
       lapce
+      # noctalia-git
       zed-editor
       zellij
       yazi
