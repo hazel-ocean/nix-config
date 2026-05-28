@@ -195,6 +195,7 @@
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
+    package = pkgs._1password-gui-beta;
     polkitPolicyOwners = [ "hazel" ];
   };
 
@@ -234,16 +235,23 @@
     transcoding = {
       enableHardwareEncoding = true;
       hardwareDecodingCodecs = {
+        av1 = true;
         h264 = true;
-        vp9 = true;
         hevc = true;
         hevc10bit = true;
-        av1 = true;
+        hevcRExt10bit = true;
+        hevcRExt12bit = true;
+        mpeg2 = true;
+        vc1 = true;
+        vp8 = true;
+        vp9 = true;
       };
       hardwareEncodingCodecs = {
         hevc = true;
         av1 = true;
       };
+      enableSubtitleExtraction = true;
+      enableToneMapping = true;
     };
   };
 
@@ -260,6 +268,7 @@
       helix
       lapce
       # noctalia-git
+      vlc
       zed-editor
       zellij
       yazi
@@ -298,6 +307,7 @@
       bottles
 
       vesktop
+      discord-canary
 
       jq
       pulseaudio
