@@ -2,7 +2,7 @@
 
 {
   programs.claude-code = {
-    memory.source = ./memory.md;
-    skillsDir = ./skills;
+    context = ./memory.md;
+    skills = ./skills;
   };
 }

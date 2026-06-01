@@ -119,7 +119,7 @@ in
     # nixfmt
     nixfmt-tree
     vscode-langservers-extracted
-    ruby-lsp
+    # ruby-lsp
     solargraph
     terraform-ls
     typescript-language-server

@@ -202,7 +202,7 @@
   "soft_wrap": "editor_width",
   "terminal": {
     "font_weight": 350.0,
-    "dock": "right",
+    "dock": "bottom",
     "option_as_meta": true,
     // "font_size": 13.0,
   },
