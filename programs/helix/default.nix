@@ -71,6 +71,24 @@ in
     package = pkgs.helix-latest;
     defaultEditor = true;
 
+    extraPackages = with pkgs; [
+      alejandra
+      buf
+      docker-compose-language-service
+      gopls
+      marksman
+      nixd
+      # nixfmt
+      nixfmt-tree
+      vscode-langservers-extracted
+      ruby-lsp
+      solargraph
+      terraform-ls
+      typescript-language-server
+
+      sleek # SQL formatter
+    ];
+
     settings = {
       theme = {
         light = pkgs.theme.helix.light;
@@ -108,22 +126,4 @@ in
       };
     };
   };
-
-  home.packages = with pkgs; [
-    alejandra
-    buf
-    docker-compose-language-service
-    gopls
-    marksman
-    nixd
-    # nixfmt
-    nixfmt-tree
-    vscode-langservers-extracted
-    # ruby-lsp
-    solargraph
-    terraform-ls
-    typescript-language-server
-
-    sleek # SQL formatter
-  ];
 }
