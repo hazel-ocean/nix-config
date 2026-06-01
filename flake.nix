@@ -2,7 +2,7 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixos-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     zjstatus.url = "github:dj95/zjstatus";
     nix-darwin = {
@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     home-manager-nixos-stable = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixos-stable";
     };
     home-manager-nixos-unstable = {
@@ -23,10 +23,7 @@
     };
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     helix.url = "github:helix-editor/helix";
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
     mcp-servers.url = "path:./packages/mcp-servers";
     obsidian-plugins.url = "path:./packages/obsidian-plugins";
   };
@@ -201,6 +198,8 @@
         username = "hazel";
         stateVersion = "25.11";
         system = "x86_64-linux";
+        nixpkgs = nixos-stable;
+        home-manager = home-manager-nixos-stable;
       };
 
       nixosConfigurations.rpi5 = nixos-raspberrypi.lib.nixosInstaller {
