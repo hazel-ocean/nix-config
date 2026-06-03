@@ -33,7 +33,10 @@ in
 
     onActivation = {
       cleanup = "zap";
-      extraFlags = [ "--force-cleanup" ];
+      extraFlags = [
+        "--force"
+        "--force-cleanup"
+      ];
     };
 
     taps = [ ];

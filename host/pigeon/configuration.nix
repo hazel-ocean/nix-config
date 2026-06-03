@@ -70,7 +70,10 @@ in
 
     onActivation = {
       cleanup = "zap";
-      extraFlags = [ "--force-cleanup" ];
+      extraFlags = [
+        "--force"
+        "--force-cleanup"
+      ];
     };
 
     taps = [ ];
@@ -121,7 +124,6 @@ in
       "moonlight"
       "nvidia-geforce-now"
       "obsidian"
-      "orbstack"
       "plex"
       "protonvpn"
       "qbittorrent"
