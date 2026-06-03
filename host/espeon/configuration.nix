@@ -86,7 +86,6 @@ in
       "google-drive"
       "granola"
       "handbrake-app"
-      "jordanbaird-ice"
       "linear"
       "logi-options+"
       "macwhisper"
@@ -99,6 +98,7 @@ in
       "rectangle-pro"
       "slack"
       "tableplus"
+      "thaw"
       "thingsmacsandboxhelper"
       "vlc"
       {
