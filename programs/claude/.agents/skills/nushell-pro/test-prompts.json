@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "prompt": "Review this Nushell snippet and fix the string quoting/interpolation mistakes: let msg = $\"hello\"; print \"User: ($name)\"; print $'\\nDone'; let pattern = \"(?:src|lib)/.*\\.nu\"",
+    "expected": "Detect incorrect double quotes, missing interpolation prefix, invalid single-quote escaping, and regex quoting; return corrected Nushell with explanations."
+  },
+  {
+    "id": 2,
+    "prompt": "Convert a Bash script that builds command strings, writes files with >, and uses grep into idiomatic Nushell, preserving security and string escaping behavior.",
+    "expected": "Use argument separation, save/save --append, structured Nushell commands where possible, and correct string forms for literals, interpolation, escapes, and regex."
+  },
+  {
+    "id": 3,
+    "prompt": "Write a Nushell function that formats a colored status line containing a package name/version, a literal newline, and a regex filter supplied as configuration.",
+    "expected": "Choose $'...' for ansi/char interpolation without escapes, $\"...\\n\" only when escape sequences are required, and raw strings for regex examples."
+  },
+  {
+    "id": 4,
+    "prompt": "I have a 5-million-row sales.csv. Group by category, sum the amount, and return the top categories. Write idiomatic Nushell.",
+    "expected": "Use the Polars plugin instead of native loops for data this large: polars open (lazy by default), polars group-by + agg (polars col amount | polars sum | polars as total), sort-by total -r [true] for top categories, then collect once."
+  },
+  {
+    "id": 5,
+    "prompt": "Review a Nushell pipeline that does `open app.log | parse -r '^(?<level>\\\\w+) (?<message>.*)$'` and expects one parsed row per log line.",
+    "expected": "Flag the 0.113+ parse behavior change: parse no longer implicitly line-splits stream input, so insert `lines` before `parse` for line-by-line parsing."
+  },
+  {
+    "id": 6,
+    "prompt": "Review a Nushell script where a custom command call puts `--format json` and `--strict` on following lines, and external examples use `git log --format='%H\\t%an'` or `git log --format=\"%H\\\\t%an\"` while expecting tab-separated output.",
+    "expected": "Flag the multiline named-flag call unless it is grouped with parentheses, and recommend `--format=\"%H\\t%an\"` as the simple preferred fix: one backslash in double quotes. Use `(char tab)` / `(char nl)` when interpolation or explicit separators are needed."
+  }
+]

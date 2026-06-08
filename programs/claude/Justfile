@@ -1,0 +1,12 @@
+_default:
+    just --list
+    @echo
+    npx skills --help | head -15
+
+# Runs `npx skills` with the provided args
+skills *args='--help':
+    npx skills {{ args }}
+
+# Adds a Claude skill by url & name
+add-skill url name:
+    npx skills add {{ url  }} --skill {{ name }}

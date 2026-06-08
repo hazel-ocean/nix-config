@@ -3,6 +3,6 @@
 {
   programs.claude-code = {
     context = ./memory.md;
-    skills = ./skills;
+    skills = ./.agents/skills;
   };
 }
