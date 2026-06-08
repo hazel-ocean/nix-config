@@ -48,13 +48,18 @@ $env.config.keybindings = (
       event: [
         {
           send: ExecuteHostCommand
-          cmd: "commandline (
-            history
-              | each { |it| $it.command }
+          cmd: "commandline edit --insert (
+            (history).command
               | uniq
               | reverse
               | str join (char -i 0)
-              | fzf --read0 --layout=reverse --height=40% -q (commandline)
+              | fzf --scheme history
+                    --read0
+                    --layout=reverse
+                    --height=40%
+                    --bind 'ctrl-/:change-preview-window(right,70%|right)'
+                    --preview='echo -n {} | nu --stdin -c \'nu-highlight\''
+                    --preview-window=left
               | decode utf-8
               | str trim
           )"
