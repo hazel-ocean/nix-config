@@ -5,7 +5,7 @@
 }:
 let
   inherit (lib) strings;
-  inherit (pkgs) stdenv theme zjstatus;
+  inherit (pkgs) stdenv theme zellijPlugins room;
 
   configText = ''
     theme "${theme.zellij}"
@@ -13,7 +13,8 @@ let
     ${builtins.readFile ./config.kdl}
 
     plugins {
-      zjstatus location="file:${zjstatus}/bin/zjstatus.wasm" {
+      room location="file:${room}/lib/zellij/plugins/room.wasm"
+      zjstatus location="file:${zellijPlugins.zjstatus}" {
         format_left  "{mode} #[fg=#89B4FA,bold]{session} {tabs}"
         // format_right "{command_git_branch} {datetime}"
         format_right "{datetime}"
@@ -56,7 +57,6 @@ let
 in
 {
   programs.zellij.enable = true;
-  home.packages = [ zjstatus ];
 
   xdg.configFile = {
     "zellij/layouts/default.kdl".source = ./zjstatus_layout.kdl;

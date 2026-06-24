@@ -40,6 +40,9 @@ in
     command = "nu"
     args = ["--lsp"]
 
+    [language-server.rust-analyzer.config.cargo]
+    allFeatures = true
+
     [[language]]
     name = "nix"
     language-servers = ["nixd"]

@@ -4,7 +4,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    zjstatus.url = "github:dj95/zjstatus";
+    room.url = "github:rvcas/room";
     nix-darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -38,7 +38,7 @@
       nixos-stable,
       nix-darwin,
       flake-utils,
-      zjstatus,
+      room,
       nixos-raspberrypi,
       helix,
       noctalia,
@@ -49,7 +49,7 @@
     let
       baseOverlays = [
         (final: prev: {
-          zjstatus = zjstatus.packages.${prev.stdenv.hostPlatform.system}.default;
+          room = room.packages.${prev.stdenv.hostPlatform.system}.default;
           helix-latest = helix.packages.${prev.stdenv.hostPlatform.system}.default.override {
             # Filter out the broken grammar
             includeGrammarIf = grammar: grammar.name != "lua-format-string";

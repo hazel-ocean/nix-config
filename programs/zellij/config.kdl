@@ -7,6 +7,15 @@ keybinds {
   scroll {
     bind "c" { Clear; }
   }
+  shared_except "locked" {
+    bind "Ctrl y" {
+      LaunchOrFocusPlugin "room" {
+        floating true
+        ignore_case true
+        quick_jump true
+      }
+    }
+  }
 }
 
 themes {
