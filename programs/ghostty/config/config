@@ -108,3 +108,6 @@ window-subtitle = false
 # Quick Terminal
 keybind = global:super+alt+ctrl+shift+t=toggle_quick_terminal
 quick-terminal-position=center
+
+# Capabilities
+desktop-notifications = true

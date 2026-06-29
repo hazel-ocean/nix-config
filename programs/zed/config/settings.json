@@ -22,6 +22,10 @@
   },
   "agent_servers": {
     "claude-acp": {
+      "default_config_options": {
+        "effort": "high",
+        "model": "opus[1m]"
+      },
       "type": "registry"
     }
   },
@@ -63,7 +67,7 @@
   "tab_bar": {
     "show": true,
   },
-  "ui_font_family": "Inter",
+  "ui_font_family": ".SystemUIFont",
   "ui_font_weight": 400.0,
   "tabs": {
     "show_close_button": "hover",
@@ -107,7 +111,7 @@
   "helix_mode": true,
   "disable_ai": false,
   "icon_theme": {
-    "mode": "light",
+    "mode": "dark",
     "light": "Catppuccin Latte",
     "dark": "Catppuccin Macchiato",
   },
@@ -138,7 +142,14 @@
         },
       },
     },
-    "favorite_models": [],
+    "favorite_models": [
+      {
+        "provider": "anthropic",
+        "model": "claude-opus-4-8",
+        "enable_thinking": true,
+        "effort": "high"
+      }
+    ],
     "play_sound_when_agent_done": "when_hidden",
     "inline_assistant_model": {
       "provider": "anthropic",
@@ -149,7 +160,7 @@
       "effort": "high",
       "enable_thinking": true,
       "provider": "anthropic",
-      "model": "claude-opus-4-6-latest",
+      "model": "claude-opus-4-8",
     },
   },
   "context_servers": {
@@ -186,10 +197,10 @@
   },
   "theme": {
     "mode": "system",
-    "light": "Dracula Light (Alucard)",
+    "light": "kontras-light",
     "dark": "Catppuccin Mocha"
   },
-  "ui_font_size": 13.0,
+  "ui_font_size": 14.0,
   "buffer_font_family": "Maple Mono NF",
   "buffer_font_size": 13.0,
   "experimental.theme_overrides": {
