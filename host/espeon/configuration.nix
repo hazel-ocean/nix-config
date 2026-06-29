@@ -105,10 +105,7 @@ in
       "thaw"
       "thingsmacsandboxhelper"
       "vlc"
-      {
-        name = "wezterm@nightly";
-        greedy = true;
-      }
+      "wezterm"
       "wispr-flow"
       "zed"
       "zoom"

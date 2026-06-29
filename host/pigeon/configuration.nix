@@ -141,10 +141,7 @@ in
       "thingsmacsandboxhelper"
       "visual-studio-code"
       "vlc"
-      {
-        name = "wezterm@nightly";
-        greedy = true;
-      }
+      "wezterm"
       "zed"
       "zoom"
     ];
