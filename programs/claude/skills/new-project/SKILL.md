@@ -1,17 +1,17 @@
 ---
 name: new-project
-description: Set up a new project from an Asana task link (and optional Slack links). Gathers context from all sources, proposes a plan for validation, then creates linked entries in Things (task management) and Obsidian (documentation). Use when the user provides an Asana task URL and wants to start working on it.
-allowed-tools: Read, Grep, asana_get_task, asana_search_tasks, asana_get_project, asana_get_project_sections, asana_search_projects, add_project, add_todo, get_areas, get_projects, search_notes, write_note, read_note, read_multiple_notes, fetch, now
+description: Set up a new project from a Linear issue link (and optional Slack links). Gathers context from all sources, proposes a plan for validation, then creates linked entries in Things (task management) and Obsidian (documentation). Use when the user provides a Linear issue URL and wants to start working on it.
+allowed-tools: Read, Grep, get_issue, list_issues, list_comments, get_project, get_team, get_milestone, add_project, add_todo, get_areas, get_projects, search_notes, write_note, read_note, read_multiple_notes, fetch, now
 ---
 
 # New Project Setup
 
-Set up a complete project workspace from an Asana task. Gathers context from Asana, Slack discussions, and existing Obsidian notes, then proposes a plan for the user to validate before creating anything.
+Set up a complete project workspace from a Linear issue. Gathers context from Linear, Slack discussions, and existing Obsidian notes, then proposes a plan for the user to validate before creating anything.
 
 ## Input
 
 **Required:**
-- An Asana task URL, e.g.: `https://app.asana.com/0/1234567890/0987654321`
+- A Linear issue URL, e.g.: `https://linear.app/<workspace>/issue/ENG-123/some-slug`
 
 **Optional:**
 - One or more Slack message/thread links for relevant discussions
@@ -19,25 +19,27 @@ Set up a complete project workspace from an Asana task. Gathers context from Asa
 
 ## Philosophy
 
-The local workspace (Things + Obsidian) represents **your own mental model** of the work — not a mirror of how stories and projects are structured in Asana. The person who wrote the Asana stories has their own way of decomposing work; you have yours. The Things project should contain tasks that make sense for how *you* want to approach the work, which may differ significantly from the Asana subtask structure.
+The local workspace (Things + Obsidian) represents **your own mental model** of the work — not a mirror of how issues and projects are structured in Linear. The person who wrote the Linear issues has their own way of decomposing work; you have yours. The Things project should contain tasks that make sense for how *you* want to approach the work, which may differ significantly from the Linear sub-issue structure.
 
 - **Things** is the sole place for task tracking and work breakdown
 - **Obsidian** is for context, documentation, and reference — not task tracking
-- Asana is the upstream source of truth for requirements, but not for your personal workflow
+- Linear is the upstream source of truth for requirements, but not for your personal workflow
 
 ## Steps
 
 ### 1. Gather Context (all sources)
 
-#### Asana
-Extract the task GID from the URL and fetch details:
-- Name and description
-- Due date and assignee
-- Acceptance criteria (often in description or subtasks)
-- Parent project/section for broader context
-- Related tasks (blocking, dependent) for additional context
+#### Linear
+Extract the issue identifier from the URL (e.g. `ENG-123` from `https://linear.app/<workspace>/issue/ENG-123/...`) and fetch details with `get_issue`:
+- Title and description
+- Status, priority, and assignee
+- Due/target date
+- Acceptance criteria (often in the description or sub-issues)
+- Parent issue, project, team, and milestone for broader context (`get_project`, `get_team`, `get_milestone`)
+- Comments (`list_comments`) for discussion and decisions
+- Related (blocking, blocked-by) issues for additional context
 
-Read subtasks and related items to understand the full scope, but do **not** treat Asana's structure as a template for local organization.
+Read sub-issues and related items to understand the full scope, but do **not** treat Linear's structure as a template for local organization.
 
 #### Slack (if links provided)
 Fetch each Slack link and extract:
@@ -106,31 +108,31 @@ Create under the **"✨ Priorities"** area with:
 |-------|-------|
 | Title | The project name |
 | When | Today |
-| Deadline | From Asana (if present) |
+| Deadline | From Linear (if present) |
 | Notes | See format below |
 | Todos | Tasks from the validated proposal |
 
 **Notes format:**
 ```
-**Asana:** <asana-url>
-**Obsidian:** obsidian://open?vault=OneSignal&file=Asana%2F<project-name>%2F<project-name>
+**Linear:** <linear-url>
+**Obsidian:** obsidian://open?vault=OneSignal&file=Linear%2F<project-name>%2F<project-name>
 ```
 
-The todos should reflect **your own decomposition** of the work — how you plan to approach it, what you want to tackle first, what logical chunks make sense to you. This is explicitly **not** a copy of the Asana subtask list.
+The todos should reflect **your own decomposition** of the work — how you plan to approach it, what you want to tackle first, what logical chunks make sense to you. This is explicitly **not** a copy of the Linear sub-issue list.
 
 ### 5. Create Obsidian Context Note
 
-Create at `Asana/<Project Name>/<Project Name>.md`
+Create at `Linear/<Project Name>/<Project Name>.md`
 
 Use the template at [obsidian-template.md](obsidian-template.md) with these values:
-- `{{type}}`: `feature`, `bug`, or `tech-debt` based on the task
-- `{{asana-url}}`: The original Asana task URL
+- `{{type}}`: `feature`, `bug`, or `tech-debt` based on the issue
+- `{{linear-url}}`: The original Linear issue URL
 - `{{things-uuid}}`: UUID from the Things project you just created
 - `{{date}}`: Today's date in YYYY.MM.DD format
 - `{{project-name}}`: The generated project name
 - `{{task-summary}}`: Brief summary synthesized from all sources
-- `{{acceptance-criteria}}`: From Asana task or "To be defined"
-- `{{technical-context}}`: Synthesized from Obsidian search, Slack discussions, and Asana details
+- `{{acceptance-criteria}}`: From the Linear issue or "To be defined"
+- `{{technical-context}}`: Synthesized from Obsidian search, Slack discussions, and Linear details
 - `{{slack-summary}}`: Summary of Slack discussions (omit section if no Slack links)
 - `{{related-notes}}`: Wiki-links to relevant existing notes
 
@@ -145,8 +147,8 @@ Confirm what was created:
 
 **Links:**
 - Things: things:///show?id=<uuid>
-- Obsidian: obsidian://open?vault=OneSignal&file=Asana%2F<project-name>%2F<project-name>
-- Asana: <original-url>
+- Obsidian: obsidian://open?vault=OneSignal&file=Linear%2F<project-name>%2F<project-name>
+- Linear: <original-url>
 
 **Your tasks in Things:**
 1. <task-1>
@@ -160,4 +162,4 @@ Confirm what was created:
 - If the project name might conflict with existing projects, ask before proceeding
 - The Obsidian note is purely for reference and context — all task tracking belongs in Things
 - Slack summaries should capture decisions and context, not full transcripts
-- When decomposing work into Things tasks, think about what logical steps make sense from an engineer's perspective, not what sections or subtasks exist in Asana
+- When decomposing work into Things tasks, think about what logical steps make sense from an engineer's perspective, not what sub-issues exist in Linear

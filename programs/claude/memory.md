@@ -19,12 +19,12 @@
 - Vault: `OneSignal` (work-related)
 
 ### Journal Structure
-- Location: `Asana/<Project Name>/Journal/YYYY.MM.DD.md`
+- Location: `Linear/<Project Name>/Journal/YYYY.MM.DD.md`
 - The `Project Name` is a concice name that, if dash-cased, would be suitable for a `git branch`
 - The `project-tag` is the `Project Name` converted to dash-casing whose format is suitable for a `git branch`
 - Title (H1) should be a brief summary of the session's outcome, never mirror the name of the file in the Title
 - Format: Decision Log / ADR-lite style
-- Tags: `asana`, `<project-tag>`, `journal`
+- Tags: `linear`, `<project-tag>`, `journal`
 
 ### Project Journal Conventions
 - Capture: problems encountered, decisions made, solutions implemented
@@ -40,16 +40,16 @@
 - When appending to an existing daily note, use `mode: append` — never
 overwrite
 
-## Work Management (Asana)
+## Work Management (Linear)
 
-- **Asana** tracks work items and projects at the team level
-- MCP server: `mcp-asana`
-- Things projects often link to Asana tasks
+- **Linear** tracks work items and projects at the team level
+- MCP server: `Linear` (claude.ai connector)
+- Things projects often link to Linear issues
 
 ## Keeping Things in Sync
 
 The three systems should tell a coherent story:
-1. **Asana** - What needs to be done (team-visible)
+1. **Linear** - What needs to be done (team-visible)
 2. **Things** - My personal breakdown of the work (todos)
 3. **Obsidian** - Detailed log of how the work was done (journal)
 
@@ -58,7 +58,7 @@ The three systems should tell a coherent story:
 When beginning work on a task, offer to:
 1. Load the relevant Things project todos
 2. Read recent daily notes and project journal entries for context
-3. Check Asana for any updates
+3. Check Linear for any updates
 
 ## Session End / Checkpoints
 

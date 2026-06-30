@@ -1,8 +1,8 @@
 ---
 tags:
-  - asana
+  - linear
   - {{type}} # feature, bug, or tech-debt
-asana-link: {{asana-url}}
+linear-link: {{linear-url}}
 things-link: things:///show?id={{things-uuid}}
 created: {{date}}
 ---

@@ -219,27 +219,9 @@
         "type": "github"
       }
     },
-    "mcp-server-asana-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1739041085,
-        "narHash": "sha256-FD23+mVGcxQrFxBOZh8Oo2XNAFveGR8jEeZS2a6mb9E=",
-        "owner": "roychri",
-        "repo": "mcp-server-asana",
-        "rev": "8509a5c4a2bf58115f89524913cd2623602bf9b5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "roychri",
-        "ref": "v1.6.0",
-        "repo": "mcp-server-asana",
-        "type": "github"
-      }
-    },
     "mcp-servers": {
       "inputs": {
         "mcp-obsidian-src": "mcp-obsidian-src",
-        "mcp-server-asana-src": "mcp-server-asana-src",
         "mcp-slack-src": "mcp-slack-src",
         "mcp-things-src": "mcp-things-src"
       },

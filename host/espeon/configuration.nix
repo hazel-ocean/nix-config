@@ -79,7 +79,6 @@ in
 
     casks = [
       "1password"
-      "asana"
       "bitwarden"
       "brave-browser"
       "chatgpt"

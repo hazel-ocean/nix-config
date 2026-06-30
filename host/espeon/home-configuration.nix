@@ -7,7 +7,6 @@
   home.packages = with pkgs; [
     mcp-things
     mcp-obsidian
-    mcp-asana
     mcp-slack
     obsidian-agent-client
     claude-code-acp
@@ -26,13 +25,6 @@
         things = {
           command = "${pkgs.mcp-things}/bin/mcp-things";
           args = [ ];
-        };
-        asana = {
-          command = "/bin/sh";
-          args = [
-            "-c"
-            "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
-          ];
         };
         slack = {
           command = "/bin/sh";
@@ -57,14 +49,6 @@
         type = "stdio";
         command = "${pkgs.mcp-things}/bin/mcp-things";
         args = [ ];
-      };
-      asana = {
-        type = "stdio";
-        command = "/bin/sh";
-        args = [
-          "-c"
-          "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec ${pkgs.mcp-asana}/bin/mcp-asana"
-        ];
       };
       slack = {
         type = "stdio";

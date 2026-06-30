@@ -137,9 +137,6 @@
         "mcp:obsidian:read_note": {
           "default": "allow",
         },
-        "mcp:asana:asana_get_task": {
-          "default": "allow",
-        },
       },
     },
     "favorite_models": [
@@ -172,14 +169,6 @@
       "command": "/etc/profiles/per-user/hazel/bin/mcp-obsidian",
       "args": [
         "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/",
-      ],
-    },
-    "asana": {
-      "enabled": true,
-      "command": "/bin/sh",
-      "args": [
-        "-c",
-        "export ASANA_ACCESS_TOKEN=$(cat ~/.config/mcp-asana/access-token) && exec /etc/profiles/per-user/hazel/bin/mcp-asana",
       ],
     },
   },

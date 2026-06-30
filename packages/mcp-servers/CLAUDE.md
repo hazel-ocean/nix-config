@@ -19,8 +19,7 @@ packages/mcp-servers/
 ├── CLAUDE.md        # This file
 ├── README.md        # User-facing documentation
 ├── default.nix      # Deprecated - see flake.nix
-├── asana.nix        # Package definitions (receive `src` as parameter)
-├── obsidian.nix
+├── obsidian.nix     # Package definitions (receive `src` as parameter)
 └── things.nix
 ```
 
@@ -30,17 +29,17 @@ All MCP server packages MUST follow this naming pattern:
 
 | Component        | Convention                 | Example                |
 | ---------------- | -------------------------- | ---------------------- |
-| Nix package name | `mcp-<service>`            | `mcp-asana`            |
-| Binary name      | `mcp-<service>`            | `mcp-asana`            |
-| Nix file name    | `<service>.nix`            | `asana.nix`            |
-| Flake input name | `mcp-<service>-src`        | `mcp-server-asana-src` |
-| Config directory | `~/.config/mcp-<service>/` | `~/.config/mcp-asana/` |
+| Nix package name | `mcp-<service>`            | `mcp-obsidian`            |
+| Binary name      | `mcp-<service>`            | `mcp-obsidian`            |
+| Nix file name    | `<service>.nix`            | `obsidian.nix`            |
+| Flake input name | `mcp-<service>-src`        | `mcp-obsidian-src`        |
+| Config directory | `~/.config/mcp-<service>/` | `~/.config/mcp-obsidian/` |
 
-If the upstream package produces a differently-named binary (e.g., `mcp-server-asana`), create a symlink in `postInstall`:
+If the upstream package produces a differently-named binary (e.g., `slack-mcp-server`), create a symlink in `postInstall`:
 
 ```nix
 postInstall = ''
-  ln -s $out/bin/mcp-server-asana $out/bin/mcp-asana
+  ln -s $out/bin/slack-mcp-server $out/bin/mcp-slack
 '';
 ```
 
@@ -48,7 +47,7 @@ And set `mainProgram` to the consistent name:
 
 ```nix
 meta = with lib; {
-  mainProgram = "mcp-asana";
+  mainProgram = "mcp-slack";
 };
 ```
 
@@ -180,7 +179,7 @@ To update a specific source:
 
 ```bash
 cd packages/mcp-servers
-nix flake update mcp-server-asana-src
+nix flake update mcp-obsidian-src
 ```
 
 After updating, rebuild and fix any hash mismatches:
@@ -280,7 +279,7 @@ claude mcp list
 
 All servers should show `✓ Connected`.
 
-Note: Standalone builds (`nix build .#mcp-asana` from within the sub-flake) are not supported since the sub-flake doesn't have a nixpkgs input. Test through the parent flake instead.
+Note: Standalone builds (`nix build .#mcp-obsidian` from within the sub-flake) are not supported since the sub-flake doesn't have a nixpkgs input. Test through the parent flake instead.
 
 ## Why No nixpkgs in the Sub-Flake?
 
