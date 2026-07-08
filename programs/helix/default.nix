@@ -84,8 +84,8 @@ in
       # nixfmt
       nixfmt-tree
       vscode-langservers-extracted
-      ruby-lsp
-      solargraph
+      # ruby-lsp          # commented out due to
+      # solargraph        # incompatibilty with custom ruby builds
       terraform-ls
       typescript-language-server
 

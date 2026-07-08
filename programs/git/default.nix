@@ -6,11 +6,12 @@
 with pkgs;
 {
   home.packages = [
+    act
+    difftastic
     delta
     git-crypt
     github-cli
-    act
-    difftastic
+    jujutsu
     riffdiff
   ];
 

@@ -4,14 +4,17 @@ let
 in
 (with pkgs; [
   maple-mono.NF-unhinted
+  monocraft
   victor-mono
   inter
 ])
 ++ (with nerd-fonts; [
+  _0xproto
   bigblue-terminal
   blex-mono
   caskaydia-cove
   dejavu-sans-mono
+  fantasque-sans-mono
   fira-code
   go-mono
   hack
