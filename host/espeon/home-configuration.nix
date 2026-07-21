@@ -8,6 +8,7 @@
     mcp-things
     mcp-obsidian
     mcp-slack
+    github-mcp-server
     obsidian-agent-client
     claude-code-acp
     prettier
@@ -56,6 +57,18 @@
         args = [
           "-c"
           "export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec ${pkgs.mcp-slack}/bin/mcp-slack"
+        ];
+      };
+      # Official GitHub MCP server, self-hosted over stdio. --read-only makes
+      # the server refuse every mutating tool, so no write action can be
+      # exposed regardless of the token's scopes (defense in depth: pair with
+      # a read-only fine-grained PAT).
+      github = {
+        type = "stdio";
+        command = "/bin/sh";
+        args = [
+          "-c"
+          "export GITHUB_PERSONAL_ACCESS_TOKEN=$(cat ~/.config/mcp-github/access-token) && exec ${pkgs.github-mcp-server}/bin/github-mcp-server stdio --read-only"
         ];
       };
     };

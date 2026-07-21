@@ -1,5 +1,11 @@
 # Personal Workflow Conventions
 
+## Coding & Agent Standards
+
+- **Comments**: Only leave comments that are necessary, and keep them terse.
+- **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy — commits, PRs, and other output.
+- **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
+
 ## Task Management (Things.app)
 
 - **Things.app** is my task management system

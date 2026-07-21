@@ -63,6 +63,10 @@ in
           "mcp__obsidian__search_notes"
           "mcp__obsidian__list_directory"
           "mcp__obsidian__read_note"
+          "mcp__obsidian__read_multiple_notes"
+          "mcp__obsidian__get_frontmatter"
+          "mcp__obsidian__get_notes_info"
+          "mcp__obsidian__get_vault_stats"
           "mcp__obsidian__patch_note"
           "mcp__obsidian__write_note"
 
@@ -132,12 +136,22 @@ in
       enabledPlugins = {
         "typescript-lsp@claude-plugins-official" = true;
         "rust-analyzer-lsp@claude-plugins-official" = true;
-        "github@claude-plugins-official" = true;
+        # Hosted GitHub MCP (api.githubcopilot.com) — Copilot-gated, returns
+        # HTTP 400. Replaced by the self-hosted read-only github server in the
+        # host mcpServers config.
+        "github@claude-plugins-official" = false;
       };
       effortLevel = "high";
       theme = "dark-ansi";
       editorMode = "vim";
       tui = "fullscreen";
+
+      # Native voice dictation. tap = tap once to record, tap again to send
+      # (works alongside vim editorMode; hold-to-talk would fight the Space key).
+      voice = {
+        enabled = true;
+        mode = "tap";
+      };
 
       hooks = {
         Stop = [
