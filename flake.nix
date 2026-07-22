@@ -26,6 +26,10 @@
     noctalia.url = "github:noctalia-dev/noctalia-shell";
     mcp-servers.url = "path:./packages/mcp-servers";
     obsidian-plugins.url = "path:./packages/obsidian-plugins";
+    nu-scripts = {
+      url = "github:nushell/nu_scripts";
+      flake = false;
+    };
   };
 
   outputs =
@@ -55,6 +59,7 @@
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
           noctalia-git = noctalia.packages.${prev.stdenv.hostPlatform.system}.default;
+          nu-scripts = inputs.nu-scripts;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default

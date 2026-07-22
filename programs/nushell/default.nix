@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -14,27 +15,41 @@ let
 
   inherit (pkgs.nushellPlugins) polars;
 
+  # Our pinned nixpkgs marks this plugin Linux-only, but the build has no
+  # Linux-specific deps (nixos-unstable already lists darwin too), so widen
+  # meta.platforms to allow it on macOS.
+  desktop_notifications = pkgs.nushellPlugins.desktop_notifications.overrideAttrs (o: {
+    meta = o.meta // {
+      platforms = o.meta.platforms ++ lib.platforms.darwin;
+    };
+  });
+
   zoxideInit = runCommandLocal "zoxide-init-nushell" { buildInputs = [ zoxide ]; } ''
     mkdir $out
     zoxide init nushell > $out/init.nu
   '';
 
-  # Orthogonal, self-contained Nushell overlays (each an `overlays/<name>/mod.nu`
-  # module). `enable` decides whether an overlay is auto-loaded into every
-  # session via an injected `overlay use` line below; disabled ones remain
-  # available to `overlay use` on demand. `prefix` namespaces the overlay's
-  # commands (e.g. `time-machine backup`).
+  # Orthogonal, self-contained Nushell overlays. `src` is a directory holding the
+  # module file (`file`, default `mod.nu`); local overlays vendor it, tracked ones
+  # point at a pinned store path (see AWESOME-NUSHELL.md). `enable` decides whether
+  # an overlay is auto-loaded into every session via an injected `overlay use` line
+  # below; disabled ones remain available to `overlay use` on demand. `prefix`
+  # namespaces the overlay's commands (e.g. `time-machine backup`).
   overlays = [
     { name = "time-machine"; src = ./overlays/time-machine; enable = isDarwin; prefix = true; }
     { name = "admin"; src = ./overlays/admin; enable = isDarwin; prefix = true; }
-    # `job` is intentionally omitted — load on demand with `overlay use`.
+    # pueue-backed background tasks, pinned from nushell/nu_scripts. Named `task` to
+    # match upstream and avoid colliding with Nushell's native `job` builtin.
+    # Auto-loaded exactly on hosts that run the daemon (`services.pueue.enable`, e.g.
+    # host/espeon/home-configuration.nix); a no-op elsewhere since it needs `pueued`.
+    { name = "task"; src = "${pkgs.nu-scripts}/modules/background_task"; file = "task.nu"; enable = config.services.pueue.enable; prefix = true; }
   ];
 
   overlayLoads = lib.concatMapStringsSep "\n" (
-    o: "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/mod.nu as ${o.name}"
+    o: "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}"
   ) (lib.filter (o: o.enable) overlays);
 
-  config = lib.concatLines [
+  configText = lib.concatLines [
     (builtins.readFile ./config.nu)
     overlayLoads
     "source ${zoxideInit}/init.nu"
@@ -59,9 +74,12 @@ in
   programs.nushell = {
     enable = true;
     package = nushell;
-    configFile.text = config;
+    configFile.text = configText;
     extraEnv = lib.optionalString isDarwin brewEnv;
-    plugins = [ polars ];
+    plugins = [
+      polars
+      desktop_notifications
+    ];
   };
 
   home.packages = [ nufmt ];
