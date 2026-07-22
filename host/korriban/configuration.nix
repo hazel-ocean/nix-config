@@ -252,32 +252,49 @@
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
-    package = pkgs._1password-gui-beta;
     polkitPolicyOwners = [ "hazel" ];
   };
 
-  programs.gamemode.enable = true;
-  programs.gamescope.enable = true;
+  programs.gamemode = {
+    enable = true;
+    enableRenice = true;
+  };
+
+  programs.gamescope = {
+    enable = true;
+    args = [
+      "--rt"
+      "--fullscreen"
+      "-W"
+      "3840"
+      "-H"
+      "2160"
+      "-r"
+      "120"
+      "--hdr-enabled"
+      "--force-grab-cursor"
+    ];
+    env = {
+      DXVK_HDR = "1";
+      ENABLE_GAMESCOPE_WSI = "1";
+    };
+  };
+
   programs.steam = {
     enable = true;
     protontricks.enable = true;
     gamescopeSession = {
       enable = true;
-      args = [
-        "--hdr-enabled"
-        "--expose-wayland"
-      ];
       env = {
-        DXVK_HDR = "1";
-        PROTON_ENABLE_WAYLAND = "1";
+        PROTON_ENABLE_WAYLAND = ""; # override the global; empty is the safest "off"
+        PROTON_ENABLE_HDR = "";
       };
+      steamArgs = [ "-pipewire-dmabuf" ];
     };
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    extraCompatPackages = with pkgs; [
-      proton-ge-bin
-    ];
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
 
   services.jellyfin = {
@@ -352,6 +369,7 @@
       jellyfin-web
 
       protonup-ng
+      protonplus
       lutris
       gamescope-wsi
       (heroic.override {
@@ -379,9 +397,11 @@
     ]);
 
   environment.sessionVariables = {
-    #   AMD_VULKAN_ICSD = "RADV";
     DXVK_HDR = "1";
+    ENABLE_LAYER_MESA_ANTI_LAG = "1";
+    PROTON_FSR4_RDNA3_UPGRADE = "1";
     PROTON_ENABLE_WAYLAND = "1";
+    PROTON_ENABLE_HDR = "1";
   };
 
   # Some programs need SUID wrappers, can be configured further or are

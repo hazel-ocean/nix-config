@@ -23,7 +23,6 @@
     };
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     helix.url = "github:helix-editor/helix";
-    noctalia.url = "github:noctalia-dev/noctalia-shell";
     mcp-servers.url = "path:./packages/mcp-servers";
     obsidian-plugins.url = "path:./packages/obsidian-plugins";
     nu-scripts = {
@@ -45,7 +44,6 @@
       room,
       nixos-raspberrypi,
       helix,
-      noctalia,
       mcp-servers,
       obsidian-plugins,
       ...
@@ -58,7 +56,6 @@
             # Filter out the broken grammar
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
-          noctalia-git = noctalia.packages.${prev.stdenv.hostPlatform.system}.default;
           nu-scripts = inputs.nu-scripts;
         })
         mcp-servers.overlays.default
@@ -150,7 +147,6 @@
                   imports = [
                     ./programs/zed
                     ./host/${hostname}/home-configuration.nix
-                    inputs.noctalia.homeModules.default
                   ]
                   ++ extraImports;
                 };
