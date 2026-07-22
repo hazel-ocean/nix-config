@@ -1,5 +1,5 @@
 # Shared configuration for Darwin (macOS) hosts
-{ pkgs, lib, ... }:
+{ pkgs, config, lib, ... }:
 {
   imports = [ ./packages.nix ];
 
@@ -46,6 +46,7 @@
     shells = with pkgs; [
       nushell
       zsh
+      "/etc/profiles/per-user/${config.system.primaryUser}/bin/nu"
     ];
     shellAliases = { };
     variables = { };
@@ -64,6 +65,10 @@
 
     loginShellInit = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
+
+    interactiveShellInit = ''
+      nu
     '';
   };
 

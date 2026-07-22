@@ -7,7 +7,7 @@
   ...
 }:
 let
-  inherit (pkgs.stdenv) isDarwin isLinux;
+  inherit (pkgs.stdenv) isLinux;
 in
 {
   environment.systemPackages =

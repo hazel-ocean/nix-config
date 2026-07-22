@@ -1,3 +1,10 @@
+# Background job control on top of `pueue`.
+#
+# Optional overlay — NOT auto-loaded. Load on demand:
+#   overlay use ($nu.default-config-dir | path join overlays job mod.nu) as job
+#
+# Source: vendored from https://github.com/nushell/awesome-nu (see
+# programs/nushell/AWESOME-NUSHELL.md for how upstream components are tracked).
 
 # spawn task to run in the background
 #
@@ -7,19 +14,19 @@
 # e.g:
 # spawn { echo 3 }
 export def spawn [
-    command: block   # the command to spawn
+    command: closure   # the command to spawn
 ] {
     let config_path = $nu.config-path
     let env_path = $nu.env-path
-    let source_code = (view-source $command | str trim -l -c '{' | str trim -r -c '}')
-    let job_id = (pueue add -p $"nu --config \"($config_path)\" --env-config \"($env_path)\" -c '($source_code)'")
+    let source_code = (view source $command | str trim -l -c '{' | str trim -r -c '}')
+    let job_id = (^pueue add -p $"nu --config \"($config_path)\" --env-config \"($env_path)\" -c '($source_code)'")
     {"job_id": $job_id}
 }
 
 export def log [
     id: int   # id to fetch log
 ] {
-    pueue log $id -f --json
+    ^pueue log $id -f --json
     | from json
     | transpose -i info
     | flatten --all
@@ -29,7 +36,7 @@ export def log [
 
 # get job running status
 export def status () {
-    pueue status --json
+    ^pueue status --json
     | from json
     | get tasks
     | transpose -i status
@@ -39,10 +46,10 @@ export def status () {
 
 # kill specific job
 export def kill (id: int) {
-    pueue kill $id
+    ^pueue kill $id
 }
 
 # clean job log
 export def clean () {
-    pueue clean
+    ^pueue clean
 }
