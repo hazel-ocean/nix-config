@@ -13,6 +13,6 @@ mkShell {
     just
     ncurses
     git
-    entr
+    watchexec
   ] ++ lib.optionals stdenv.isDarwin [ nix-darwin.packages.${stdenv.hostPlatform.system}.default ];
 }

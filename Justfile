@@ -44,13 +44,17 @@ _theme host=`hostname`:
         ./host/{{ host }}/configuration.nix \
         ./host/{{ host }}/theme.nix:3:14
 
-# Runs the `just` target when file changes are detected
+# Rebuilds on file changes, debouncing bursts and restarting on interrupting edits
 watch:
-    @echo "Watching for changes..."
-    @fd --exclude=programs/zed/config \
-        --exclude=host/*/scripts \
-        --exclude=Justfile \
-      | entr -pc sh -c 'just apply && echo Done'
+    @watchexec \
+        --postpone \
+        --restart \
+        --debounce=500ms \
+        --clear \
+        --ignore='programs/zed/config/**' \
+        --ignore='host/*/scripts/**' \
+        --ignore='justfile' \
+      -- 'just apply && echo Done'
 
 _cleanup:
     zellij delete-session {{ z_session }}

@@ -66,20 +66,34 @@ let
           "korriban"
         ];
         prefix = false;
+        aliases = {
+          ws = "workspace switch --zellij";
+        };
       }
     )
   ];
 
+  enabledOverlays = lib.filter (o: o.enable) overlays;
+
   overlayLoads = lib.concatMapStringsSep "\n" (
     o:
     "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}"
-  ) (lib.filter (o: o.enable) overlays);
+  ) enabledOverlays;
 
-  configText = lib.concatLines [
-    (builtins.readFile ./config.nu)
-    overlayLoads
-    "source ${zoxideInit}/init.nu"
-  ];
+  # Aliases contributed by overlays; defined after overlay loads so their
+  # target commands are in scope.
+  aliasLoads = lib.concatLists (
+    map (o: lib.mapAttrsToList (name: cmd: "alias ${name} = ${cmd}") (o.aliases or { })) enabledOverlays
+  );
+
+  configText = lib.concatLines (
+    [
+      (builtins.readFile ./config.nu)
+      overlayLoads
+    ]
+    ++ aliasLoads
+    ++ [ "source ${zoxideInit}/init.nu" ]
+  );
 
   # Homebrew shellenv, re-expressed natively (Nushell can't `eval` the POSIX
   # output of `brew shellenv`). env.nu runs for every session before config.nu,

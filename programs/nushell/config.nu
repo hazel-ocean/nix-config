@@ -1,9 +1,6 @@
 alias e = clear
 alias k = kubectl
 
-# TODO: Move to a module-enabled `aliases` attrset
-alias ws = workspace switch
-
 def r [...paths: string] { e; lsd ...$paths }
 def re [] { e; lsd * }
 def er [...paths: string] { e; lsd -l ...$paths }

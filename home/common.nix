@@ -26,6 +26,7 @@ let
     icdiff
     tokei
     entr
+    watchexec
 
     # Multimedia
     ffmpeg
