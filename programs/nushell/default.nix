@@ -82,5 +82,13 @@ in
     ];
   };
 
+  # Multi-shell argument completer — nushell's external completer, covering the
+  # long tail of CLIs (kubectl, terraform, docker, gh, git, …). Its integration
+  # appends to programs.nushell.extraConfig, so it composes with configText above.
+  programs.carapace = {
+    enable = true;
+    enableNushellIntegration = true;
+  };
+
   home.packages = [ nufmt ];
 }

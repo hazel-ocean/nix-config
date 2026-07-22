@@ -39,6 +39,7 @@ def cdcopy [] { pwd | pbcopy }
 def cdpaste [] { cd $"\"(pbpaste)\"" }
 
 $env.config.show_banner = false
+$env.config.completions.algorithm = "fuzzy"
 
 $env.config.keybindings = (
   try { $env.config.keybindings } catch { [] }
