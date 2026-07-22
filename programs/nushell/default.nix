@@ -51,8 +51,8 @@ let
         src =
           if hostname == "espeon" then
             "/Users/${user}/OneSignal/workbench"
-          # else if hostname == "pigeon" then
-          #   "...todo"
+          else if hostname == "pigeon" then
+            "/Users/${user}/workbench"
           # else if hostname == "korriban" then
           #   "...todo"
           else
