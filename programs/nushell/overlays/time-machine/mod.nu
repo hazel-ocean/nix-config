@@ -1,46 +1,31 @@
 # Time Machine backup management (macOS `tmutil`).
-#
-# Auto-loaded on Darwin hosts, with `--prefix`, so commands are namespaced:
-#   time-machine backup                                  # blocking backup
-#   time-machine backup --thin --volume "/Volumes/X"     # ...then thin old ones
 
-# Start a Time Machine backup, optionally thinning old snapshots afterward.
-export def backup [
-  --volume (-v): string   # Backup volume to thin (required with --thin)
-  --thin (-t)             # After backing up, delete all but the latest backup
-  --skip (-s)             # Skip the backup itself (useful with --thin)
+# Removes past backups. Requires specifying the volume of the backup.
+export def thin-backups [
+  mut --keeping (-k): int = 1  # Keep the last `k` backups
+  --volume (-v): string        # Backup volume to target
 ]: nothing -> nothing {
-  if $skip {
-    red "Skipping backup..."
-  } else {
-    tmutil-backup
-  }
+    let keeping = [0, $keeping] | math max
+    yellow $"Thinning backups, keeping last ($keeping)..."
 
-  if $thin {
-    if ($volume | is-empty) {
-      error make { msg: "--thin requires --volume <backup volume>" }
-    }
-    tmutil-thin-backups $volume
-  }
+    let removed = (
+      ^tmutil listbackups -d $volume -t
+      | lines
+      | drop $keeping
+      | each {|ts| ^sudo tmutil delete -d $volume -t $ts }
+      | length
+    )
+
+    print $"Removed ($removed) backup\(s\)"
 }
 
-# Run a single blocking Time Machine backup.
-def tmutil-backup []: nothing -> nothing {
+# Run a single Time Machine backup.
+export def start-backup [
+  --blocking = false
+]: nothing -> nothing {
   yellow "Starting backup..."
-  ^tmutil startbackup --block
-}
-
-# Delete every backup on a volume except the most recent.
-def tmutil-thin-backups [volume: string]: nothing -> nothing {
-  yellow "Thinning backups..."
-  let removed = (
-    ^tmutil listbackups -d $volume -t
-    | lines
-    | drop 1
-    | each {|ts| ^sudo tmutil delete -d $volume -t $ts }
-    | length
-  )
-  print $"Removed ($removed) backup\(s\)"
+  let args = if $blocking { [--block]  } else { [] }
+  ^tmutil startbackup ..args
 }
 
 def yellow [msg: string]: nothing -> nothing { print $"(ansi yellow)($msg)(ansi reset)" }
