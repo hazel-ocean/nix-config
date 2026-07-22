@@ -1,7 +1,8 @@
 alias e = clear
 alias k = kubectl
 
-alias wb = overlay use ($nu.home-dir | path join OneSignal workbench mod.nu) as workspace
+# TODO: Move to a module-enabled `aliases` attrset
+alias ws = workspace switch
 
 def r [...paths: string] { e; lsd ...$paths }
 def re [] { e; lsd * }

@@ -1,7 +1,8 @@
 {
   config,
-  pkgs,
   lib,
+  osConfig,
+  pkgs,
   ...
 }:
 let
@@ -15,38 +16,63 @@ let
 
   inherit (pkgs.nushellPlugins) polars;
 
-  # Our pinned nixpkgs marks this plugin Linux-only, but the build has no
-  # Linux-specific deps (nixos-unstable already lists darwin too), so widen
-  # meta.platforms to allow it on macOS.
-  desktop_notifications = pkgs.nushellPlugins.desktop_notifications.overrideAttrs (o: {
-    meta = o.meta // {
-      platforms = o.meta.platforms ++ lib.platforms.darwin;
-    };
-  });
-
   zoxideInit = runCommandLocal "zoxide-init-nushell" { buildInputs = [ zoxide ]; } ''
     mkdir $out
     zoxide init nushell > $out/init.nu
   '';
 
-  # Orthogonal, self-contained Nushell overlays. `src` is a directory holding the
-  # module file (`file`, default `mod.nu`); local overlays vendor it, tracked ones
-  # point at a pinned store path (see AWESOME-NUSHELL.md). `enable` decides whether
-  # an overlay is auto-loaded into every session via an injected `overlay use` line
-  # below; disabled ones remain available to `overlay use` on demand. `prefix`
-  # namespaces the overlay's commands (e.g. `time-machine backup`).
   overlays = [
-    { name = "time-machine"; src = ./overlays/time-machine; enable = isDarwin; prefix = true; }
-    { name = "admin"; src = ./overlays/admin; enable = isDarwin; prefix = true; }
-    # pueue-backed background tasks, pinned from nushell/nu_scripts. Named `task` to
-    # match upstream and avoid colliding with Nushell's native `job` builtin.
-    # Auto-loaded exactly on hosts that run the daemon (`services.pueue.enable`, e.g.
-    # host/espeon/home-configuration.nix); a no-op elsewhere since it needs `pueued`.
-    { name = "task"; src = "${pkgs.nu-scripts}/modules/background_task"; file = "task.nu"; enable = config.services.pueue.enable; prefix = true; }
+    {
+      name = "admin";
+      src = ./overlays/admin;
+      enable = isDarwin;
+      prefix = true;
+    }
+    {
+      name = "task";
+      src = "${pkgs.nu-scripts}/modules/background_task";
+      file = "task.nu";
+      enable = config.services.pueue.enable;
+      prefix = true;
+    }
+    {
+      name = "time-machine";
+      src = ./overlays/time-machine;
+      enable = isDarwin;
+      prefix = true;
+    }
+    (
+      let
+        hostname = osConfig.networking.hostName;
+        user = config.home.username;
+      in
+      {
+        name = "workspace";
+        src =
+          if hostname == "espeon" then
+            "/Users/${user}/OneSignal/workbench"
+          # else if hostname == "pigeon" then
+          #   "...todo"
+          # else if hostname == "korriban" then
+          #   "...todo"
+          else
+            throw ''
+              Nushell overlay (workspace) is not configured for current host: ${hostname}
+            '';
+
+        enable = builtins.elem hostname [
+          "espeon"
+          "pigeon"
+          "korriban"
+        ];
+        prefix = false;
+      }
+    )
   ];
 
   overlayLoads = lib.concatMapStringsSep "\n" (
-    o: "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}"
+    o:
+    "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}"
   ) (lib.filter (o: o.enable) overlays);
 
   configText = lib.concatLines [
@@ -76,10 +102,7 @@ in
     package = nushell;
     configFile.text = configText;
     extraEnv = lib.optionalString isDarwin brewEnv;
-    plugins = [
-      polars
-      desktop_notifications
-    ];
+    plugins = [ polars ];
   };
 
   # Multi-shell argument completer — nushell's external completer, covering the
