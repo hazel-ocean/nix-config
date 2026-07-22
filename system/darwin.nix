@@ -68,7 +68,7 @@
     '';
 
     interactiveShellInit = ''
-      nu
+      exec nu
     '';
   };
 
