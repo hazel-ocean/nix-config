@@ -1,8 +1,8 @@
 ---
 tags:
-  - linear
+  - projects
   - {{type}} # feature, bug, or tech-debt
-linear-link: {{linear-url}}
+ticket-link: {{ticket-url}} # upstream ticket URL, or blank if none
 things-link: things:///show?id={{things-uuid}}
 created: {{date}}
 ---

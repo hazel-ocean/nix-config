@@ -6,6 +6,10 @@
 - **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy — commits, PRs, and other output.
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
 
+## Nushell
+
+- Don't use underscores to denote private vs public.
+
 ## Task Management (Things.app)
 
 - **Things.app** is my task management system
@@ -17,6 +21,7 @@
 - Update todos as work progresses (mark complete, add notes)
 - Create new todos for discovered work
 - When backing out changes, update relevant todos accordingly
+- When referring to a repo, we generally use the repo name in backticks omitting the organization.
 
 ## Progress Logging (Obsidian)
 
@@ -51,6 +56,7 @@ overwrite
 - **Linear** tracks work items and projects at the team level
 - MCP server: `Linear` (claude.ai connector)
 - Things projects often link to Linear issues
+- Estimates are made by the team during Story Time — unless told otherwise, newly created Linear tickets get **No Estimate**
 
 ## Keeping Things in Sync
 
