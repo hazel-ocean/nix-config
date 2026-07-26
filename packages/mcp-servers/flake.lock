@@ -3,11 +3,11 @@
     "mcp-obsidian-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1769293325,
-        "narHash": "sha256-yoRsDD+RkuyqNCakz/GZsLEP/1b9OM7/4XwyByYtPNU=",
+        "lastModified": 1784802700,
+        "narHash": "sha256-WNjH97F58YVOLKshyxJTXksI4OmXE9KKmsWtnkTdaTM=",
         "owner": "bitbonsai",
         "repo": "mcp-obsidian",
-        "rev": "884fe8f3fd29038d5be6412e4707576c23a743db",
+        "rev": "313983bffcfb8e2e6b6c4c9f977cf0bffdc9e8c6",
         "type": "github"
       },
       "original": {
@@ -20,16 +20,16 @@
     "mcp-slack-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1765317553,
-        "narHash": "sha256-tA0JzWaMtYF0DC5xUm+hGAVEPvxBTMLau5lrhOQU9gU=",
+        "lastModified": 1778799089,
+        "narHash": "sha256-sfKAqY47EiUnQHO30pxGr8JxlhiXtBJVFMBZ7k9a0NM=",
         "owner": "korotovsky",
         "repo": "slack-mcp-server",
-        "rev": "454398a7f749846328cf4c8108a916a4f4944c8b",
+        "rev": "b88c0de3f706f4f07337c9eda7133c736d1c9524",
         "type": "github"
       },
       "original": {
         "owner": "korotovsky",
-        "ref": "v1.1.28",
+        "ref": "master",
         "repo": "slack-mcp-server",
         "type": "github"
       }
@@ -37,16 +37,16 @@
     "mcp-things-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1768496664,
-        "narHash": "sha256-SLvyDOFWuXBKzVk/rhIuvudM+1iFQdc0W4YhhgISRWc=",
+        "lastModified": 1780701794,
+        "narHash": "sha256-EzIJcABZuszxl9zxEXBCLR27imb6EG00SH6O918/spo=",
         "owner": "hald",
         "repo": "things-mcp",
-        "rev": "1ab39479d6021e7c114518cb9bb8f250e4b3af90",
+        "rev": "7e6e660a628cd2b2bd3491c1f214200d449db3f0",
         "type": "github"
       },
       "original": {
         "owner": "hald",
-        "ref": "v0.6.0",
+        "ref": "master",
         "repo": "things-mcp",
         "type": "github"
       }

@@ -83,7 +83,6 @@ in
       "brave-browser"
       "chatgpt"
       "claude"
-      "claude-code"
       "docker-desktop"
       "ghostty"
       "google-drive"

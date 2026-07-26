@@ -98,7 +98,9 @@ let
   # Homebrew shellenv, re-expressed natively (Nushell can't `eval` the POSIX
   # output of `brew shellenv`). env.nu runs for every session before config.nu,
   # so PATH is ready early. No-op when brew is absent; idempotent via `uniq`.
-  brewEnv = ''
+  darwinEnv = ''
+    $env.SHELL = "${nushell}/bin/nu"
+
     const brew_prefix = "/opt/homebrew"
     if ($brew_prefix | path exists) {
       $env.HOMEBREW_PREFIX = $brew_prefix
@@ -115,8 +117,10 @@ in
     enable = true;
     package = nushell;
     configFile.text = configText;
-    extraEnv = lib.optionalString isDarwin brewEnv;
-    plugins = [ polars ];
+    extraEnv = lib.optionalString isDarwin darwinEnv;
+    plugins = [
+      # polars   # broken atm
+    ];
   };
 
   # Multi-shell argument completer — nushell's external completer, covering the

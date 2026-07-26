@@ -54,7 +54,7 @@ watch:
         --ignore='programs/zed/config/**' \
         --ignore='host/*/scripts/**' \
         --ignore='justfile' \
-      -- 'just apply && echo Done'
+      -- 'sudo --reset-timestamp && just apply && echo Done'
 
 _cleanup:
     zellij delete-session {{ z_session }}

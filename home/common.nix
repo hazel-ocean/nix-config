@@ -70,6 +70,7 @@ let
 
     # Kubernetes
     k9s
+    grpcurl
   ];
 
   lsdAliases = {

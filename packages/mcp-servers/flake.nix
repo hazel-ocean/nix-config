@@ -6,12 +6,12 @@
     };
 
     mcp-things-src = {
-      url = "github:hald/things-mcp/v0.6.0";
+      url = "github:hald/things-mcp/master";
       flake = false;
     };
 
     mcp-slack-src = {
-      url = "github:korotovsky/slack-mcp-server/v1.1.28";
+      url = "github:korotovsky/slack-mcp-server/master";
       flake = false;
     };
   };

@@ -9,7 +9,7 @@ buildNpmPackage {
   pname = "claude-code-acp";
   version = "0.14.0";
 
-  npmDepsHash = "sha256-CNzG/TS9I06s9LTzu10PITUEFgyiTt4Qp2wa53+Lj5c=";
+  npmDepsHash = "sha256-Cq5eurS4BgP4h+ASXe+bJiyLzJ27H0S21Dsusw/c+gc=";
   npmBuildScript = "build";
   dontNpmPack = true; # Don't try to run npm pack
 

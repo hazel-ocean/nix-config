@@ -20,7 +20,7 @@
     text = builtins.toJSON {
       mcpServers = {
         obsidian = {
-          command = "${pkgs.mcp-obsidian}/bin/mcp-obsidian";
+          command = lib.getExe pkgs.mcp-obsidian;
           args = [ "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/" ];
         };
         things = {

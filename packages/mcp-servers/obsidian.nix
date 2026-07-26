@@ -10,9 +10,15 @@ buildNpmPackage {
 
   inherit src;
 
-  npmDepsHash = "sha256-gDcG8axrutOv4kLDrHtUdO7oh9YmGhrKErFtN5ZUu1k=";
+  npmDepsHash = "sha256-JiQXpqyqoF6X+8QXob4hWzbLwiN4GnuFAeEM9xZGu0o=";
 
   npmBuildScript = "build";
+
+  # Upstream renamed the package to @bitbonsai/mcpvault (bin: mcpvault).
+  # Rename for naming consistency with other MCP servers.
+  postInstall = ''
+    mv $out/bin/mcpvault $out/bin/mcp-obsidian
+  '';
 
   meta = with lib; {
     description = "A universal AI bridge for Obsidian vaults using the Model Context Protocol";

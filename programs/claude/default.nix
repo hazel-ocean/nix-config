@@ -59,16 +59,26 @@ in
     settings = {
       permissions = {
         allow = [
-          # Obsidian: read + note edits
-          "mcp__obsidian__search_notes"
-          "mcp__obsidian__list_directory"
-          "mcp__obsidian__read_note"
-          "mcp__obsidian__read_multiple_notes"
-          "mcp__obsidian__get_frontmatter"
-          "mcp__obsidian__get_notes_info"
-          "mcp__obsidian__get_vault_stats"
-          "mcp__obsidian__patch_note"
-          "mcp__obsidian__write_note"
+          # Obsidian: read-only (search / read / get) actions
+          "mcp__plugin_claude-code-home-manager_obsidian__search_notes"
+          "mcp__plugin_claude-code-home-manager_obsidian__list_directory"
+          "mcp__plugin_claude-code-home-manager_obsidian__read_note"
+          "mcp__plugin_claude-code-home-manager_obsidian__read_multiple_notes"
+          "mcp__plugin_claude-code-home-manager_obsidian__get_frontmatter"
+          "mcp__plugin_claude-code-home-manager_obsidian__get_notes_info"
+          "mcp__plugin_claude-code-home-manager_obsidian__get_vault_stats"
+
+          # Obsidian: note edits
+          "mcp__plugin_claude-code-home-manager_obsidian__patch_note"
+          "mcp__plugin_claude-code-home-manager_obsidian__write_note"
+
+          # Granola: read-only (get / list / query) actions
+          "mcp__claude_ai_Granola__get_account_info"
+          "mcp__claude_ai_Granola__get_meeting_transcript"
+          "mcp__claude_ai_Granola__get_meetings"
+          "mcp__claude_ai_Granola__list_meeting_folders"
+          "mcp__claude_ai_Granola__list_meetings"
+          "mcp__claude_ai_Granola__query_granola_meetings"
 
           # Linear: read-only (get / list / search) actions
           "mcp__claude_ai_Linear__get_attachment"
@@ -100,34 +110,34 @@ in
           "mcp__claude_ai_Linear__search_documentation"
 
           # Slack: read-only (list / history / search) actions
-          "mcp__slack__channels_list"
-          "mcp__slack__conversations_history"
-          "mcp__slack__conversations_replies"
-          "mcp__slack__conversations_search_messages"
+          "mcp__plugin_claude-code-home-manager_slack__channels_list"
+          "mcp__plugin_claude-code-home-manager_slack__conversations_history"
+          "mcp__plugin_claude-code-home-manager_slack__conversations_replies"
+          "mcp__plugin_claude-code-home-manager_slack__conversations_search_messages"
 
           # Things: read-only (get / search / show) actions
-          "mcp__things__get_anytime"
-          "mcp__things__get_areas"
-          "mcp__things__get_headings"
-          "mcp__things__get_inbox"
-          "mcp__things__get_logbook"
-          "mcp__things__get_projects"
-          "mcp__things__get_recent"
-          "mcp__things__get_someday"
-          "mcp__things__get_tagged_items"
-          "mcp__things__get_tags"
-          "mcp__things__get_today"
-          "mcp__things__get_todos"
-          "mcp__things__get_trash"
-          "mcp__things__get_upcoming"
-          "mcp__things__search_advanced"
-          "mcp__things__search_items"
-          "mcp__things__search_todos"
-          "mcp__things__show_item"
+          "mcp__plugin_claude-code-home-manager_things__get_anytime"
+          "mcp__plugin_claude-code-home-manager_things__get_areas"
+          "mcp__plugin_claude-code-home-manager_things__get_headings"
+          "mcp__plugin_claude-code-home-manager_things__get_inbox"
+          "mcp__plugin_claude-code-home-manager_things__get_logbook"
+          "mcp__plugin_claude-code-home-manager_things__get_projects"
+          "mcp__plugin_claude-code-home-manager_things__get_recent"
+          "mcp__plugin_claude-code-home-manager_things__get_someday"
+          "mcp__plugin_claude-code-home-manager_things__get_tagged_items"
+          "mcp__plugin_claude-code-home-manager_things__get_tags"
+          "mcp__plugin_claude-code-home-manager_things__get_today"
+          "mcp__plugin_claude-code-home-manager_things__get_todos"
+          "mcp__plugin_claude-code-home-manager_things__get_trash"
+          "mcp__plugin_claude-code-home-manager_things__get_upcoming"
+          "mcp__plugin_claude-code-home-manager_things__search_advanced"
+          "mcp__plugin_claude-code-home-manager_things__search_items"
+          "mcp__plugin_claude-code-home-manager_things__search_todos"
+          "mcp__plugin_claude-code-home-manager_things__show_item"
 
           # Things: create actions (non-destructive — add new items only)
-          "mcp__things__add_project"
-          "mcp__things__add_todo"
+          "mcp__plugin_claude-code-home-manager_things__add_project"
+          "mcp__plugin_claude-code-home-manager_things__add_todo"
         ];
         ask = [ "Write" ];
         defaultMode = "default";

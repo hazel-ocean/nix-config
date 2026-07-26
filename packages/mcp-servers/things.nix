@@ -38,16 +38,20 @@ stdenv.mkDerivation {
     # Install the application and its virtualenv
     mkdir -p $out/share/mcp-things
 
-    # Copy source files
-    cp -r *.py pyproject.toml uv.lock $out/share/mcp-things/
+    # Copy the package source (upstream moved to a src/ layout with the
+    # things_mcp package and a things_mcp.server:main entry point)
+    cp -r src pyproject.toml uv.lock $out/share/mcp-things/
 
     # Copy the built virtual environment
     cp -r .venv $out/share/mcp-things/.venv
 
-    # Create wrapper that uses the pre-built virtualenv
+    # Wrapper runs the package entry point via the pre-built virtualenv.
+    # PYTHONPATH points at our copied src so imports resolve regardless of how
+    # uv installed the project into the venv.
     mkdir -p $out/bin
     makeWrapper $out/share/mcp-things/.venv/bin/python $out/bin/mcp-things \
-      --add-flags "$out/share/mcp-things/things_server.py"
+      --add-flags "-m things_mcp.server" \
+      --prefix PYTHONPATH : $out/share/mcp-things/src
 
     runHook postInstall
   '';
