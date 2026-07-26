@@ -1,3 +1,5 @@
+set shell := ["nu", "-c"]
+
 z_session := "nix-config"
 
 _default:
@@ -6,7 +8,7 @@ _default:
 # Start a Zellij session to make quick edits
 edit: && _cleanup
     @zellij \
-          --config-dir=$HOME/.config/zellij \
+          --config-dir=($"($env.HOME)/.config/zellij") \
           --layout=zellij-layout.kdl \
         attach {{ z_session }} \
           --force-run-commands \
@@ -54,7 +56,7 @@ watch:
         --ignore='programs/zed/config/**' \
         --ignore='host/*/scripts/**' \
         --ignore='justfile' \
-      -- 'sudo --reset-timestamp && just apply && echo Done'
+      -- 'sudo --reset-timestamp; just apply; echo Done'
 
 _cleanup:
     zellij delete-session {{ z_session }}

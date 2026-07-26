@@ -7,11 +7,11 @@
 
 const REPO = "~/.config/nix-config"
 
-# Open the nix-config Justfile in an interactive shell.
-export def config []: nothing -> nothing {
+# Change directories and edit nix-config.
+export def nix-config []: nothing -> nothing {
   cd ($REPO | path expand)
   clear -k
-  ^nu --execute 'just'
+  just edit
 }
 
 # Drop into the Jellyfin volume with its Justfile listed (pigeon only).

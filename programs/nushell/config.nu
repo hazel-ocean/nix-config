@@ -36,6 +36,8 @@ def zgc [] { git checkout (git branch | fzf) }
 def cdcopy [] { pwd | pbcopy }
 def cdpaste [] { cd $"\"(pbpaste)\"" }
 
+$env.config.edit_mode = "vi"
+
 $env.config.show_banner = false
 $env.config.completions.algorithm = "fuzzy"
 
