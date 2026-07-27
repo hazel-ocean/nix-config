@@ -121,7 +121,7 @@ in
           "mcp__plugin_claude-code-home-manager_slack__usergroups_me"
           "mcp__plugin_claude-code-home-manager_slack__users_search"
 
-          # Slack: mark channels read after a triage scan-through
+          # Slack: deferred read step (`/slack-triage mark-read`, run after review)
           "mcp__plugin_claude-code-home-manager_slack__conversations_mark"
 
           # Things: read-only (get / search / show) actions
