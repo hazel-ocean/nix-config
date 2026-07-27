@@ -111,9 +111,18 @@ in
 
           # Slack: read-only (list / history / search) actions
           "mcp__plugin_claude-code-home-manager_slack__channels_list"
+          "mcp__plugin_claude-code-home-manager_slack__channels_me"
           "mcp__plugin_claude-code-home-manager_slack__conversations_history"
           "mcp__plugin_claude-code-home-manager_slack__conversations_replies"
           "mcp__plugin_claude-code-home-manager_slack__conversations_search_messages"
+          "mcp__plugin_claude-code-home-manager_slack__conversations_unreads"
+          "mcp__plugin_claude-code-home-manager_slack__saved_list"
+          "mcp__plugin_claude-code-home-manager_slack__usergroups_list"
+          "mcp__plugin_claude-code-home-manager_slack__usergroups_me"
+          "mcp__plugin_claude-code-home-manager_slack__users_search"
+
+          # Slack: mark channels read after a triage scan-through
+          "mcp__plugin_claude-code-home-manager_slack__conversations_mark"
 
           # Things: read-only (get / search / show) actions
           "mcp__plugin_claude-code-home-manager_things__get_anytime"
