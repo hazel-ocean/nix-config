@@ -67,7 +67,7 @@ let
         ];
         prefix = false;
         aliases = {
-          ws = "workspace switch --zellij";
+          ws = "workspace switch";
         };
       }
     )

@@ -3,7 +3,7 @@
 # Auto-loaded on Darwin hosts, with `--prefix`, so commands are namespaced:
 #   admin config     # open the nix-config Justfile menu
 #   admin jellyfin   # drop into the Jellyfin volume (pigeon)
-#   admin edit       # edit this overlay's source in the repo
+#   admin edit-me    # edit this overlay's source in the repo
 
 const REPO = "~/.config/nix-config"
 
@@ -27,7 +27,7 @@ export def jellyfin []: nothing -> nothing {
 }
 
 # Edit this overlay's source file in the repo.
-export def edit []: nothing -> nothing {
+export def edit-me []: nothing -> nothing {
   let file = ($REPO | path expand | path join programs nushell overlays admin mod.nu)
   ^$env.EDITOR $file
 }
