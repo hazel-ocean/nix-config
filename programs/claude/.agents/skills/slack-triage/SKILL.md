@@ -1,110 +1,78 @@
 ---
 name: slack-triage
 description: Sweep Slack unreads and surface anything actionable into the Things "From Slack" project, tracking a watermark so repeated runs never reprocess the same messages. Does NOT mark Slack read on triage; marking read is a separate `mark-read` step run after you've reviewed. Use when you want to catch up on Slack without babysitting it.
-allowed-tools: Read, Write, conversations_unreads, conversations_history, conversations_mark, channels_list, add_todo, get_projects
 ---
 
 # Slack Triage
 
-Sweep Slack unreads, file the ones worth acting on into Things, and keep a
-**watermark** so nothing gets triaged twice, even as unreads pile up between runs.
+Sweep unreads, file the worthwhile ones into Things, advance a **watermark** so
+nothing is triaged twice. Filing never marks read; the badge stays until you run
+`mark-read` after reviewing.
 
-Marking messages read is deliberately **decoupled** from triage: filing a message
-does not mark it read, so the unread badge stays until you've actually reviewed the
-filed items. A separate `mark-read` step clears them once you're caught up.
+**Modes** (by argument): no arg = **triage**; `mark-read` = mark channels read up to
+the watermark.
 
-## Modes
-
-Selected by argument:
-
-- (no argument) => **triage**: scan unreads newer than the watermark, file the
-  worthwhile ones, advance the watermark. Read state is left untouched.
-- `mark-read` => **catch-up**: mark channels read *up to the watermark*, run after
-  you've reviewed what triage filed.
-
-## State
-
-Canonical watermark lives at `~/.local/state/claude/slack-triage.json`:
+## State — `~/.local/state/claude/slack-triage.json`
 
 ```json
-{
-  "watermark_ts": "1737936000.123456",
-  "last_triaged_at": "2026-07-27T02:09:00Z",
-  "runs": 3
-}
+{ "watermark_ts": "1737936000.123456", "last_triaged_at": "2026-07-27T02:09:00Z", "runs": 3 }
 ```
 
-- `watermark_ts`: Slack `ts` (global epoch, comparable across channels) of the
-  newest message seen at the last triage. Everything at or below it is considered
-  already handled.
-- `runs`: cumulative triage-run counter (bump every triage run).
+`watermark_ts` is the Slack `ts` (global epoch, comparable across channels) of the
+newest message handled; everything ≤ it is done. Compare `ts` numerically, never
+wall-clock. `Read` at start, `Write` at end of a triage run (create the dir if
+needed); missing file = first run.
 
-`Read` this file at the start of every run. If it's missing, this is the first run
-(see below). `Write` it back at the end of a triage run. Create the parent
-directory if needed.
+## Triage
 
-## Triage mode
+1. **Load state.** Missing → first run: bound candidates to ~last 7 days so a backlog
+   doesn't flood, and say so in the report.
+2. **Fetch** `conversations_unreads`, `include_messages: true`, `max_channels` /
+   `max_messages_per_channel` above defaults (50 / 10).
+   - *Oversized:* with messages this often exceeds the output limit (~315k chars seen)
+     and offloads to a file; spawn a `Task` subagent to read it in chunks and return a
+     digest (per message: channel name, `ts`, author, text, URLs); use the inline
+     result if it fit. Backlog alternative: `include_messages: false` to enumerate,
+     then targeted `conversations_history`.
+   - *Truncation:* caps hit → set a `truncated` flag and report it; never read a cap as
+     "all clear."
+3. **Filter:** keep `ts` > `watermark_ts` (first run: within the 7-day bound). Count
+   what you considered.
+4. **Judge:** *surface* DMs, @mentions, direct asks/questions to Hazel, threads she's
+   in, anything time-sensitive/blocking; *skip* announcements, automated/FYI posts,
+   noise she isn't part of.
+5. **File** surfaced items via `add_todo`, `list_id: "H5WBBFFgYhksuLmNVhc43R"` (stable
+   across renames). First resolve channel IDs (`conversations_unreads` gives names, no
+   permalink) via one `channels_me` call (`name` → `Cxxxx`); DM/app channels
+   (`@incident`, `@linear`) have no ID, so lean on the message's own links. Per item:
+   - `title`: concise summary, not a raw paste.
+   - `notes`: who + channel; Slack permalink
+     `https://onesignal.slack.com/archives/<channel_id>/p<ts-sans-dot>` (`1737936000.123456`
+     → `p1737936000123456`); and any URLs the message references (PRs, Linear, Docs,
+     incident.io, calendar), which are usually the actionable destination.
+   - `tags`: `["✨ OS/Priorities"]` if time-sensitive/blocking/a direct ask; `["Bug"]`
+     for defects (both allowed); else none.
+6. **Advance watermark, only over what you fully covered.** Not truncated → max `ts`
+   across all fetched unreads (incl. skipped). Truncated → do **not** jump to that max
+   (unscanned channels may hold older-than-max messages you'd lose forever); advance
+   only to the min across channels of each channel's oldest fetched `ts`, or leave it
+   and say so. Bump `runs`, set `last_triaged_at`, Write. **Never mark read here.**
+7. **Report** (with counters): channels scanned, messages considered, filed, skipped,
+   `truncated` if tripped; new watermark + human time; project link
+   `things:///show?id=H5WBBFFgYhksuLmNVhc43R`; and *"reviewed in Things? run
+   `/slack-triage mark-read`."*
 
-1. **Load state.** Read the state file. If absent, this is the first run: there's no
-   watermark, so bound candidates to roughly the **last 7 days** of unreads so an
-   old backlog doesn't flood the triage. Say so in the report.
+## mark-read
 
-2. **Fetch unreads.** Call `conversations_unreads` with `include_messages: true`.
-   Raise `max_channels` and `max_messages_per_channel` well above the defaults (50 /
-   10) so results aren't silently truncated. If the response still looks truncated
-   (channels or messages hit the caps), set a `truncated` flag and call it out in
-   the report. Never let a cap read as "all clear."
+Run after reviewing filed items. Load state; no watermark → nothing to do, stop.
+Enumerate unread channels (`conversations_unreads`, `include_messages: false`), call
+`conversations_mark` `ts: watermark_ts` on each (marks read only up to the triaged
+point; newer stays unread). Report how many channels were marked.
 
-3. **Filter by watermark.** Keep only messages with `ts` **>** `watermark_ts`
-   (on a first run, only those within the ~7-day bound). Track how many messages
-   you considered.
-
-4. **Triage with judgment.** Decide what deserves Hazel's attention:
-   - **Surface**: DMs, @mentions, direct questions or asks aimed at Hazel, threads
-     Hazel is participating in, anything time-sensitive or blocking.
-   - **Skip**: broadcast announcements, FYI/automated posts, general channel noise,
-     chatter Hazel isn't part of.
-
-5. **File surfaced items** into the **"From Slack"** project via `add_todo` with
-   `list_id: "H5WBBFFgYhksuLmNVhc43R"`. For each:
-   - `title`: a concise summary of the ask/message (not a raw paste).
-   - `notes`: brief context (who, which channel) plus a permalink built as
-     `https://onesignal.slack.com/archives/<channel_id>/p<ts-with-the-dot-removed>`
-     (e.g. `ts` `1737936000.123456` becomes `p1737936000123456`).
-   - `tags`: for items that are **super important** (time-sensitive, blocking, or a
-     direct ask that needs prompt attention), apply the existing
-     `["✨ OS/Priorities"]` tag. Leave ordinary items untagged.
-
-6. **Advance the watermark.** Set `watermark_ts` to the **max `ts` across all
-   fetched unreads**, including skipped ones, so noise isn't reconsidered next
-   run. Bump `runs`, set `last_triaged_at`, and Write the state file. **Do not mark
-   anything read.**
-
-7. **Report.** Include, using counters:
-   - channels scanned, messages considered, items filed, items skipped, and
-     `truncated` if it tripped;
-   - the new watermark and its human-readable time;
-   - a link to the destination project: `things:///show?id=H5WBBFFgYhksuLmNVhc43R`;
-   - a reminder: *"When you've reviewed these in Things, run `/slack-triage
-     mark-read` to clear them from Slack unreads."*
-
-## mark-read mode
-
-Run this once you've come back and reviewed the filed items.
-
-1. **Load state** and read `watermark_ts`. If there's no state/watermark, there's
-   nothing to do; say so and stop.
-2. **Enumerate channels with unreads** via `conversations_unreads`
-   (`include_messages: false` is enough).
-3. For each such channel, call `conversations_mark` with `ts: watermark_ts`. This
-   marks the channel read **only up to the triaged point**, leaving any
-   newer-than-watermark messages still unread for the next triage.
-4. **Report** how many channels were marked read up to the watermark.
-
-Limitation (v1): mark-read is all-or-nothing up to the watermark. It can't mark
-read "just the items you've reviewed" if you've only reviewed some.
+Limitation (v1): all-or-nothing up to the watermark; can't mark read "just the items
+you reviewed" if you've only reviewed some.
 
 ## Notes
 
-- Watermark comparisons use Slack `ts` directly (string-safe as long as you compare
-  numerically); never rely on wall-clock for dedup.
+- No tool allow-list is declared on purpose. Slack/Things/Task grants are managed
+  centrally in `programs/claude/default.nix`; look there for what's permitted.
