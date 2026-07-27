@@ -68,6 +68,18 @@ let
         prefix = false;
         aliases = {
           ws = "workspace switch";
+
+          k = "kubectl";
+
+          za = "zellij attach";
+          ze = "zellij list-sessions";
+          zda = "zellij delete-all-sessions";
+          zd = "zellij delete-session";
+
+          fe = "yazi";
+
+          te = "tmux list-sessions";
+          ta = "tmux attach";
         };
       }
     )
