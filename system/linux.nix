@@ -1,5 +1,5 @@
 # Shared configuration for Linux (NixOS) hosts
-{ pkgs, ... }:
+inputs@{ config, pkgs, ... }:
 {
   imports = [ ./packages.nix ];
 
@@ -41,6 +41,21 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "pnpm-10.29.2"
+  ];
+
+  environment.shells =
+    let
+      users = builtins.filter (user: user.isNormalUser) (builtins.attrValues config.users.users);
+      userPaths = builtins.map (user: "/etc/profiles/per-user/${user.name}/bin/nu") users;
+    in
+    with pkgs;
+    [
+      nushell
+      zsh
+    ]
+    ++ userPaths;
 
   # Services
   services.openssh.enable = true;

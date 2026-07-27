@@ -210,7 +210,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hazel = {
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.nushell;
     description = "Hazel Ocean Lewis";
     extraGroups = [
       "wheel"

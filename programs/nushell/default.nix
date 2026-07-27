@@ -53,8 +53,8 @@ let
             "/Users/${user}/OneSignal/workbench"
           else if hostname == "pigeon" then
             "/Users/${user}/workbench"
-          # else if hostname == "korriban" then
-          #   "...todo"
+          else if hostname == "korriban" then
+            "/home/hazel/workbench"
           else
             throw ''
               Nushell overlay (workspace) is not configured for current host: ${hostname}
@@ -134,6 +134,9 @@ in
       # polars   # broken atm
     ];
   };
+
+  # Required for the task module
+  services.pueue.enable = true;
 
   # Multi-shell argument completer — nushell's external completer, covering the
   # long tail of CLIs (kubectl, terraform, docker, gh, git, …). Its integration
