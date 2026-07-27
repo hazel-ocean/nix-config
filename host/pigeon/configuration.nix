@@ -76,7 +76,9 @@ in
       ];
     };
 
-    taps = [ ];
+    taps = [
+      # "frankea/whisky"
+    ];
 
     masApps = {
       "1Password for Safari" = 1569813296;
@@ -103,7 +105,7 @@ in
 
     casks = [
       "1password"
-      "android-studio"
+      # "android-studio"
       "brave-browser"
       "calibre"
       "chatgpt"
@@ -112,22 +114,22 @@ in
       "drawio"
       "firefox"
       "focusrite-control"
+      # "frankea/whisky/whisky"
       "gog-galaxy"
       "google-chrome"
       "ghostty"
       "granola"
       "handbrake-app"
-      "macwhisper"
       "mimestream"
-      "musescore"
+      # "musescore"
       "monocle-app"
-      "moonlight"
-      "nvidia-geforce-now"
+      # "moonlight"
+      # "nvidia-geforce-now"
       "obsidian"
       "plex"
       "protonvpn"
       "qbittorrent"
-      "raspberry-pi-imager"
+      # "raspberry-pi-imager"
       "raycast"
       "rectangle-pro"
       "rio"
@@ -142,6 +144,7 @@ in
       "visual-studio-code"
       "vlc"
       "wezterm"
+      "wispr-flow"
       "zed"
       "zoom"
     ];
