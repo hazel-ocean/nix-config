@@ -1,7 +1,10 @@
 alias e = clear
-def r [...paths: string] { e; lsd ...$paths }
-def re [] { e; lsd * }
-def er [...paths: string] { e; lsd -l ...$paths }
+def r [...paths: string] { e; ls ...$paths }
+def re [] { e; ls * }
+def er [...paths: string] { e; ls -l ...$paths }
+def ra [...paths: string] { e; ls -a ...$paths }
+def rea [] { e; ls -a * }
+def era [...paths: string] { e; ls -la ...$paths }
 def err [...paths: string] { e; lsd -lR ...$paths }
 def et [...paths: string] { e; lsd --tree --depth=1 ...$paths }
 def et2 [...paths: string] { e; lsd --tree --depth=2 ...$paths }

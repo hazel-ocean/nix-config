@@ -8,3 +8,7 @@ nixos.qcow2
 # ssh keys
 id_*
 !id_*.pub
+
+# Claude Code rewrites settings.json in place; ignore its backup/temp artifacts
+programs/claude/settings.json.bak
+programs/claude/settings.json.tmp.*
