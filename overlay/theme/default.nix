@@ -51,7 +51,7 @@ let
   };
 
   zellij-themes = rec {
-    standard.light = "catppuccin-latte";
+    standard.light = "catppuccin-latte-custom";
     standard.dark = "one-half-dark-custom";
     standard.black = "dracula-custom";
     high-contrast.light = standard.light;
@@ -62,6 +62,24 @@ let
     gruvbox.black = "gruvbox-dark-black";
     monalisa.dark = gruvbox.dark;
     monalisa.black = gruvbox.dark;
+    nord.dark = "nord";
+  };
+
+  # nu_scripts theme stems (themes/nu-themes/<stem>.nu). Every host `name` must
+  # map both light and dark, since Nushell resolves polarity at runtime;
+  # `configuredTheme` throws on an unmapped name/variant.
+  nushell-themes = rec {
+    standard.light = "cupertino";
+    standard.dark = "foxnightly";
+    standard.black = "ir-black";
+    high-contrast.light = standard.light;
+    high-contrast.dark = standard.dark;
+    high-contrast.black = high-contrast.dark;
+    gruvbox.light = "gruvbox-light-medium";
+    gruvbox.dark = "gruvbox-dark-medium";
+    gruvbox.black = "gruvbox-dark-hard";
+    monalisa.dark = "gruvbit";
+    monalisa.black = monalisa.dark;
     nord.dark = "nord";
   };
 
@@ -176,6 +194,12 @@ let
       wezterm = {
         dark = selectTheme "wezterm" wezterm-themes name "dark";
         light = selectTheme "wezterm" wezterm-themes name "light";
+      };
+      # Nushell picks light vs dark at runtime, so both must resolve; an
+      # unmapped name/variant throws (via selectTheme) like the other maps.
+      nushell = {
+        dark = selectTheme "nushell" nushell-themes name "dark";
+        light = selectTheme "nushell" nushell-themes name "light";
       };
       delta = selectTheme "bat" bat-themes name variant;
       difftastic = difftasticTheme variant;

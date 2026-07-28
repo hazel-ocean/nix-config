@@ -23,9 +23,21 @@ def zgc [] { git checkout (git branch | fzf) }
 def cdcopy [] { pwd | pbcopy }
 def cdpaste [] { cd $"\"(pbpaste)\"" }
 
-$env.config.edit_mode = "vi"
+# Render λ here (not via starship) so it tracks vi mode: only these indicators
+# re-render on a keymap change. Starship's `[character]` is disabled in the
+# Nushell-only config (default.nix). purple = ok, red = failed, blue = vi normal.
+$env.PROMPT_INDICATOR_VI_INSERT = {||
+  let c = if $env.LAST_EXIT_CODE == 0 { ansi purple_bold } else { ansi red_bold }
+  $"\n($c) λ (ansi reset)"
+}
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| $"\n(ansi blue_bold) λ (ansi reset)" }
 
-$env.config.show_banner = false
+$env.config.edit_mode = "vi"
+# Use cursor shapes to differentiate instead
+$env.config.cursor_shape.vi_insert = "blink_block"
+$env.config.cursor_shape.vi_normal = "block"
+
+$env.config.show_banner = "short"
 $env.config.completions.algorithm = "fuzzy"
 
 $env.config.keybindings = (

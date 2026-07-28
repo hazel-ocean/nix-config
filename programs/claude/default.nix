@@ -59,6 +59,10 @@ in
     settings = {
       permissions = {
         allow = [
+          # Built-in read-only tools
+          "WebSearch"
+          "WebFetch"
+
           # Obsidian: read-only (search / read / get) actions
           "mcp__plugin_claude-code-home-manager_obsidian__search_notes"
           "mcp__plugin_claude-code-home-manager_obsidian__list_directory"
@@ -67,6 +71,7 @@ in
           "mcp__plugin_claude-code-home-manager_obsidian__get_frontmatter"
           "mcp__plugin_claude-code-home-manager_obsidian__get_notes_info"
           "mcp__plugin_claude-code-home-manager_obsidian__get_vault_stats"
+          "mcp__plugin_claude-code-home-manager_obsidian__list_all_tags"
 
           # Obsidian: note edits
           "mcp__plugin_claude-code-home-manager_obsidian__patch_note"
@@ -161,7 +166,7 @@ in
         "github@claude-plugins-official" = false;
       };
       effortLevel = "high";
-      theme = "dark-ansi";
+      theme = "auto";
       editorMode = "vim";
       tui = "fullscreen";
 

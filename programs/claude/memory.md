@@ -2,9 +2,9 @@
 
 ## Coding & Agent Standards
 
-- **Comments**: Only leave comments that are necessary, and keep them terse.
+- **Comments**: Default to none. Add one only to record *why*: a non-obvious constraint, gotcha, or decision the code can't show. Never restate *what* the code does, label sections, or narrate steps. One line unless a real gotcha needs more; when unsure, delete it. Exception: a one-line doc on a public or exported command is fine.
 - **Punctuation**: Never use em dashes in any output (code comments, commit messages, prose). Use commas, colons, semicolons, or hyphens instead.
-- **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy — commits, PRs, and other output.
+- **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy: commits, PRs, and other output.
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
 
 ## Nushell

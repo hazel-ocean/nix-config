@@ -21,11 +21,27 @@ let
     zoxide init nushell > $out/init.nu
   '';
 
+  # Shared Starship config minus `[character]`, so Nushell can draw a vi-mode-aware
+  # λ itself (config.nu). Wired via STARSHIP_CONFIG; other shells keep the λ.
+  starshipNuConfig = (pkgs.formats.toml { }).generate "starship-nushell.toml" (
+    config.programs.starship.settings // { character = { disabled = true; }; }
+  );
+
+  themeSrc = ./overlays/theme;
+  themesDir = "${pkgs.nu-scripts}/themes/nu-themes";
+
   overlays = [
     {
       name = "admin";
       src = ./overlays/admin;
       enable = isDarwin;
+      prefix = true;
+    }
+    {
+      name = "theme";
+      src = themeSrc;
+      file = "theme.nu";
+      enable = true;
       prefix = true;
     }
     {
@@ -98,14 +114,45 @@ let
     map (o: lib.mapAttrsToList (name: cmd: "alias ${name} = ${cmd}") (o.aliases or { })) enabledOverlays
   );
 
+  # Appended after the overlay loads so `theme` is in scope. `source` needs a
+  # parse-time const path; env.nu writes the snippet before config.nu is parsed.
+  themeStartup = ''
+    const nu_theme_active_file = ($nu.data-dir | path join "theme-active.nu")
+    source $nu_theme_active_file
+
+    # Record the boot polarity so the pre_prompt hook only re-themes on a flip.
+    $env.NU_THEME_ACTIVE = (theme resolve)
+    $env.NU_THEME_ACTIVE_POLARITY = (theme detect-polarity)
+    $env.config.hooks.pre_prompt = (
+      $env.config.hooks.pre_prompt? | default [] | append {|| theme sync }
+    )
+  '';
+
   configText = lib.concatLines (
     [
       (builtins.readFile ./config.nu)
       overlayLoads
     ]
     ++ aliasLoads
-    ++ [ "source ${zoxideInit}/init.nu" ]
+    ++ [
+      "source ${zoxideInit}/init.nu"
+      themeStartup
+    ]
   );
+
+  # Into env.nu (runs before config.nu parse): theme data + the write-startup that
+  # generates the snippet config.nu sources. Child shells inherit STARSHIP_CONFIG
+  # and lose their λ; rare enough to accept.
+  themeEnv = ''
+    $env.STARSHIP_CONFIG = "${starshipNuConfig}"
+    $env.NU_THEMES_DIR = "${themesDir}"
+    $env.NU_THEME_DEFAULT_LIGHT = "${pkgs.theme.nushell.light}"
+    $env.NU_THEME_DEFAULT_DARK = "${pkgs.theme.nushell.dark}"
+    $env.NU_THEME_HOST_VARIANT = "${pkgs.theme.variant}"
+
+    use ${themeSrc}/theme.nu
+    theme write-startup
+  '';
 
   # Homebrew shellenv, re-expressed natively (Nushell can't `eval` the POSIX
   # output of `brew shellenv`). env.nu runs for every session before config.nu,
@@ -129,7 +176,7 @@ in
     enable = true;
     package = nushell;
     configFile.text = configText;
-    extraEnv = lib.optionalString isDarwin darwinEnv;
+    extraEnv = lib.concatLines ([ themeEnv ] ++ lib.optional isDarwin darwinEnv);
     plugins = [
       # polars   # broken atm
     ];
