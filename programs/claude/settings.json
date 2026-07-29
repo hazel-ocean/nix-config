@@ -1,35 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "editorMode": "vim",
-  "effortLevel": "high",
-  "enabledPlugins": {
-    "github@claude-plugins-official": false,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
-  },
-  "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/hazel/.claude/hooks/notify",
-            "type": "command"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "command": "/Users/hazel/.claude/hooks/notify",
-            "type": "command"
-          }
-        ]
-      }
-    ]
-  },
-  "model": "opus[1m]",
   "permissions": {
     "allow": [
       "WebSearch",
@@ -114,10 +84,43 @@
     ],
     "defaultMode": "default"
   },
-  "theme": "auto",
+  "model": "opus[1m]",
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/hazel/.claude/hooks/notify"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/hazel/.claude/hooks/notify"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "github@claude-plugins-official": false,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "low",
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "tap"
-  }
+  },
+  "theme": "auto",
+  "editorMode": "vim",
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true
 }

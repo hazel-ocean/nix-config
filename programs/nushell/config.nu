@@ -1,16 +1,16 @@
 alias e = clear
-def r [...paths: string] { e; ls ...$paths }
-def re [] { e; ls * }
-def er [...paths: string] { e; ls -l ...$paths }
-def ra [...paths: string] { e; ls -a ...$paths }
-def rea [] { e; ls -a * }
-def era [...paths: string] { e; ls -la ...$paths }
-def err [...paths: string] { e; lsd -lR ...$paths }
-def et [...paths: string] { e; lsd --tree --depth=1 ...$paths }
-def et2 [...paths: string] { e; lsd --tree --depth=2 ...$paths }
-def et3 [...paths: string] { e; lsd --tree --depth=3 ...$paths }
-def et4 [...paths: string] { e; lsd --tree --depth=4 ...$paths }
-def etr [...paths: string] { e; lsd --tree ...$paths }
+def --wrapped r [...rest]   { clear; ls ...$rest * }
+def --wrapped ra [...rest]  { clear; ls ...$rest -a * }
+def --wrapped er [...rest]  { clear; ls ...$rest -l * }
+def --wrapped era [...rest] { clear; ls ...$rest -la }
+def --wrapped err [...rest] { clear; lsd ...$rest -lR }
+def --wrapped re [...rest]  { clear; ls ...$rest */* }
+def --wrapped rea [...rest] { clear; ls ...$rest -a */* }
+def --wrapped et [...rest]  { clear; lsd ...$rest --tree --depth=1 }
+def --wrapped et2 [...rest] { clear; lsd ...$rest --tree --depth=2 }
+def --wrapped et3 [...rest] { clear; lsd ...$rest --tree --depth=3 }
+def --wrapped et4 [...rest] { clear; lsd ...$rest --tree --depth=4 }
+def --wrapped etr [...rest] { clear; lsd ...$rest --tree }
 
 def eg  [] { clear; git status }
 def egg [] { clear; git status; echo; git diff }

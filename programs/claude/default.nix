@@ -1,18 +1,13 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
 let
-  # Platform-specific notify command, spliced into the script below. osascript's
-  # `display notification` is native at any arch (it's Apple's scripting bridge),
-  # unlike the x86_64 terminal-notifier binary; on Linux fall back to notify-send.
-  # The dynamic strings are passed as argv so quotes/newlines in them can't break
-  # the AppleScript. Tradeoff vs terminal-notifier: no per-session grouping.
+  # Platform-specific notify command, spliced into the script below. On macOS,
+  # post via the notifier .app installed in ~/Applications by the activation
+  # script below; `open` propagates the ZELLIJ_* env, so the app captures the
+  # session/pane to return to. On Linux, fall back to notify-send.
   notifyCmd =
     if pkgs.stdenv.isDarwin then ''
-      (^osascript
-        -e "on run argv"
-        -e 'display notification (item 3 of argv) with title (item 1 of argv) subtitle (item 2 of argv) sound name "Pong"'
-        -e "end run"
-        $title $subtitle $body)
+      (^open ($env.HOME | path join "Applications" "ClaudeZellijWhip.app") --args notify --title $title --message $body --folder $dir)
     '' else ''
       (^${pkgs.libnotify}/bin/notify-send $title $"($subtitle) — ($body)")
     '';
@@ -86,4 +81,18 @@ in
   # rotating /nix/store hash; Nix refreshes the target on each switch. The hook
   # references /Users/hazel/.claude/hooks/notify (espeon is the sole importer).
   home.file.".claude/hooks/notify".source = notify;
+
+  # Install the notifier where LaunchServices can find it: a real copy in
+  # ~/Applications (not a /nix/store symlink, whose path rotates each rebuild),
+  # chmod'd writable, ad-hoc re-signed, and registered so a notification click
+  # relaunches it by bundle id.
+  home.activation.installClaudeZellijWhip = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    dest="$HOME/Applications/ClaudeZellijWhip.app"
+    run rm -rf "$dest"
+    run mkdir -p "$HOME/Applications"
+    run cp -RL ${pkgs.claude-zellij-whip}/Applications/ClaudeZellijWhip.app "$dest"
+    run chmod -R u+w "$dest"
+    run /usr/bin/codesign --force --sign - "$dest"
+    run /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -f "$dest"
+  '';
 }
