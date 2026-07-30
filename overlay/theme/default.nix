@@ -62,7 +62,8 @@ let
   # `configuredTheme` throws on an unmapped name/variant.
   nushell-themes = rec {
     standard.light = "cupertino";
-    standard.dark = "amora";
+    standard.dark = "catppuccin-mocha";
+    # standard.dark = "amora";
     # standard.dark = "dark-pastel";
     standard.black = "dark-pastel";
     high-contrast.light = standard.light;

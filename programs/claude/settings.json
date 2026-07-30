@@ -86,6 +86,36 @@
   },
   "model": "opus[1m]",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/hazel/.claude/hooks/capture"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/hazel/.claude/hooks/capture"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/hazel/.claude/hooks/cleanup"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "hooks": [
@@ -119,8 +149,9 @@
     "enabled": true,
     "mode": "tap"
   },
-  "theme": "dark-daltonized",
+  "theme": "auto",
   "editorMode": "vim",
-  "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true
+  "preferredNotifChannel": "notifications_disabled",
+  "inputNeededNotifEnabled": false,
+  "agentPushNotifEnabled": false
 }

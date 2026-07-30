@@ -6,10 +6,12 @@
 - **Punctuation**: Never use em dashes in any output (code comments, commit messages, prose). Use commas, colons, semicolons, or hyphens instead.
 - **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy: commits, PRs, and other output.
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
+- **Layout**: Prefer vertical code over horizontal for legibility in 80-column windows. Break long chains, argument lists, and expressions across lines rather than packing them wide. (Coming from Elixir, where verticality, e.g. piped `|>` chains one call per line, is idiomatic most of the time.)
 
 ## Nushell
 
 - Don't use underscores to denote private vs public.
+- Prefer nushell (`nu`) for non-trivial scripts and workspace tooling, invoked as a subprocess (`nu -c '...'` or `nu script.nu`). Keep simple one-shot commands (`grep`, `git`, `ls`) as plain POSIX shell.
 
 ## Task Management (Things.app)
 

@@ -29,8 +29,8 @@
       url = "github:nushell/nu_scripts";
       flake = false;
     };
-    claude-zellij-whip = {
-      url = "github:hazel-ocean/claude-zellij-whip";
+    clawd-back = {
+      url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -61,8 +61,8 @@
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
           nu-scripts = inputs.nu-scripts;
-          claude-zellij-whip =
-            inputs.claude-zellij-whip.packages.${prev.stdenv.hostPlatform.system}.default;
+          clawd-back =
+            inputs.clawd-back.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default
