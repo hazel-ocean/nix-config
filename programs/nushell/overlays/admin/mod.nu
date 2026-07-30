@@ -11,7 +11,7 @@ const REPO = "~/.config/nix-config"
 export def nix-config []: nothing -> nothing {
   cd ($REPO | path expand)
   clear -k
-  just edit
+  zellij attach --create nix-config
 }
 
 # Drop into the Jellyfin volume with its Justfile listed (pigeon only).

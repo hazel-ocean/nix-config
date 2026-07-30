@@ -71,6 +71,10 @@
           "export GITHUB_PERSONAL_ACCESS_TOKEN=$(cat ~/.config/mcp-github/access-token) && exec ${pkgs.github-mcp-server}/bin/github-mcp-server stdio --read-only"
         ];
       };
+      craft = {
+        type = "http";
+        url = "https://mcp.craft.do/my/mcp";
+      };
     };
   };
 

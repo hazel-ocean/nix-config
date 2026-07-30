@@ -119,7 +119,7 @@
     "enabled": true,
     "mode": "tap"
   },
-  "theme": "auto",
+  "theme": "dark-daltonized",
   "editorMode": "vim",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true

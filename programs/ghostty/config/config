@@ -101,6 +101,8 @@ macos-titlebar-proxy-icon = hidden
 window-padding-y = 0,6
 window-height = 25
 window-width = 106
+# Window resizes by cell size
+window-padding-balance = true
 
 # [false | working-directory]
 window-subtitle = false

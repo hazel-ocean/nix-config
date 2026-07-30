@@ -1,13 +1,5 @@
 {
   source ? null,
-  name ? "standard",
-  variant ? "dark",
-  font ? {
-    monospace = "DejaVu";
-  },
-  terminal ? {
-    transparency = false;
-  },
   ...
 }@config:
 let
@@ -70,9 +62,9 @@ let
   # `configuredTheme` throws on an unmapped name/variant.
   nushell-themes = rec {
     standard.light = "cupertino";
-    # standard.dark = "amora";
-    standard.dark = "dark-pastel";
-    standard.black = "ir-black";
+    standard.dark = "amora";
+    # standard.dark = "dark-pastel";
+    standard.black = "dark-pastel";
     high-contrast.light = standard.light;
     high-contrast.dark = standard.dark;
     high-contrast.black = high-contrast.dark;
@@ -183,9 +175,7 @@ let
       helix = {
         dark = selectTheme "helix" helix-themes name "dark";
         light = selectTheme "helix" helix-themes name "light";
-        fallback = opt.helix or (
-          selectTheme "helix" helix-themes name variant
-        );
+        fallback = opt.helix or (selectTheme "helix" helix-themes name variant);
       };
       zellij = selectTheme "zellij" zellij-themes name variant;
       bat = {

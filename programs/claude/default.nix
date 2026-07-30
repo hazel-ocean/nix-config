@@ -7,7 +7,7 @@ let
   # session/pane to return to. On Linux, fall back to notify-send.
   notifyCmd =
     if pkgs.stdenv.isDarwin then ''
-      (^open ($env.HOME | path join "Applications" "ClaudeZellijWhip.app") --args notify --title $title --message $body --folder $dir)
+      (^open ($env.HOME | path join "Applications" "ClaudeZellijWhip.app") --args notify --title $title --message $body --folder $dir --cwd $cwd)
     '' else ''
       (^${pkgs.libnotify}/bin/notify-send $title $"($subtitle) — ($body)")
     '';
