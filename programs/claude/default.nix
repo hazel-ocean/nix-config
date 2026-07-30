@@ -9,7 +9,7 @@ let
     if pkgs.stdenv.isDarwin then ''
       (^open ($env.HOME | path join "Applications" "ClawdBack.app") --args notify --title $title --message $body --session-id $session_id)
     '' else ''
-      (^${pkgs.libnotify}/bin/notify-send $title $"($subtitle): ($body)")
+      (^${pkgs.libnotify}/bin/notify-send $title $body)
     '';
 
   # Fired by Claude's Stop + Notification hooks. Reads the hook's JSON
@@ -21,23 +21,11 @@ let
 
     let event   = ($input.hook_event_name? | default "")
     let message = ($input.message? | default "")
-
-    let session = ($env.ZELLIJ_SESSION_NAME? | default "")
     let session_id = ($input.session_id? | default "")
     let transcript = ($input.transcript_path? | default "")
 
-    # Label the session by its zellij name, or "Ghostty" for a bare session.
-    let name = (if ($session | is-empty) { "Ghostty" } else { $session })
-    let need = (if ($message | is-empty) { "Claude needs your input" } else { $message })
-
-    let title = (match $event {
-      "Notification" => $need
-      "Stop" | _     => "Claude has finished and is waiting..."
-    })
-    let subtitle = $name
-
-    # Body: the session name plus Claude's last text message. Scan the tail of
-    # the transcript (the final assistant entry is often a tool_use, not text).
+    # Claude's last text message, from the tail of the transcript (the final
+    # assistant entry is often a tool_use, not text, so scan back a bit).
     let last_said = (
       if ($transcript | is-not-empty) and ($transcript | path exists) {
         let texts = (open $transcript | lines | last 150
@@ -48,7 +36,16 @@ let
         if ($texts | is-empty) { "" } else { $texts | last | str trim | str replace -a (char newline) " " | str substring 0..180 }
       } else { "" }
     )
-    let body = (if ($last_said | is-empty) { $name } else { $"($name) > ($last_said)" })
+
+    # Title states what happened. On a Notification it's the specific reason
+    # (which tool needs permission, or idle) straight from the hook payload;
+    # body always carries Claude's last transcript text as color, nudging you
+    # over when there's none to show.
+    let title = (match $event {
+      "Notification" => (if ($message | str trim | is-empty) { "Claude needs your input" } else { $message })
+      "Stop" | _     => "Claude has finished and is waiting"
+    })
+    let body = (if ($last_said | str trim | is-empty) { "Click to go check on Clawd." } else { $last_said })
 
     ${notifyCmd}
   '';

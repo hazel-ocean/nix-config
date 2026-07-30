@@ -1,5 +1,29 @@
 {
   "nodes": {
+    "agent-skills": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785445930,
+        "narHash": "sha256-A9t7vIF8BY/mK7pngCHyPteAzAM///37ST89U0VqDHw=",
+        "ref": "flake-support",
+        "rev": "d7b2ebc162a952170f63d17293e0683743b840b3",
+        "revCount": 330,
+        "type": "git",
+        "url": "ssh://git@github.com/OneSignal/agent-skills"
+      },
+      "original": {
+        "ref": "flake-support",
+        "type": "git",
+        "url": "ssh://git@github.com/OneSignal/agent-skills"
+      }
+    },
     "argononed": {
       "flake": false,
       "locked": {
@@ -40,11 +64,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785437786,
-        "narHash": "sha256-J8iU5aiSuE6UUmwd2vCiZjg2RvMq0qpA/Z9WkyGDrVw=",
+        "lastModified": 1785448580,
+        "narHash": "sha256-pnWHSbdVDi1pHUT5arWChlsHs3I47inVHqqWrSofDUk=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "238dd883b4705ec5dfbb6542b806b637bd787a49",
+        "rev": "e3178102d45554665c96154a97a22aad8e63074a",
         "type": "github"
       },
       "original": {
@@ -571,6 +595,7 @@
     },
     "root": {
       "inputs": {
+        "agent-skills": "agent-skills",
         "clawd-back": "clawd-back",
         "flake-utils": "flake-utils_2",
         "helix": "helix",

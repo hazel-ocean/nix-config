@@ -75,7 +75,17 @@
         type = "http";
         url = "https://mcp.craft.do/my/mcp";
       };
+      onesignal-repos = {
+        type = "stdio";
+        command = "${pkgs.onesignal-repos-mcp}/bin/onesignal-repos-mcp";
+        env.ONESIGNAL_WORKSPACE_ROOT = "/Users/hazel/OneSignal/src";
+      };
     };
+    plugins = with pkgs.onesignal-plugins; [
+      epd-ops
+      housekeeping
+      onesignal-org
+    ];
   };
 
   # pueued daemon (launchd agent) backing the nushell `task` overlay.

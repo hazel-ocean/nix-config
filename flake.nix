@@ -33,6 +33,12 @@
       url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    agent-skills = {
+      # Track PR #163 until it merges to main, then drop `?ref=flake-support`.
+      url = "git+ssh://git@github.com/OneSignal/agent-skills?ref=flake-support";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
   outputs =
@@ -63,6 +69,9 @@
           nu-scripts = inputs.nu-scripts;
           clawd-back =
             inputs.clawd-back.packages.${prev.stdenv.hostPlatform.system}.default;
+          onesignal-repos-mcp =
+            inputs.agent-skills.packages.${prev.stdenv.hostPlatform.system}.repos-mcp;
+          onesignal-plugins = inputs.agent-skills.lib.plugins;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default

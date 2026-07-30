@@ -8,6 +8,10 @@
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
 - **Layout**: Prefer vertical code over horizontal for legibility in 80-column windows. Break long chains, argument lists, and expressions across lines rather than packing them wide. (Coming from Elixir, where verticality, e.g. piped `|>` chains one call per line, is idiomatic most of the time.)
 
+## Public Communication & Approvals
+
+- **Never post publicly without a drafted approval.** Do not reply to, comment on, or open anything outward-facing (GitHub issues/PRs/reviews, Slack, Linear, and any other public or shared channel) until you have shown me a draft of the exact wording and I have explicitly approved it. This covers opening PRs, posting review comments, sending Slack messages, and adding Linear comments. Draft first, wait for my go-ahead, then send.
+
 ## Nushell
 
 - Don't use underscores to denote private vs public.
