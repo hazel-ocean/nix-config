@@ -205,8 +205,8 @@
         username = "hazel";
         stateVersion = "25.11";
         system = "x86_64-linux";
-        nixpkgs = nixos-stable;
-        home-manager = home-manager-nixos-stable;
+        nixpkgs = nixos-unstable;
+        home-manager = home-manager-nixos-unstable;
       };
 
       nixosConfigurations.rpi5 = nixos-raspberrypi.lib.nixosInstaller {

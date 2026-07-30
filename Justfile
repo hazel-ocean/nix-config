@@ -48,6 +48,7 @@ _theme host=`hostname`:
 
 # Rebuilds on file changes, debouncing bursts and restarting on interrupting edits
 watch:
+    @sudo --validate
     @watchexec \
         --postpone \
         --restart \
