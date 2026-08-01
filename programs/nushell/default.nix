@@ -89,8 +89,6 @@ let
 
           za = "zellij attach";
           ze = "zellij list-sessions";
-          zda = "zellij delete-all-sessions";
-          zd = "zellij delete-session";
 
           fe = "yazi";
 
@@ -128,15 +126,22 @@ let
     )
   '';
 
+  # home-manager owns config.nu (it also carries the mise/carapace/direnv nushell
+  # inits appended by those modules), so we can't make it a bare symlink. Instead
+  # the generated config.nu ends by sourcing the working-tree config.nu, exposed
+  # as an out-of-store symlink at user-config.nu. Editing programs/nushell/config.nu
+  # then reflects in new shells without a rebuild, the way ~/.claude/settings.json
+  # is editable. Sourced after the overlay + alias loads so its `zd`/`zda` see the
+  # `workspace` overlay.
+  userConfig = "${config.home.homeDirectory}/.config/nushell/user-config.nu";
+
   configText = lib.concatLines (
-    [
-      (builtins.readFile ./config.nu)
-      overlayLoads
-    ]
+    [ overlayLoads ]
     ++ aliasLoads
     ++ [
       "source ${zoxideInit}/init.nu"
       themeStartup
+      "source ${userConfig}"
     ]
   );
 
@@ -182,12 +187,19 @@ in
     ];
   };
 
+  # Out-of-store symlink to the working-tree config.nu, which the generated
+  # config.nu sources last (see userConfig). Editing programs/nushell/config.nu
+  # then reflects in new shells without a rebuild, like ~/.claude/settings.json.
+  home.file.".config/nushell/user-config.nu".source =
+    config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/.config/nix-config/programs/nushell/config.nu";
+
   # Required for the task module
   services.pueue.enable = true;
 
   # Multi-shell argument completer — nushell's external completer, covering the
   # long tail of CLIs (kubectl, terraform, docker, gh, git, …). Its integration
-  # appends to programs.nushell.extraConfig, so it composes with configText above.
+  # appends to programs.nushell.config, so it composes with configText above.
   programs.carapace = {
     enable = true;
     enableNushellIntegration = true;

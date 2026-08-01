@@ -23,6 +23,58 @@ def zvi [] { nvim (fzf --preview 'bat --style=numbers --color=always {}') }
 def zhx [] { hx (fzf --preview 'bat --style=numbers --color=always {}') }
 def zgc [] { git checkout (git branch | fzf) }
 
+# Zellij session management. `zd` multi-selects live sessions to force-delete;
+# `zda` drops all resurrectable (exited) sessions via `zellij delete-all-sessions`
+# (its own y/N prompt confirms). Both first flag any workspace-tracked sessions
+# that would be affected. `workspace list` resolves once its overlay is loaded.
+
+# Heads-up for a pending Zellij deletion: workspace-tracked sessions (rows from
+# `workspace list`), session names in light purple. No-op on empty.
+def print-workspace-sessions [header: string] {
+  let rows = $in
+  if ($rows | is-empty) { return }
+  print $"(ansi light_blue)($header)(ansi reset)"
+  for row in $rows {
+    print (
+      $"  (ansi light_purple)($row.session)(ansi reset)"
+      + $" (ansi dark_gray)<- ($row.workspace) [($row.state)](ansi reset)"
+    )
+  }
+}
+
+def zellij-session-names []: nothing -> list<string> {
+  let r = (^zellij list-sessions --no-formatting --short | complete)
+  if $r.exit_code != 0 { return [] }
+  $r.stdout
+  | lines
+  | each {|l| $l | str trim }
+  | where {|l| $l | is-not-empty }
+}
+
+# Multi-select live Zellij sessions to force-delete; flags any a workspace saved.
+def zd [] {
+  let names = (zellij-session-names)
+  if ($names | is-empty) { print "No Zellij sessions."; return }
+  let chosen = ($names | input list --multi --fuzzy "Sessions to delete:")
+  if ($chosen | is-empty) { print "Nothing selected."; return }
+  workspace list
+  | where session in $chosen
+  | print-workspace-sessions "Workspace sessions in the selection:"
+  for name in $chosen {
+    ^zellij delete-session --force -- $name
+    print $"deleted (ansi light_purple)($name)(ansi reset)"
+  }
+}
+
+# Delete all resurrectable (exited) Zellij sessions, warning first about any a
+# workspace saved. `zellij delete-all-sessions` prompts for confirmation.
+def zda [] {
+  workspace list
+  | where state == "exited"
+  | print-workspace-sessions "Workspace sessions to be deleted:"
+  ^zellij delete-all-sessions
+}
+
 def cdcopy [] { pwd | pbcopy }
 def cdpaste [] { cd $"\"(pbpaste)\"" }
 
