@@ -126,6 +126,25 @@
     "ask": [
       "Write"
     ],
+    "deny": [
+      "Bash(brew style:*)",
+      "Bash(brew audit:*)",
+      "Bash(brew tests:*)",
+      "Bash(brew typecheck:*)",
+      "Bash(brew prof:*)",
+      "Bash(brew ruby:*)",
+      "Bash(brew sh:*)",
+      "Bash(brew rubocop:*)",
+      "Bash(brew bump:*)",
+      "Bash(brew pr-:*)",
+      "Bash(brew vendor-:*)",
+      "Bash(brew install-bundler-gems:*)",
+      "Bash(brew update-python-resources:*)",
+      "Bash(brew generate-:*)",
+      "Bash(brew contributions:*)",
+      "Bash(brew dispatch-build-bottle:*)",
+      "Bash(brew developer:*)"
+    ],
     "defaultMode": "default"
   },
   "model": "opus[1m]",
