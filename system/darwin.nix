@@ -1,5 +1,5 @@
 # Shared configuration for Darwin (macOS) hosts
-{ pkgs, config, lib, ... }:
+{ pkgs, config, ... }:
 {
   imports = [ ./packages.nix ];
 
@@ -9,6 +9,14 @@
   };
 
   security.pam.services.sudo_local.touchIdAuth = true;
+
+  services.openssh = {
+    enable = true;
+    extraConfig = ''
+      PasswordAuthentication no
+      ChallengeResponseAuthentication no
+    '';
+  };
 
   system.defaults = {
     SoftwareUpdate.AutomaticallyInstallMacOSUpdates = true;

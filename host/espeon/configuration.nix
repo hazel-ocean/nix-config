@@ -26,6 +26,11 @@ in
     home = HOME;
     isHidden = false;
     shell = pkgs.zsh;
+
+    openssh.authorizedKeys.keyFiles = [
+      ../espeon/ssh/id_ed25519.pub
+      ../korriban/ssh/id_ed25519.pub
+    ];
   };
 
   homebrew = {
