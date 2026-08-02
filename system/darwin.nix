@@ -59,6 +59,15 @@
     shellAliases = { };
     variables = { };
 
+    # Let root (sudo darwin-rebuild) authenticate to GitHub for private
+    # git+ssh flake inputs using the primary user's key. Only the path is
+    # referenced; the key never enters the world-readable Nix store.
+    etc."ssh/ssh_config.d/100-github-primary-user.conf".text = ''
+      Host github.com
+        IdentityFile /Users/${config.system.primaryUser}/.ssh/id_ed25519
+        IdentitiesOnly yes
+    '';
+
     loginShellInit = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
     '';

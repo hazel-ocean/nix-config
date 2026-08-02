@@ -2,7 +2,7 @@
 
 # Removes past backups. Requires specifying the volume of the backup.
 export def thin-backups [
-  mut --keeping (-k): int = 1  # Keep the last `k` backups
+  --keeping (-k): int = 1  # Keep the last `k` backups
   --volume (-v): string        # Backup volume to target
 ]: nothing -> nothing {
     let keeping = [0, $keeping] | math max

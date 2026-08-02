@@ -123,9 +123,6 @@
       "Bash(gh search:*)",
       "Bash(gh api --method GET:*)"
     ],
-    "ask": [
-      "Write"
-    ],
     "deny": [
       "Bash(brew style:*)",
       "Bash(brew audit:*)",
@@ -144,6 +141,9 @@
       "Bash(brew contributions:*)",
       "Bash(brew dispatch-build-bottle:*)",
       "Bash(brew developer:*)"
+    ],
+    "ask": [
+      "Write"
     ],
     "defaultMode": "default"
   },
@@ -206,7 +206,7 @@
     "typescript-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true
   },
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "tui": "fullscreen",
   "voice": {
     "enabled": false,
