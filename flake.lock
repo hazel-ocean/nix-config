@@ -64,15 +64,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1785532312,
-        "narHash": "sha256-1Mk81SB7FD+PFx1b+PfpOOaBwLhNnltOIN6NCZanC2o=",
+        "lastModified": 1785628673,
+        "narHash": "sha256-sbFuvcpx2pU/3zyi2GlFeosapGFK1vv4d+6iORskPjc=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "32490b0f9d8375f882839ab8c20ecb43445107a4",
+        "rev": "7a74abd2add242ac562e811a4aebc7fc4be6d408",
         "type": "github"
       },
       "original": {
         "owner": "hazel-ocean",
+        "ref": "refactor/terminal-multiplexer-protocols",
         "repo": "clawd-back",
         "type": "github"
       }

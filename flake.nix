@@ -30,7 +30,8 @@
       flake = false;
     };
     clawd-back = {
-      url = "github:hazel-ocean/clawd-back";
+      # Dogfooding the protocol refactor; drop the ?ref once it merges to main.
+      url = "github:hazel-ocean/clawd-back/refactor/terminal-multiplexer-protocols";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     agent-skills = {
