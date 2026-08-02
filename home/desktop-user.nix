@@ -1,10 +1,12 @@
 {
+  hostname,
   username,
   homeDirectory,
   stateVersion,
   imports ? [ ],
   ...
 }:
+{ lib, pkgs, ... }:
 {
   imports = imports ++ [
     ./common.nix
@@ -38,5 +40,17 @@
       FZF_DEFAULT_COMMAND = "fd --type f";
       BAT_CONFIG_PATH = "${homeDirectory}/.config/bat/config";
     };
+
+    # Bootstrap the key that system git+ssh flake auth expects at
+    # ~/.ssh/id_ed25519, copying the fresh pubkey back into the repo. No-op
+    # when the key already exists, so a committed pubkey is never clobbered.
+    activation.ensureSshKey = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      export PATH="${lib.makeBinPath [ pkgs.openssh pkgs.coreutils ]}:$PATH"
+      run ${pkgs.nushell}/bin/nu ${./scripts/ensure-ssh-key.nu} \
+        --home ${homeDirectory} \
+        --user ${username} \
+        --host ${hostname} \
+        --repo "${homeDirectory}/.config/nix-config"
+    '';
   };
 }

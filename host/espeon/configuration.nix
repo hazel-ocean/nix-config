@@ -28,6 +28,7 @@ in
     shell = pkgs.zsh;
 
     openssh.authorizedKeys.keyFiles = [
+      ../pigeon/ssh/id_ed25519.pub
       ../espeon/ssh/id_ed25519.pub
       ../korriban/ssh/id_ed25519.pub
     ];

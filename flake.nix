@@ -30,8 +30,7 @@
       flake = false;
     };
     clawd-back = {
-      # Dogfooding the protocol refactor; drop the ?ref once it merges to main.
-      url = "github:hazel-ocean/clawd-back/refactor/terminal-multiplexer-protocols";
+      url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     agent-skills = {
@@ -109,7 +108,12 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 users.${username} = import ./home/desktop-user.nix {
-                  inherit username homeDirectory stateVersion;
+                  inherit
+                    hostname
+                    username
+                    homeDirectory
+                    stateVersion
+                    ;
                   imports = [
                     ./programs/zed
                     ./host/${hostname}/home-configuration.nix
@@ -159,7 +163,12 @@
                 useUserPackages = true;
                 backupFileExtension = "backup";
                 users.${username} = import ./home/desktop-user.nix {
-                  inherit username homeDirectory stateVersion;
+                  inherit
+                    hostname
+                    username
+                    homeDirectory
+                    stateVersion
+                    ;
                   imports = [
                     ./programs/zed
                     ./host/${hostname}/home-configuration.nix
