@@ -12,6 +12,7 @@ mkShell {
     tmux
     just
     ncurses
+    nushell
     git
     watchexec
   ] ++ lib.optionals stdenv.isDarwin [ nix-darwin.packages.${stdenv.hostPlatform.system}.default ];

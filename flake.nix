@@ -1,5 +1,6 @@
 {
   inputs = {
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos-stable.url = "github:nixos/nixpkgs/nixos-26.05";
@@ -43,6 +44,7 @@
 
   outputs =
     inputs@{
+      determinate,
       home-manager-master,
       home-manager-nixos-stable,
       home-manager-nixos-unstable,
@@ -89,6 +91,7 @@
           stateVersion,
           system ? "aarch64-darwin",
           extraImports ? [ ],
+          extraModules ? [ ],
           extraSpecialArgs ? { },
         }:
         let
@@ -122,7 +125,7 @@
                 };
               };
             }
-          ];
+          ] ++ extraModules;
         };
 
       mkNixosHost =
@@ -268,8 +271,16 @@
 
       darwinConfigurations.pigeon = mkDarwinHost {
         hostname = "pigeon";
-        username = "ocean";
+        username = "hazel";
         stateVersion = "24.11";
+        extraModules = [
+          determinate.darwinModules.default
+ 
+          ({ ... }: {
+            # Enable the Determinate Nix module
+            determinateNix.enable = true;
+          })
+        ];
         extraSpecialArgs = {
           rosetta-pkgs = import nixpkgs-unstable {
             inherit config;

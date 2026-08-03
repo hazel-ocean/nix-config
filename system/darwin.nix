@@ -75,8 +75,6 @@
     systemPath = [ "$HOME/.cargo/bin" ];
   };
 
-  services.lorri.enable = true;
-
   programs.zsh = {
     enable = true;
 

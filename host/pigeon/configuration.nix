@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   HOST_NAME = "pigeon";
-  USER = "ocean";
+  USER = "hazel";
   HOME = "/Users/${USER}";
 in
 {
@@ -90,11 +90,11 @@ in
       "Things" = 904280696;
       "WhatsApp" = 310633997;
 
-      "GarageBand" = 682658836;
-      "iMovie" = 408981434;
-      "Keynote" = 409183694;
-      "Numbers" = 409203825;
-      "Pages" = 409201541;
+      # "GarageBand" = 682658836;
+      # "iMovie" = 408981434;
+      # "Keynote" = 409183694;
+      # "Numbers" = 409203825;
+      # "Pages" = 409201541;
     };
 
     brews = [
