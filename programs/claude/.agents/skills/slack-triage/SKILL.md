@@ -27,8 +27,48 @@ needed); missing file = first run.
 
 1. **Load state.** Missing → first run: bound candidates to ~last 7 days so a backlog
    doesn't flood, and say so in the report.
-2. **Fetch** `conversations_unreads`, `include_messages: true`, `max_channels` /
-   `max_messages_per_channel` above defaults (50 / 10).
+2. **Fetch** in two passes to keep the output small (most volume is bot/social noise):
+   - *Pass 1 (default):* `conversations_unreads` with `mentions_only: true`, plus a
+     separate call scoped to `channel_types: "dm,group_dm"`. This is the high-signal
+     surface (DMs + @mentions of Hazel) and is almost always small enough to read
+     inline.
+   - *Pass 2 (SMS domain sweep):* targeted `conversations_history` (or a scoped
+     `conversations_unreads`) over Hazel's core channels — `#product-sms`,
+     `#eng-sms`, `#sms-pumping-prevention`, `#sms-onboarding-implementation`, and any
+     thread she's in — since domain asks there often don't @-mention her by name. Run
+     this every time; on quick daily runs it can be skipped if Pass 1 is empty and the
+     report says so.
+     - *Team mentions:* also surface messages that tag the SMS team or a teammate, not
+       just Hazel.
+       - *The team handle (reliable, always current):* **@sms-team** is `S09E6JX65P0`;
+         a message tags it via the raw token `<!subteam^S09E6JX65P0>`. Match that token
+         in fetched message text. Since tagging @sms-team notifies all nine members,
+         this catches most team-directed asks without any roster.
+       - *Individual members (maintained list):* this MCP's `usergroups_list` does NOT
+         return member IDs (even with `include_users: true` the CSV omits them), so the
+         roster can't be resolved live — it must be listed here and refreshed
+         periodically as the team changes. Current @sms-team members (source of truth:
+         the usergroup in Slack, 9 members as of 2026-08-03):
+         <!-- ROSTER:sms-team — usergroup S09E6JX65P0 (9 members). This MCP can't
+              enumerate the group, so reconstructed 2026-08-03 from message evidence
+              plus Hazel's corrections: 8 of 9 identified. VERIFY against the Slack
+              usergroup and fill the 1 unknown; drop anyone who has since left. -->
+         - `U09TD059N1Y` Hazel Lewis      — Senior Eng — SMS       (self)
+         - `U04ATCN7HGT` Maggie Zhang     — PM, SMS/RCS
+         - `U09JG9WRT5Y` Dean Slama       — SWE — SMS
+         - `U0B04V8KB7W` Tyler Schoppe    — Software Engineer
+         - `U0B0H1SDKSS` Scott Li         — Software Engineer
+         - `U0A3JMUT4VC` Alex Ispa-Cowan  — Senior Software Engineer
+         - `U08BFJU56R0` Blaine Muri      — Eng Manager, Email + SMS
+         - `U0ADW8ZTCM9` Rya Sciban       — Product
+         - (1 member not yet identified — add them)
+         Treat an @mention of any listed member, in Hazel's domain channels, as
+         surface-worthy.
+       - Related on-call handle: **@sms-eoc** `S07GACAF3RU`.
+   - *Fallback (wide sweep):* if the user asks for a full catch-up, fall back to the
+     broad `conversations_unreads` with `include_messages: true` and `max_channels` /
+     `max_messages_per_channel` above defaults (50 / 10). Muted channels stay excluded
+     (`include_muted: false`), so noise the user has muted never appears.
    - *Oversized:* with messages this often exceeds the output limit (~315k chars seen)
      and offloads to a file; spawn a `Task` subagent to read it in chunks and return a
      digest (per message: channel name, `ts`, author, text, URLs); use the inline
@@ -39,8 +79,9 @@ needed); missing file = first run.
 3. **Filter:** keep `ts` > `watermark_ts` (first run: within the 7-day bound). Count
    what you considered.
 4. **Judge:** *surface* DMs, @mentions, direct asks/questions to Hazel, threads she's
-   in, anything time-sensitive/blocking; *skip* announcements, automated/FYI posts,
-   noise she isn't part of.
+   in, mentions of **@sms-team** (`S09E6JX65P0`) or any of its current members, asks
+   routed to the SMS team, anything time-sensitive/blocking; *skip* announcements,
+   automated/FYI posts, noise she isn't part of.
 5. **File** surfaced items via `add_todo`, `list_id: "H5WBBFFgYhksuLmNVhc43R"` (stable
    across renames). First resolve channel IDs (`conversations_unreads` gives names, no
    permalink) via one `channels_me` call (`name` → `Cxxxx`); DM/app channels

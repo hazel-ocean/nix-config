@@ -207,7 +207,7 @@
     "swift-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "tui": "fullscreen",
+  "tui": "default",
   "voice": {
     "enabled": false,
     "mode": "tap"
