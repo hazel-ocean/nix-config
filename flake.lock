@@ -10,16 +10,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1785445930,
-        "narHash": "sha256-A9t7vIF8BY/mK7pngCHyPteAzAM///37ST89U0VqDHw=",
-        "ref": "flake-support",
-        "rev": "d7b2ebc162a952170f63d17293e0683743b840b3",
-        "revCount": 330,
+        "lastModified": 1785532518,
+        "narHash": "sha256-TowucLTtxKsoIJsBXk5Pp2Wc3bt4nFn4Pr+ooIi31PM=",
+        "ref": "refs/heads/main",
+        "rev": "5c923290bf74ae4e96601b835cabbde5ab02e47b",
+        "revCount": 347,
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/agent-skills"
       },
       "original": {
-        "ref": "flake-support",
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/agent-skills"
       }

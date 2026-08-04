@@ -35,8 +35,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     agent-skills = {
-      # Track PR #163 until it merges to main, then drop `?ref=flake-support`.
-      url = "git+ssh://git@github.com/OneSignal/agent-skills?ref=flake-support";
+      url = "git+ssh://git@github.com/OneSignal/agent-skills";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.flake-utils.follows = "flake-utils";
     };
