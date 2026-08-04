@@ -66,6 +66,30 @@ def zd [] {
   }
 }
 
+# Attach to a live Zellij session: single-select picker, or attach directly on an
+# exact name, else narrow the picker to sessions whose name contains the input.
+def za [
+  name?: string # session to attach; omit to pick from all sessions
+] {
+  let names = (zellij-session-names)
+  if ($names | is-empty) { print "No Zellij sessions."; return }
+  let chosen = if ($name | is-empty) {
+    $names | input list --fuzzy "Session to attach:"
+  } else if ($name in $names) {
+    $name
+  } else {
+    let matches = ($names | where {|n| $n | str contains -i $name })
+    if ($matches | is-empty) { print $"No session matches ($name)."; return }
+    $matches | input list --fuzzy "Session to attach:"
+  }
+  if ($chosen | is-empty) { print "Nothing selected."; return }
+  if ("ZELLIJ" in $env) {
+    ^zellij action switch-session $chosen
+  } else {
+    ^zellij attach -- $chosen
+  }
+}
+
 # Delete all resurrectable (exited) Zellij sessions, warning first about any a
 # workspace saved. `zellij delete-all-sessions` prompts for confirmation.
 def zda [] {

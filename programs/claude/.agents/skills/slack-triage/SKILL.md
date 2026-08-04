@@ -91,6 +91,15 @@ needed); missing file = first run.
      `https://onesignal.slack.com/archives/<channel_id>/p<ts-sans-dot>` (`1737936000.123456`
      → `p1737936000123456`); and any URLs the message references (PRs, Linear, Docs,
      incident.io, calendar), which are usually the actionable destination.
+   - **Rule: never file a review/approval item without its link.** If the item is
+     asking Hazel to review, approve, look at, or unblock something (a PR, a Linear
+     issue, a GitHub issue/commit, a doc), the `notes` MUST carry the direct link to
+     that thing, not just the Slack permalink. The Slack permalink alone is not enough:
+     an item you can't act on without hunting for the link is a broken item. If the
+     link isn't in the message text, follow the thread (`conversations_replies`) or the
+     channel context to recover it before filing. If it genuinely can't be found, say so
+     explicitly in the `notes` (e.g. "PR link not in thread, ask <author>") so the gap
+     is visible rather than silently missing.
    - `tags`: `["✨ OS/Priorities"]` if time-sensitive/blocking/a direct ask; `["Bug"]`
      for defects (both allowed); else none.
 6. **Advance watermark, only over what you fully covered.** Not truncated → max `ts`
