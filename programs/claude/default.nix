@@ -37,13 +37,15 @@ let
       } else { "" }
     )
 
-    # Title states what happened. On a Notification it's the specific reason
-    # (which tool needs permission, or idle) straight from the hook payload;
-    # body always carries Claude's last transcript text as color, nudging you
-    # over when there's none to show.
-    let title = (match $event {
-      "Notification" => (if ($message | str trim | is-empty) { "Claude needs your input" } else { $message })
-      "Stop" | _     => "Claude has finished and is waiting"
+    # Lead the title with the zellij session name when present, so a glance
+    # tells you which workspace wants you.
+    let workspace = ($env.ZELLIJ_SESSION_NAME? | default "")
+    let title = (match [$event $workspace] {
+      ["Notification" ""]  => (if ($message | str trim | is-empty) { "Claude needs your input" } else { $message })
+      ["Stop" ""]          => "Claude has finished and is waiting"
+      ["Notification" $ws] => $"[($ws)] needs your input."
+      ["Stop" $ws]         => $"[($ws)] is waiting."
+      [$other _]           => (error make { msg: $"unknown hook event: ($other)" })
     })
     let body = (if ($last_said | str trim | is-empty) { "Click to go check on Clawd." } else { $last_said })
 
