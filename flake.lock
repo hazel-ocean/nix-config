@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785702388,
-        "narHash": "sha256-F2aTGKEjs8n2P+FyVMRYBeBrUWwBdcRFM5sMhCPHOC4=",
+        "lastModified": 1785810974,
+        "narHash": "sha256-Yp+dHTb/8ond3apjeUS0hFYnmE955k5shSuuMyCcTWA=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "ee724f681dc433d8ad7a6f8839698525ba86a9a4",
+        "rev": "37dbaf89b0bdfbecf7ebbf19f2e42579619b27a0",
         "type": "github"
       },
       "original": {
