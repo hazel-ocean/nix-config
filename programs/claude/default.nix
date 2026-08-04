@@ -108,7 +108,7 @@ in
   #   - Granola: read-only (get/list/query)
   #   - Linear:  read-only (get/list/search)
   #   - Slack:   read-only (list/history/search) + deferred conversations_mark
-  #              (`/slack-triage mark-read`, run after review)
+  #              (`/triage-review mark-read`, run after review)
   #   - Things:  read-only (get/search/show) + create (add_project/add_todo)
   #   - onesignal-repos: read-only only (check/list/read/search/file_exists/
   #                      get_repo_path); write_* and refresh/index excluded

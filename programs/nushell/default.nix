@@ -24,7 +24,12 @@ let
   # Shared Starship config minus `[character]`, so Nushell can draw a vi-mode-aware
   # λ itself (config.nu). Wired via STARSHIP_CONFIG; other shells keep the λ.
   starshipNuConfig = (pkgs.formats.toml { }).generate "starship-nushell.toml" (
-    config.programs.starship.settings // { character = { disabled = true; }; }
+    config.programs.starship.settings
+    // {
+      character = {
+        disabled = true;
+      };
+    }
   );
 
   themeSrc = ./overlays/theme;
@@ -83,7 +88,8 @@ let
         ];
         prefix = false;
         aliases = {
-          ws = "workspace switch";
+          wa = "workspace attach";
+          wl = "workspace list";
 
           k = "kubectl";
 
@@ -191,8 +197,7 @@ in
   # config.nu sources last (see userConfig). Editing programs/nushell/config.nu
   # then reflects in new shells without a rebuild, like ~/.claude/settings.json.
   home.file.".config/nushell/user-config.nu".source =
-    config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/.config/nix-config/programs/nushell/config.nu";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix-config/programs/nushell/config.nu";
 
   # Required for the task module
   services.pueue.enable = true;
