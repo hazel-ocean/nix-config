@@ -37,8 +37,8 @@ let
 
   overlays = [
     {
-      name = "admin";
-      src = ./overlays/admin;
+      name = "system";
+      src = ./overlays/system;
       enable = isDarwin;
       prefix = true;
     }
@@ -88,6 +88,8 @@ let
         ];
         prefix = false;
         aliases = {
+          cr = "claude --resume";
+
           wa = "workspace attach";
           wl = "workspace list";
 
@@ -95,6 +97,8 @@ let
 
           za = "zellij attach";
           ze = "zellij list-sessions";
+
+          fg = "job unfreeze";
 
           fe = "yazi";
 
