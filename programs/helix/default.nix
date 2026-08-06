@@ -59,6 +59,7 @@ in
     [[language]]
     name = "nu"
     language-servers = ["nushell"]
+    indent = { tab-width = 2, unit = "  " }
     ## Super broken
     # formatter = { command = "nufmt", args = ["--stdin"] }
 

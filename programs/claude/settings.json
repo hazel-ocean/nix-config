@@ -218,5 +218,6 @@
   "editorMode": "vim",
   "preferredNotifChannel": "notifications_disabled",
   "inputNeededNotifEnabled": false,
-  "agentPushNotifEnabled": false
+  "agentPushNotifEnabled": false,
+  "model": "haiku"
 }
