@@ -118,7 +118,6 @@ in
       "gog-galaxy"
       "google-chrome"
       "ghostty"
-      "granola"
       "handbrake-app"
       "mimestream"
       # "musescore"

@@ -105,7 +105,6 @@ in
   # Permission allowlist groups the committed file carries:
   #   - Built-in read-only: WebSearch, WebFetch
   #   - Obsidian: read-only (search/read/get) + note edits (patch/write)
-  #   - Granola: read-only (get/list/query)
   #   - Linear:  read-only (get/list/search)
   #   - Slack:   read-only (list/history/search) + deferred conversations_mark
   #              (`/triage-review mark-read`, run after review)

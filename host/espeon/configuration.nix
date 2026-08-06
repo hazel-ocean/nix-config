@@ -92,7 +92,6 @@ in
       "docker-desktop"
       "ghostty"
       "google-drive"
-      "granola"
       "handbrake-app"
       "linear"
       "logi-options+"
