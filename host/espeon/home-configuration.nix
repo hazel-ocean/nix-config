@@ -2,6 +2,7 @@
 {
   imports = [
     ../../programs/claude
+    ../../programs/claude/darwin.nix
     ../../programs/claude/shared.nix
     ../../programs/claude/work.nix
   ];
