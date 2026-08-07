@@ -82,13 +82,16 @@ in
 
     masApps = {
       "1Password for Safari" = 1569813296;
+      "Apple Developer" = 640199958;
       "Craft" = 1487937127;
       "Kindle" = 302584613;
       "Prime Video" = 545519333;
       "reMarkable" = 1276493162;
+      "Steam Link" = 1246969117;
       "Tailscale" = 1475387142;
       "Things" = 904280696;
       "WhatsApp" = 310633997;
+      "Xcode" = 497799835;
 
       # "GarageBand" = 682658836;
       # "iMovie" = 408981434;
