@@ -92,6 +92,7 @@ let
 
           wa = "workspace attach";
           wl = "workspace list";
+          wr = "workspace rename";
 
           k = "kubectl";
 
