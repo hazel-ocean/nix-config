@@ -131,6 +131,7 @@ in
       "plex"
       "protonvpn"
       "qbittorrent"
+      "qlmarkdown"
       # "raspberry-pi-imager"
       "raycast"
       "rectangle-pro"

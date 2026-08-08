@@ -101,6 +101,7 @@ in
       "monocle-app"
       "orion"
       "obsidian"
+      "qlmarkdown"
       "raycast"
       "rectangle-pro"
       "slack"
