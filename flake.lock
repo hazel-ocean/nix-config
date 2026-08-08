@@ -63,15 +63,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1786143995,
-        "narHash": "sha256-6Menf7DAVOgLSrlnrqAaUoOhG5NcLFK/4eheDaVYyZg=",
+        "lastModified": 1786151846,
+        "narHash": "sha256-3unEnjBOP+jzATkdsyNR/mmVT/NfIRNZwgkmE44Q3bg=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "8c1bdb0b3a4955e05bcfae77b5c165071e648f42",
+        "rev": "9a3cfec43d0c9c215082f0c274eb6b8b5dcdc72f",
         "type": "github"
       },
       "original": {
         "owner": "hazel-ocean",
+        "ref": "feat/richer-locator-notifications",
         "repo": "clawd-back",
         "type": "github"
       }

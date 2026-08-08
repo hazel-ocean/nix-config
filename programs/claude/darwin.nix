@@ -16,6 +16,7 @@ let
     let message = ($input.message? | default "")
     let session_id = ($input.session_id? | default "")
     let transcript = ($input.transcript_path? | default "")
+    let cwd = ($input.cwd? | default ($env.PWD? | default ""))
 
     # Claude's last text message, from the tail of the transcript (the final
     # assistant entry is often a tool_use, not text, so scan back a bit).
@@ -44,7 +45,7 @@ let
 
     # `open` propagates the ZELLIJ_* env, so the app captures the
     # session/pane to return to.
-    (^open ($env.HOME | path join "Applications" "ClawdBack.app") --args notify --title $title --message $body --session-id $session_id)
+    (^open ($env.HOME | path join "Applications" "ClawdBack.app") --args notify --title $title --message $body --session-id $session_id --cwd $cwd)
   '';
 
   # Fired by Claude's SessionStart + UserPromptSubmit hooks. Records Claude's

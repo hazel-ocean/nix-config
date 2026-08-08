@@ -31,7 +31,7 @@
       flake = false;
     };
     clawd-back = {
-      url = "github:hazel-ocean/clawd-back";
+      url = "github:hazel-ocean/clawd-back/feat/richer-locator-notifications";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     agent-skills = {

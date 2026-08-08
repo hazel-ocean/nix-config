@@ -91,6 +91,7 @@ let
           cr = "claude --resume";
 
           wa = "workspace attach";
+          we = "workspace enter";
           wl = "workspace list";
           wr = "workspace rename";
 
