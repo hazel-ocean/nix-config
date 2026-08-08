@@ -104,7 +104,7 @@
   services.xserver.enable = false;
   # services.xserver.videoDrivers
   programs.xwayland.enable = true;
-  programs.niri.enable = true;
+  programs.niri.enable = false;
   # programs.noctalia-shell = {
   #   enable = true;
   #   packages = [ pkgs.quickshell ];

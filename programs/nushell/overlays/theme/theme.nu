@@ -64,12 +64,13 @@ export def 'list' []: nothing -> list<string> {
   glob $'(themes-dir)/*.nu' | path parse | get stem | sort
 }
 
-# Browse the per-theme screenshots in Finder (macOS).
+# Browse the per-theme screenshots in the system file manager.
 export def 'explore' []: nothing -> nothing {
-  if $nu.os-info.name != 'macos' {
-    error make { msg: 'theme explore is only available on macOS' }
+  if $nu.os-info.name == 'macos' {
+    ^open (screenshots-dir)
+  } else {
+    ^xdg-open (screenshots-dir)
   }
-  ^open (screenshots-dir)
 }
 
 # Theme name that should be active for a polarity (persisted choice or default).

@@ -39,7 +39,7 @@ let
     {
       name = "system";
       src = ./overlays/system;
-      enable = isDarwin;
+      enable = true;
       prefix = true;
     }
     {

@@ -1,0 +1,7 @@
+{ ... }:
+{
+  programs.claude-code.mcpServers.craft = {
+    type = "http";
+    url = "https://mcp.craft.do/my/mcp";
+  };
+}

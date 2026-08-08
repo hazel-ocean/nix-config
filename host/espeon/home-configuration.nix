@@ -3,8 +3,7 @@
   imports = [
     ../../programs/claude
     ../../programs/claude/darwin.nix
-    ../../programs/claude/shared.nix
-    ../../programs/claude/work.nix
+    ../../programs/claude/espeon.nix
   ];
 
   home.packages = with pkgs; [

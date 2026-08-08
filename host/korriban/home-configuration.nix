@@ -2,6 +2,7 @@
 {
   imports = [
     ../../services/shairport-sync.nix
+    ../../programs/claude/shared/github.nix
   ];
 
   services.shairport-sync = {
