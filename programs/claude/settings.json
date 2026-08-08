@@ -150,7 +150,7 @@
     ],
     "defaultMode": "default"
   },
-  "model": "sonnet",
+  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
@@ -210,7 +210,7 @@
     "swift-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "tui": "default",
+  "tui": "fullscreen",
   "voice": {
     "enabled": false,
     "mode": "tap"
