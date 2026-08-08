@@ -6,7 +6,7 @@
   home.packages = with pkgs; [
     mcp-things
     github-mcp-server
-    claude-code-acp
+    claude-agent-acp
     prettier
   ];
 

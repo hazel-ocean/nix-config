@@ -1,29 +1,13 @@
 {
   "nodes": {
-    "claude-code-acp-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1784915088,
-        "narHash": "sha256-MF/gzEr3z64tRd+2TX36/VAHSPYJzYU5+1qR9OEu97Q=",
-        "owner": "zed-industries",
-        "repo": "claude-code-acp",
-        "rev": "53a0c36ce3b0b76929d11d8b9565e319da745608",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zed-industries",
-        "repo": "claude-code-acp",
-        "type": "github"
-      }
-    },
     "obsidian-agent-client-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1782315955,
-        "narHash": "sha256-PRqUGZSN6/msdAhYfD6vmvrSe1W0HLR45IqGlDxLoc4=",
+        "lastModified": 1785997470,
+        "narHash": "sha256-xGEb2ETgLgxlYaguH3vOyV7pnahAn+zapoM/ZZoh6/A=",
         "owner": "RAIT-09",
         "repo": "obsidian-agent-client",
-        "rev": "89e2d75c4e35e78aaaa21b8a6e7ca34e4e0ce099",
+        "rev": "7eea4ca97476f56ea0b76c57211ddd85328bd770",
         "type": "github"
       },
       "original": {
@@ -34,7 +18,6 @@
     },
     "root": {
       "inputs": {
-        "claude-code-acp-src": "claude-code-acp-src",
         "obsidian-agent-client-src": "obsidian-agent-client-src"
       }
     }

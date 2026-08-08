@@ -8,7 +8,6 @@
   ];
 
   home.packages = with pkgs; [
-    claude-code-acp
     # mcp-nixos # TODO: use flake from github repo
   ];
 
