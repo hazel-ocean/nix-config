@@ -111,5 +111,8 @@ window-subtitle = false
 keybind = global:super+alt+ctrl+shift+t=toggle_quick_terminal
 quick-terminal-position=center
 
+# Fullscreen (Linux; F11 is intercepted by macOS for Mission Control)
+keybind = f11=toggle_fullscreen
+
 # Capabilities
 desktop-notifications = true
