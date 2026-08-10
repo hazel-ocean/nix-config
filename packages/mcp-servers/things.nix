@@ -1,66 +1,52 @@
 {
   lib,
-  stdenv,
   src,
+  callPackage,
+  runCommand,
   makeWrapper,
-  uv,
   python312,
+  pyproject-nix,
+  uv2nix,
+  pyproject-build-systems,
 }:
 
-stdenv.mkDerivation {
-  pname = "mcp-things";
-  version = src.shortRev;
+let
+  python = python312;
 
-  inherit src;
+  workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = src; };
 
-  nativeBuildInputs = [
-    makeWrapper
-    uv
-    python312
-  ];
-
-  buildPhase = ''
-    runHook preBuild
-
-    # Use uv to create a virtual environment and install dependencies
-    # This happens in the build directory which is writable
-    export HOME=$TMPDIR
-    export UV_CACHE_DIR=$TMPDIR/.uv-cache
-    export UV_PYTHON=${python312}/bin/python
-    ${uv}/bin/uv sync --frozen
-
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-
-    # Install the application and its virtualenv
-    mkdir -p $out/share/mcp-things
-
-    # Copy the package source (upstream moved to a src/ layout with the
-    # things_mcp package and a things_mcp.server:main entry point)
-    cp -r src pyproject.toml uv.lock $out/share/mcp-things/
-
-    # Copy the built virtual environment
-    cp -r .venv $out/share/mcp-things/.venv
-
-    # Wrapper runs the package entry point via the pre-built virtualenv.
-    # PYTHONPATH points at our copied src so imports resolve regardless of how
-    # uv installed the project into the venv.
-    mkdir -p $out/bin
-    makeWrapper $out/share/mcp-things/.venv/bin/python $out/bin/mcp-things \
-      --add-flags "-m things_mcp.server" \
-      --prefix PYTHONPATH : $out/share/mcp-things/src
-
-    runHook postInstall
-  '';
-
-  meta = with lib; {
-    description = "Things.app MCP Server - interact with Things 3 via Claude";
-    homepage = "https://github.com/hald/things-mcp";
-    license = licenses.mit;
-    platforms = platforms.darwin;
-    mainProgram = "mcp-things";
+  # Prefer prebuilt wheels; uv2nix fetches each as its own fixed-output
+  # derivation, so the build is hermetic and needs no network.
+  overlay = workspace.mkPyprojectOverlay {
+    sourcePreference = "wheel";
   };
-}
+
+  pythonSet =
+    (callPackage pyproject-nix.build.packages {
+      inherit python;
+    }).overrideScope
+      (lib.composeManyExtensions [
+        pyproject-build-systems.overlays.default
+        overlay
+      ]);
+
+  venv = pythonSet.mkVirtualEnv "mcp-things-env" workspace.deps.default;
+in
+# Expose the upstream `things-mcp` console script under our `mcp-things`
+# naming convention.
+runCommand "mcp-things-${src.shortRev}"
+  {
+    nativeBuildInputs = [ makeWrapper ];
+    passthru = { inherit venv; };
+    meta = {
+      description = "Things.app MCP Server - interact with Things 3 via Claude";
+      homepage = "https://github.com/hald/things-mcp";
+      license = lib.licenses.mit;
+      platforms = lib.platforms.darwin;
+      mainProgram = "mcp-things";
+    };
+  }
+  ''
+    mkdir -p $out/bin
+    makeWrapper ${venv}/bin/things-mcp $out/bin/mcp-things
+  ''

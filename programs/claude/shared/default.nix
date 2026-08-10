@@ -12,7 +12,7 @@
   ];
 
   home.packages = with pkgs; [
-    claude-code-acp
+    claude-agent-acp
     prettier
   ];
 }

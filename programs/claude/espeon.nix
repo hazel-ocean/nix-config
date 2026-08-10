@@ -18,10 +18,12 @@
       command = "${pkgs.onesignal-repos-mcp}/bin/onesignal-repos-mcp";
       env.ONESIGNAL_WORKSPACE_ROOT = "/Users/hazel/OneSignal/src";
     };
-    plugins = with pkgs.onesignal-plugins; [
-      epd-ops
-      housekeeping
-      onesignal-org
-    ];
+    plugins = {
+      inherit (pkgs.onesignal-plugins)
+        epd-ops
+        housekeeping
+        onesignal-org
+        ;
+    };
   };
 }

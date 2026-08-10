@@ -10,10 +10,6 @@
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    home-manager-nixos-stable = {
-      url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixos-stable";
-    };
     home-manager-nixos-unstable = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixos-unstable";
@@ -22,7 +18,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     helix.url = "github:helix-editor/helix";
     mcp-servers.url = "path:./packages/mcp-servers";
     obsidian-plugins.url = "path:./packages/obsidian-plugins";
@@ -49,7 +44,6 @@
     inputs@{
       determinate,
       home-manager-master,
-      home-manager-nixos-stable,
       home-manager-nixos-unstable,
       nixpkgs-unstable,
       nixos-unstable,
@@ -57,7 +51,6 @@
       nix-darwin,
       flake-utils,
       room,
-      nixos-raspberrypi,
       helix,
       mcp-servers,
       obsidian-plugins,
@@ -205,26 +198,6 @@
       }
     )
     // {
-      nixosConfigurations.ghastly =
-        let
-          system = "aarch64-linux";
-          overlays = baseOverlays;
-        in
-        nixos-stable.lib.nixosSystem rec {
-          inherit system;
-          modules = [
-            ./host/ghastly/configuration.nix
-            home-manager-nixos-stable.nixosModules.home-manager
-            {
-              home-manager.users.ocean = import ./home/console-user.nix {
-                username = "ocean";
-                homeDirectory = "/home/ocean";
-                stateVersion = "22.11";
-              };
-            }
-          ];
-        };
-
       nixosConfigurations.korriban = mkNixosHost {
         hostname = "korriban";
         username = "hazel";
@@ -233,44 +206,6 @@
         nixpkgs = nixos-unstable;
         home-manager = home-manager-nixos-unstable;
         extraModules = [ inputs.moonshine.nixosModules.default ];
-      };
-
-      nixosConfigurations.rpi5 = nixos-raspberrypi.lib.nixosInstaller {
-        specialArgs = inputs;
-        modules = [
-          {
-            # Hardware specific configuration, see section below for a more complete
-            # list of modules
-            imports = with nixos-raspberrypi.nixosModules; [
-              raspberry-pi-5.base
-              raspberry-pi-5.display-vc4
-              raspberry-pi-5.display-rp1
-              raspberry-pi-5.bluetooth
-            ];
-          }
-
-          (
-            {
-              config,
-              pkgs,
-              lib,
-              ...
-            }:
-            {
-              networking.hostName = "rpi5-demo";
-
-              system.nixos.tags =
-                let
-                  cfg = config.boot.loader.raspberryPi;
-                in
-                [
-                  "raspberry-pi-${cfg.variant}"
-                  cfg.bootloader
-                  config.boot.kernelPackages.kernel.version
-                ];
-            }
-          )
-        ];
       };
 
       darwinConfigurations.pigeon = mkDarwinHost {
