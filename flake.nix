@@ -39,6 +39,10 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.flake-utils.follows = "flake-utils";
     };
+    moonshine = {
+      url = "github:hgaiser/moonshine";
+      inputs.nixpkgs.follows = "nixos-unstable";
+    };
   };
 
   outputs =
@@ -228,6 +232,7 @@
         system = "x86_64-linux";
         nixpkgs = nixos-unstable;
         home-manager = home-manager-nixos-unstable;
+        extraModules = [ inputs.moonshine.nixosModules.default ];
       };
 
       nixosConfigurations.rpi5 = nixos-raspberrypi.lib.nixosInstaller {

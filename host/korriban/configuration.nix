@@ -18,11 +18,6 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Workaround: HDMI wake black screen with amdgpu on recent kernels/Mesa.
-  # Disables PSR (Panel Self Refresh) which breaks HDMI handshake on wake,
-  # particularly with LG TVs. Remove once upstream regression is fixed.
-  boot.kernelParams = [ "video=HDMI-A-2:e" ];
-
   # Firmware
   services.fwupd.enable = true; # Rescue with `system76-firmware-cli schedule --proprietary`
   hardware.system76.enableAll = true;
@@ -329,6 +324,26 @@
     };
   };
 
+  services.moonshine = {
+    enable = true;
+    user = "hazel";
+    uid = 1000; # users.users.hazel has no fixed uid declared; `id -u hazel`
+    openFirewall = true; # LAN/tailscale-facing only, per the module's own warning
+
+    settings = {
+      name = config.networking.hostName;
+      application = [
+        {
+          title = "Steam";
+          command = [
+            "${pkgs.steam}/bin/steam"
+            "steam://open/bigpicture"
+          ];
+        }
+      ];
+    };
+  };
+
   services.tailscale.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -430,6 +445,8 @@
   networking.firewall = {
     enable = true;
     trustedInterfaces = [ "tailscale0" ];
+    logRefusedPackets = true;
+    logRefusedConnections = true;
     allowedUDPPorts = [
       config.services.tailscale.port
       3389
