@@ -1,4 +1,13 @@
 alias e = clear
+
+# Hold a zellij pane visually empty: clear, then block so no prompt is drawn.
+# Ctrl-C returns to the prompt.
+def blank []: nothing -> nothing {
+  clear
+  loop { sleep 1hr }
+}
+alias eb = blank
+
 def --wrapped r [...rest]   { clear; ls ...$rest * }
 def --wrapped ra [...rest]  { clear; ls ...$rest -a * }
 def --wrapped er [...rest]  { clear; ls ...$rest -l * }
