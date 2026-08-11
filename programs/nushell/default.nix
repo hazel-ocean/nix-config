@@ -157,6 +157,13 @@ let
     ]
   );
 
+  # config.nu minus the prompt/completion machinery, for `nu -c` callers such as
+  # Claude Code's /nu command. themeStartup is the reason this can't just be
+  # config.nu: it writes OSC colour escapes to stdout ahead of any real output.
+  nonInteractiveText = lib.concatLines (
+    [ overlayLoads ] ++ aliasLoads ++ [ "source ${userConfig}" ]
+  );
+
   # Into env.nu (runs before config.nu parse): theme data + the write-startup that
   # generates the snippet config.nu sources. Child shells inherit STARSHIP_CONFIG
   # and lose their λ; rare enough to accept.
@@ -204,6 +211,8 @@ in
   # then reflects in new shells without a rebuild, like ~/.claude/settings.json.
   home.file.".config/nushell/user-config.nu".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix-config/programs/nushell/config.nu";
+
+  home.file.".config/nushell/non-interactive.nu".text = nonInteractiveText;
 
   # Required for the task module
   services.pueue.enable = true;
