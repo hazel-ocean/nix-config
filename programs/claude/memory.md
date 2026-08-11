@@ -8,6 +8,17 @@
 - **Commit messages**: Keep them short. A concise subject line, then bullet points (`- `) for the body; no multi-sentence prose paragraphs.
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
 - **Layout**: Prefer vertical code over horizontal for legibility in 80-column windows. Break long chains, argument lists, and expressions across lines rather than packing them wide. (Coming from Elixir, where verticality, e.g. piped `|>` chains one call per line, is idiomatic most of the time.)
+- **Bullets over blobs**: Write prose as bulleted or numbered lists wherever the content allows: PR descriptions, chat replies, docs, summaries. Paragraphs of running text are hard to scan and get skipped. Reserve a paragraph for the rare case where the sentences genuinely depend on each other; even then keep it to two or three sentences. Prefer a numbered list when order or sequence matters, bullets otherwise.
+
+## Rust
+
+- Prefer `match` over `if`/`else if` chains, unless the condition is already a plain boolean. Matching on an enum also makes the compiler flag new variants instead of letting them fall into a silent default.
+
+## Workspaces
+
+- **Only ever work in repos checked out inside the active workspace** (`~/OneSignal/workbench/workspaces/<name>/<repo>`). Never edit, branch, or commit in the shared checkouts under `~/OneSignal/src`: those are shared across every workspace, so work done there leaks between unrelated tasks.
+- If a repo you need isn't in the workspace, stop and ask me before running anything against it, reads included. `workspace clone <repo>` is how it gets there.
+- Exception: `~/.config/nix-config`, which the `nix-config-setting` skill edits by design.
 
 ## Public Communication & Approvals
 
