@@ -71,6 +71,10 @@ let
     # Kubernetes
     k9s
     grpcurl
+
+    # Grafana dashboards (infra repo): jsonnet + jsonnetfmt, and jb for vendoring
+    go-jsonnet
+    jsonnet-bundler
   ];
 
   lsdAliases = {

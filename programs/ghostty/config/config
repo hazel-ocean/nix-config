@@ -62,6 +62,7 @@ font-size = 12
 # font-family = Maple Mono NF
 # font-family = 0xProto Nerd Font Mono
 font-family = Monocraft
+adjust-cell-height = 28%
 font-thicken = true
 font-thicken-strength = 200
 font-feature = "cv02"
