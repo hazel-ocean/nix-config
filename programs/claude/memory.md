@@ -1,14 +1,22 @@
 # Personal Workflow Conventions
 
+## Voice
+
+How I write, in every medium, with no exceptions and no per-surface carve-outs. This is not a coding rule. It applies to chat replies, code comments, doc comments, commit messages, PR and issue descriptions, Slack, Linear, docs, journals, and anything else with words in it. If you catch yourself deciding a surface is "different", it isn't.
+
+- **Terse by default.**
+  - *Default to nothing.* Add a comment only to record **why**: a non-obvious constraint, gotcha, or decision the code can't show. Never restate what the code does, label sections, or narrate steps. When unsure, delete it. Exception: a one-line doc on a public or exported command.
+  - *Describe what is, never what was.* No "unlike X", "previously", "rather than", "deliberately separate from", "this replaces". The reader never saw the earlier iteration and does not need to. Design history belongs in the PR description or the project journal.
+  - *Bullets over blobs.* Prefer bulleted or numbered lists to paragraphs. Reserve a paragraph for sentences that genuinely depend on each other, and keep it to two or three. Numbered when order matters.
+  - *Shorter is the tiebreak.* Given two versions that convey the same thing, ship the shorter one.
+- **Punctuation**: Never use em dashes. Use commas, colons, semicolons, or hyphens instead.
+- **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy: commits, PRs, and other output.
+- **Commit messages**: A concise subject line, then bullet points (`- `) for the body; no multi-sentence prose paragraphs.
+
 ## Coding & Agent Standards
 
-- **Comments**: Default to none. Add one only to record *why*: a non-obvious constraint, gotcha, or decision the code can't show. Never restate *what* the code does, label sections, or narrate steps. One line unless a real gotcha needs more; when unsure, delete it. Exception: a one-line doc on a public or exported command is fine.
-- **Punctuation**: Never use em dashes in any output (code comments, commit messages, prose). Use commas, colons, semicolons, or hyphens instead.
-- **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy: commits, PRs, and other output.
-- **Commit messages**: Keep them short. A concise subject line, then bullet points (`- `) for the body; no multi-sentence prose paragraphs.
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
 - **Layout**: Prefer vertical code over horizontal for legibility in 80-column windows. Break long chains, argument lists, and expressions across lines rather than packing them wide. (Coming from Elixir, where verticality, e.g. piped `|>` chains one call per line, is idiomatic most of the time.)
-- **Bullets over blobs**: Write prose as bulleted or numbered lists wherever the content allows: PR descriptions, chat replies, docs, summaries. Paragraphs of running text are hard to scan and get skipped. Reserve a paragraph for the rare case where the sentences genuinely depend on each other; even then keep it to two or three sentences. Prefer a numbered list when order or sequence matters, bullets otherwise.
 
 ## Rust
 
