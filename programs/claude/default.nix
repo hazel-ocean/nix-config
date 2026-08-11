@@ -3,6 +3,7 @@
   programs.claude-code = {
     context = ./memory.md;
     skills = ./.agents/skills;
+    commands.nu = ./commands/nu.md;
   };
 
   # ~/.claude/settings.json is an out-of-store symlink to the committed file at
