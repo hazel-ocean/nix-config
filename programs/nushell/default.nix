@@ -12,7 +12,7 @@ let
     nushell
     nufmt
     ;
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
   inherit (pkgs.nushellPlugins) polars;
 

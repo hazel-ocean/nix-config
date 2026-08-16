@@ -144,7 +144,7 @@ let
       null;
 
   window_decorations =
-    if pkgs.stdenv.isDarwin then "RESIZE|INTEGRATED_BUTTONS" else "RESIZE|INTEGRATED_BUTTONS";
+    if pkgs.stdenv.hostPlatform.isDarwin then "RESIZE|INTEGRATED_BUTTONS" else "RESIZE|INTEGRATED_BUTTONS";
 
   window_padding = {
     left = "'1cell'";
@@ -152,7 +152,7 @@ let
     top = "'0.5cell'";
     bottom = "'0.0cell'";
   }
-  // (if pkgs.stdenv.isDarwin then { top = "'65px'"; } else { });
+  // (if pkgs.stdenv.hostPlatform.isDarwin then { top = "'65px'"; } else { });
 
   recompute_window_padding = ''
     function recompute_padding(window)

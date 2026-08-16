@@ -9,7 +9,7 @@ let
 
   configText = ''
     theme "${theme.zellij}"
-    ${strings.optionalString stdenv.isDarwin ''copy_command "pbcopy"''}
+    ${strings.optionalString stdenv.hostPlatform.isDarwin ''copy_command "pbcopy"''}
     ${builtins.readFile ./config.kdl}
 
     plugins {

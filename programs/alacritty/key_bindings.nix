@@ -705,9 +705,9 @@ let
 in
 default
 ++ (
-  if stdenv.isDarwin then
+  if stdenv.hostPlatform.isDarwin then
     darwin
-  else if stdenv.isLinux then
+  else if stdenv.hostPlatform.isLinux then
     linux
   else
     [ ]

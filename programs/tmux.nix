@@ -34,7 +34,7 @@ let
   '';
 
   enableCopyToSystemClipboard =
-    if pkgs.stdenv.isLinux then
+    if pkgs.stdenv.hostPlatform.isLinux then
       ''
         bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
       ''

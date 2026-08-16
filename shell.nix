@@ -15,5 +15,5 @@ mkShell {
     nushell
     git
     watchexec
-  ] ++ lib.optionals stdenv.isDarwin [ nix-darwin.packages.${stdenv.hostPlatform.system}.default ];
+  ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ nix-darwin.packages.${stdenv.hostPlatform.system}.default ];
 }

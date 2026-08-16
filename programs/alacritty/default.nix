@@ -31,7 +31,7 @@ in
           };
         }
         // (
-          if stdenv.isDarwin then
+          if stdenv.hostPlatform.isDarwin then
             {
               padding = {
                 x = 11;
@@ -39,7 +39,7 @@ in
               };
               decorations = "Buttonless";
             }
-          else if stdenv.isLinux then
+          else if stdenv.hostPlatform.isLinux then
             {
               gtk_theme_variant = if theme.variant == "light" then "light" else "dark";
             }
