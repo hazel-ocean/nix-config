@@ -11,6 +11,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../system/linux.nix
+    ./niri.nix
   ];
 
   boot.initrd.kernelModules = [ "uinput" ];
@@ -99,64 +100,8 @@
   services.xserver.enable = false;
   # services.xserver.videoDrivers
   programs.xwayland.enable = true;
-  programs.niri.enable = false;
-  # programs.noctalia-shell = {
-  #   enable = true;
-  #   packages = [ pkgs.quickshell ];
-  #   settings = {
-  #     # configure noctalia here
-  #     bar = {
-  #       density = "compact";
-  #       position = "right";
-  #       showCapsule = false;
-  #       widgets = {
-  #         left = [
-  #           {
-  #             id = "ControlCenter";
-  #             useDistroLogo = true;
-  #           }
-  #           {
-  #             id = "Network";
-  #           }
-  #           {
-  #             id = "Bluetooth";
-  #           }
-  #         ];
-  #         center = [
-  #           {
-  #             hideUnoccupied = false;
-  #             id = "Workspace";
-  #             labelMode = "none";
-  #           }
-  #         ];
-  #         right = [
-  #           {
-  #             alwaysShowPercentage = false;
-  #             id = "Battery";
-  #             warningThreshold = 30;
-  #           }
-  #           {
-  #             formatHorizontal = "HH:mm";
-  #             formatVertical = "HH mm";
-  #             id = "Clock";
-  #             useMonospacedFont = true;
-  #             usePrimaryColor = true;
-  #           }
-  #         ];
-  #       };
-  #     };
-  #     colorSchemes.predefinedScheme = "Monochrome";
-  #     general = {
-  #       avatarImage = "/home/drfoobar/.face";
-  #       radiusRatio = 0.2;
-  #     };
-  #     location = {
-  #       monthBeforeDay = true;
-  #       name = "Marseille, France";
-  #     };
-  #   };
-  #   # this may also be a string or a path to a JSON file.
-  # };
+  # niri (moonshine-streamed only) + noctalia-shell live in ./niri.nix and
+  # ./home-niri.nix.
 
   # Enable the KDE Plasma Desktop Environment.
   services.desktopManager.plasma6.enable = true;

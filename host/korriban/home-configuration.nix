@@ -3,6 +3,7 @@
   imports = [
     ../../services/shairport-sync.nix
     ../../programs/claude/shared/github.nix
+    ./home-niri.nix
   ];
 
   services.shairport-sync = {
