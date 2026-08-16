@@ -180,6 +180,10 @@ let
     theme write-startup
   '';
 
+  # Drop values relying on POSIX $VAR expansion (e.g. tmux's TMUX_TMPDIR) before
+  # feeding home.sessionVariables to environmentVariables below.
+  sessionVars = lib.filterAttrs (_: value: !(lib.hasInfix "$" value)) config.home.sessionVariables;
+
   # Homebrew shellenv, re-expressed natively (Nushell can't `eval` the POSIX
   # output of `brew shellenv`). env.nu runs for every session before config.nu,
   # so PATH is ready early. No-op when brew is absent; idempotent via `uniq`.
@@ -203,6 +207,7 @@ in
     package = nushell;
     configFile.text = configText;
     extraEnv = lib.concatLines ([ themeEnv ] ++ lib.optional isDarwin darwinEnv);
+    environmentVariables = sessionVars;
     plugins = [
       # polars   # broken atm
     ];
