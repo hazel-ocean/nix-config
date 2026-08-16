@@ -38,6 +38,10 @@
       url = "github:hgaiser/moonshine";
       inputs.nixpkgs.follows = "nixos-unstable";
     };
+    noctalia-shell = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixos-unstable";
+    };
   };
 
   outputs =
@@ -206,6 +210,7 @@
         nixpkgs = nixos-unstable;
         home-manager = home-manager-nixos-unstable;
         extraModules = [ inputs.moonshine.nixosModules.default ];
+        extraImports = [ inputs.noctalia-shell.homeModules.default ];
       };
 
       darwinConfigurations.pigeon = mkDarwinHost {
