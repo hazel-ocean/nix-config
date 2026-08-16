@@ -341,6 +341,26 @@
           ];
         }
       ];
+      # [[application_scanner]]
+      application_scanner = [
+        {
+          type = "steam";
+          library = "$HOME/.local/share/Steam";
+          command = [
+            "/usr/bin/steam"
+            "-bigpicture"
+            "steam://rungameid/{game_id}"
+          ];
+        }
+        {
+          type = "heroic";
+          command = [
+            "heroic"
+            "--no-gui"
+            "heroic://launch?appName={app_name}&runner={runner}"
+          ];
+        }
+      ];
     };
   };
 
