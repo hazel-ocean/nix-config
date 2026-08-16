@@ -45,6 +45,11 @@
       libva-vdpau-driver
       libvdpau-va-gl
       libva-utils
+
+      # Implicit Vulkan layers must land here (not environment.systemPackages)
+      # to be found by /run/opengl-driver/share/vulkan/implicit_layer.d, which
+      # is also what Steam's FHS runtime bind-mounts onto its library path.
+      vkbasalt
     ];
 
     enable32Bit = true;
@@ -352,6 +357,7 @@
       protonplus
       lutris
       gamescope-wsi
+      mangojuice
       (heroic.override {
         extraPkgs =
           pkgs: with pkgs; [
