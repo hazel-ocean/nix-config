@@ -88,7 +88,7 @@ let
         ];
         prefix = false;
         aliases = {
-          cr = "claude --resume";
+          en = "do { clear; exec nu }";
 
           wa = "workspace attach";
           we = "workspace enter";
@@ -106,6 +106,8 @@ let
 
           te = "tmux list-sessions";
           ta = "tmux attach";
+
+          cr = "claude --resume";
         };
       }
     )
