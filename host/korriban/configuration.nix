@@ -6,6 +6,26 @@
   pkgs,
   ...
 }:
+let
+  # Steam is single-instance per user: if a desktop Steam is already running
+  # when moonshine launches its own, steam:// actions get forwarded to that
+  # existing instance instead of running in moonshine's session, and only the
+  # first action (e.g. opening Big Picture) reliably lands. Upstream's fix:
+  # https://github.com/hgaiser/moonshine/issues/134
+  steamShutdownPreCommand = [
+    "${pkgs.bash}/bin/bash"
+    "-c"
+    ''
+      if pgrep -x steam >/dev/null; then
+        ${pkgs.steam}/bin/steam -shutdown &>/dev/null
+        for i in $(seq 1 30); do
+          pgrep -x steam >/dev/null || break
+          sleep 1
+        done
+      fi
+    ''
+  ];
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -289,6 +309,7 @@
             "${pkgs.steam}/bin/steam"
             "steam://open/bigpicture"
           ];
+          pre_command = [ steamShutdownPreCommand ];
         }
       ];
       # [[application_scanner]]
