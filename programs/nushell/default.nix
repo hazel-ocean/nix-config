@@ -180,9 +180,17 @@ let
     theme write-startup
   '';
 
-  # Drop values relying on POSIX $VAR expansion (e.g. tmux's TMUX_TMPDIR) before
-  # feeding home.sessionVariables to environmentVariables below.
-  sessionVars = lib.filterAttrs (_: value: !(lib.hasInfix "$" value)) config.home.sessionVariables;
+  # Only forward known-safe home.sessionVariables; other modules (e.g.
+  # programs.starship) also write to this set, and blindly forwarding
+  # STARSHIP_CONFIG clobbers the nushell-specific one themeEnv sets below.
+  sessionVarNames = [
+    "EDITOR"
+    "VISUAL"
+    "PAGER"
+    "FZF_DEFAULT_COMMAND"
+    "BAT_CONFIG_PATH"
+  ];
+  sessionVars = lib.filterAttrs (name: _: builtins.elem name sessionVarNames) config.home.sessionVariables;
 
   # Homebrew shellenv, re-expressed natively (Nushell can't `eval` the POSIX
   # output of `brew shellenv`). env.nu runs for every session before config.nu,
