@@ -3,11 +3,11 @@
     "mcp-obsidian-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1784802700,
-        "narHash": "sha256-WNjH97F58YVOLKshyxJTXksI4OmXE9KKmsWtnkTdaTM=",
+        "lastModified": 1786625141,
+        "narHash": "sha256-/9cty7MdGdoCuPrfrFJSa44evWpVuEqVJsXZeQNMGhs=",
         "owner": "bitbonsai",
         "repo": "mcp-obsidian",
-        "rev": "313983bffcfb8e2e6b6c4c9f977cf0bffdc9e8c6",
+        "rev": "3a14634153652c0ed059dfe1a743c24b57efbc16",
         "type": "github"
       },
       "original": {
@@ -159,11 +159,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786026603,
-        "narHash": "sha256-payw8w/aqR/Vr7LvDp14jxa5egFrZN7g8INsPzn7rN0=",
+        "lastModified": 1786615403,
+        "narHash": "sha256-U++y7nM/6xiEcWI7q4fQoPZjPvRaTwkSqzBOVoEBjUE=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "0dfa8388dc855b1774f509725d8ea6806291571d",
+        "rev": "4b59abb2ae1896d2a0e1abfc47fbc9bf985ea730",
         "type": "github"
       },
       "original": {

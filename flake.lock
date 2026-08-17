@@ -10,11 +10,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786838388,
-        "narHash": "sha256-FfhLq5MqTLI789FgTt9iUldYpw361kcEs8Q7AchFYio=",
+        "lastModified": 1786853656,
+        "narHash": "sha256-B7rTsHG8NdZGqh1s0s+8ZYimsly+7+WimZVCiyNxer0=",
         "ref": "refs/heads/main",
-        "rev": "0a5e8cb36e766a4cf1c7e96b7c6af5ae04667ab2",
-        "revCount": 358,
+        "rev": "69bcfe8d219c99c682d3f5008394997699d3e7be",
+        "revCount": 366,
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/agent-skills"
       },
@@ -277,11 +277,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786826571,
-        "narHash": "sha256-nNqmXIFmESRnU91KARtiekSox0+o+E3AS0d1TuUQ/9o=",
+        "lastModified": 1786929086,
+        "narHash": "sha256-kzpwMyT7i2fTQ41tf/WlsIHuJtf3e0leRBEPkBhUzBY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c8058ecc1329a71a3c99c4d0353dba4009a66152",
+        "rev": "aac4965ddb7ea2ff0f3cadd9502c7042b7aa07ba",
         "type": "github"
       },
       "original": {
@@ -298,11 +298,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786826571,
-        "narHash": "sha256-nNqmXIFmESRnU91KARtiekSox0+o+E3AS0d1TuUQ/9o=",
+        "lastModified": 1786929086,
+        "narHash": "sha256-kzpwMyT7i2fTQ41tf/WlsIHuJtf3e0leRBEPkBhUzBY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c8058ecc1329a71a3c99c4d0353dba4009a66152",
+        "rev": "aac4965ddb7ea2ff0f3cadd9502c7042b7aa07ba",
         "type": "github"
       },
       "original": {
@@ -315,11 +315,11 @@
     "mcp-obsidian-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1784802700,
-        "narHash": "sha256-WNjH97F58YVOLKshyxJTXksI4OmXE9KKmsWtnkTdaTM=",
+        "lastModified": 1786625141,
+        "narHash": "sha256-/9cty7MdGdoCuPrfrFJSa44evWpVuEqVJsXZeQNMGhs=",
         "owner": "bitbonsai",
         "repo": "mcp-obsidian",
-        "rev": "313983bffcfb8e2e6b6c4c9f977cf0bffdc9e8c6",
+        "rev": "3a14634153652c0ed059dfe1a743c24b57efbc16",
         "type": "github"
       },
       "original": {
@@ -462,11 +462,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1786599213,
-        "narHash": "sha256-yNJd40f11EzXBjSByCB7IPpeFFAdeoSKKM67dGkfFoU=",
+        "lastModified": 1786862985,
+        "narHash": "sha256-FBJRXmbGXiSUDvYEbfLYRkckayyZ6SK1UEqhCrIZ2Cs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
+        "rev": "e5bdc4a41d4c072fe1e3787eaa0320a384741d44",
         "type": "github"
       },
       "original": {
@@ -639,11 +639,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786848140,
-        "narHash": "sha256-PqESiwWHWmghLYhZJ9vFDKvqRQ3Zu8F0j8XDjFqNBHo=",
+        "lastModified": 1786927690,
+        "narHash": "sha256-/2kj1DJx07pwmI9Fn1d50B/ylu5T/D8J3kdzlMnbOYk=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "abb75a06326d708b85a7ebe1f390ee8b8fd1c0f8",
+        "rev": "bf4da239d4737755ebaa5a4aa82ad2969b550e0c",
         "type": "github"
       },
       "original": {
@@ -671,11 +671,11 @@
     "obsidian-agent-client-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1785997470,
-        "narHash": "sha256-xGEb2ETgLgxlYaguH3vOyV7pnahAn+zapoM/ZZoh6/A=",
+        "lastModified": 1786718633,
+        "narHash": "sha256-sID/u1k5WQgUPUFEPJYGrHi/VZPxDxGzJBKhbctQ42o=",
         "owner": "RAIT-09",
         "repo": "obsidian-agent-client",
-        "rev": "7eea4ca97476f56ea0b76c57211ddd85328bd770",
+        "rev": "55dc9e3a3d5bfa3e2b0535585e0ea096689eec85",
         "type": "github"
       },
       "original": {
@@ -929,11 +929,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786026603,
-        "narHash": "sha256-payw8w/aqR/Vr7LvDp14jxa5egFrZN7g8INsPzn7rN0=",
+        "lastModified": 1786615403,
+        "narHash": "sha256-U++y7nM/6xiEcWI7q4fQoPZjPvRaTwkSqzBOVoEBjUE=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "0dfa8388dc855b1774f509725d8ea6806291571d",
+        "rev": "4b59abb2ae1896d2a0e1abfc47fbc9bf985ea730",
         "type": "github"
       },
       "original": {

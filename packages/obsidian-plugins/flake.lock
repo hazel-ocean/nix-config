@@ -3,11 +3,11 @@
     "obsidian-agent-client-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1785997470,
-        "narHash": "sha256-xGEb2ETgLgxlYaguH3vOyV7pnahAn+zapoM/ZZoh6/A=",
+        "lastModified": 1786718633,
+        "narHash": "sha256-sID/u1k5WQgUPUFEPJYGrHi/VZPxDxGzJBKhbctQ42o=",
         "owner": "RAIT-09",
         "repo": "obsidian-agent-client",
-        "rev": "7eea4ca97476f56ea0b76c57211ddd85328bd770",
+        "rev": "55dc9e3a3d5bfa3e2b0535585e0ea096689eec85",
         "type": "github"
       },
       "original": {
