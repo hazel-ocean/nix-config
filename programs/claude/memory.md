@@ -31,6 +31,7 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 ## Public Communication & Approvals
 
 - **Never post publicly without a drafted approval.** Do not reply to, comment on, or open anything outward-facing (GitHub issues/PRs/reviews, Slack, Linear, and any other public or shared channel) until you have shown me a draft of the exact wording and I have explicitly approved it. This covers opening PRs, posting review comments, sending Slack messages, and adding Linear comments. Draft first, wait for my go-ahead, then send.
+- **Commit freely, push on request.** Make local commits as work progresses, but never `git push` until I ask. A push to an open PR branch starts CI, and I want CI runs to be deliberate.
 
 ## Nix & System Configuration
 
@@ -65,12 +66,12 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 - Vault: `OneSignal` (work-related)
 
 ### Journal Structure
-- Location: `Linear/<Project Name>/Journal/YYYY.MM.DD.md`
+- Location: `Projects/<Project Name>/Journal/YYYY.MM.DD.md`
 - The `Project Name` is a concice name that, if dash-cased, would be suitable for a `git branch`
 - The `project-tag` is the `Project Name` converted to dash-casing whose format is suitable for a `git branch`
 - Title (H1) should be a brief summary of the session's outcome, never mirror the name of the file in the Title
 - Format: Decision Log / ADR-lite style
-- Tags: `linear`, `<project-tag>`, `journal`
+- Tags: `projects`, `<project-tag>`, `journal`
 
 ### Project Journal Conventions
 - Capture: problems encountered, decisions made, solutions implemented
@@ -92,6 +93,8 @@ overwrite
 - MCP server: `Linear` (claude.ai connector)
 - Things projects often link to Linear issues
 - Estimates are made by the team during Story Time — unless told otherwise, newly created Linear tickets get **No Estimate**
+- Tickets are drafted in Obsidian first, as `Projects/<Ticket Name>/<Ticket Name>.md`, with a callout at the top recording the issue id once filed
+- **Search `Projects/` before drafting a ticket.** A draft that is already filed reads as unfiled work, and filing it again creates a duplicate
 
 ## Keeping Things in Sync
 
