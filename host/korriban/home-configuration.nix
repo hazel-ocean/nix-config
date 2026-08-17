@@ -1,8 +1,9 @@
 { lib, pkgs, ... }:
 {
   imports = [
-    ../../services/shairport-sync.nix
+    ../../programs/claude
     ../../programs/claude/shared/github.nix
+    ../../services/shairport-sync.nix
     ./home-niri.nix
   ];
 

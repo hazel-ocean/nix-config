@@ -162,9 +162,7 @@ let
   # config.nu minus the prompt/completion machinery, for `nu -c` callers such as
   # Claude Code's /nu command. themeStartup is the reason this can't just be
   # config.nu: it writes OSC colour escapes to stdout ahead of any real output.
-  nonInteractiveText = lib.concatLines (
-    [ overlayLoads ] ++ aliasLoads ++ [ "source ${userConfig}" ]
-  );
+  nonInteractiveText = lib.concatLines ([ overlayLoads ] ++ aliasLoads ++ [ "source ${userConfig}" ]);
 
   # Into env.nu (runs before config.nu parse): theme data + the write-startup that
   # generates the snippet config.nu sources. Child shells inherit STARSHIP_CONFIG
@@ -183,14 +181,16 @@ let
   # Only forward known-safe home.sessionVariables; other modules (e.g.
   # programs.starship) also write to this set, and blindly forwarding
   # STARSHIP_CONFIG clobbers the nushell-specific one themeEnv sets below.
-  sessionVarNames = [
-    "EDITOR"
-    "VISUAL"
-    "PAGER"
-    "FZF_DEFAULT_COMMAND"
-    "BAT_CONFIG_PATH"
-  ];
-  sessionVars = lib.filterAttrs (name: _: builtins.elem name sessionVarNames) config.home.sessionVariables;
+  sessionVars = lib.filterAttrs (
+    name: _:
+    builtins.elem name [
+      "EDITOR"
+      "VISUAL"
+      "PAGER"
+      "FZF_DEFAULT_COMMAND"
+      "BAT_CONFIG_PATH"
+    ]
+  ) config.home.sessionVariables;
 
   # Homebrew shellenv, re-expressed natively (Nushell can't `eval` the POSIX
   # output of `brew shellenv`). env.nu runs for every session before config.nu,

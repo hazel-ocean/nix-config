@@ -32,6 +32,14 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 
 - **Never post publicly without a drafted approval.** Do not reply to, comment on, or open anything outward-facing (GitHub issues/PRs/reviews, Slack, Linear, and any other public or shared channel) until you have shown me a draft of the exact wording and I have explicitly approved it. This covers opening PRs, posting review comments, sending Slack messages, and adding Linear comments. Draft first, wait for my go-ahead, then send.
 
+## Nix & System Configuration
+
+- **Never build or switch system profiles to verify changes.** Don't run `darwin-rebuild`, `nixos-rebuild`, or full `nix build` of a host's `system`/`toplevel`. These are slow and mutate the machine.
+- For catching evaluation errors: use `nix eval` on a config attribute (e.g., `nix eval .#darwinConfigurations.espeon.config.system.build.toplevel.drvPath`).
+- To confirm a profile builds: output the build command for the user to run and stop there. Don't execute it yourself. Examples:
+  - Build only: `darwin-rebuild build --flake .#espeon`
+  - Apply: `just apply` (→ `sudo darwin-rebuild switch --flake .#espeon`)
+
 ## Nushell
 
 - Don't use underscores to denote private vs public.
