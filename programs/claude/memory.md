@@ -9,6 +9,12 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
   - *Describe what is, never what was.* No "unlike X", "previously", "rather than", "deliberately separate from", "this replaces". The reader never saw the earlier iteration and does not need to. Design history belongs in the PR description or the project journal.
   - *Bullets over blobs.* Prefer bulleted or numbered lists to paragraphs. Reserve a paragraph for sentences that genuinely depend on each other, and keep it to two or three. Numbered when order matters.
   - *Shorter is the tiebreak.* Given two versions that convey the same thing, ship the shorter one.
+- **Simplified Technical English**, in the spirit of ASD-STE-100 rather than to its dictionary.
+  - *One word, one meaning.* Pick a term per concept and keep it. Never vary a term for style: a source is not a provider is not an account.
+  - *One idea per sentence.* Keep sentences short. Use the active voice. Use the imperative for instructions.
+  - *Full sentences, with articles.* Terseness decides what to say. STE decides how to say it. Cut the content, not the grammar.
+  - *State uncertainty plainly.* Write "I did not verify this", "this is not certain", "I did not test this". Do not write "likely", "probably", "seems", "arguably".
+  - Code, identifiers and quoted output stay as they are.
 - **Punctuation**: Never use em dashes. Use commas, colons, semicolons, or hyphens instead.
 - **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy: commits, PRs, and other output.
 - **Commit messages**: A concise subject line, then bullet points (`- `) for the body; no multi-sentence prose paragraphs.
