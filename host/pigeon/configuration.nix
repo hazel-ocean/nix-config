@@ -125,7 +125,7 @@ in
       "mimestream"
       # "musescore"
       "monocle-app"
-      # "moonlight"
+      "moonlight"
       # "nvidia-geforce-now"
       "obsidian"
       "plex"
