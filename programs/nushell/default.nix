@@ -94,6 +94,7 @@ let
           we = "workspace enter";
           wl = "workspace list";
           wr = "workspace rename";
+          wi = "workspace info";
 
           k = "kubectl";
 
