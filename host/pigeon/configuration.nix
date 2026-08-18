@@ -142,7 +142,7 @@ in
       "steam"
       "swiftformat-for-xcode"
       "tableplus"
-      "thaw"
+      "thaw@beta"
       "thingsmacsandboxhelper"
       "visual-studio-code"
       "vlc"

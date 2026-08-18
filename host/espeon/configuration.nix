@@ -106,7 +106,7 @@ in
       "rectangle-pro"
       "slack"
       "tableplus"
-      "thaw"
+      "thaw@beta"
       "thingsmacsandboxhelper"
       "vlc"
       "wezterm"
