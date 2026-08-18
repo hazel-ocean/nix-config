@@ -112,9 +112,33 @@ export def --env 'reset' [] {
   apply-live $name
 }
 
+# DEC mode 2031 / DSR 996-997 (https://vtdn.dev/docs/decset/mode2031-color-scheme).
+# Ghostty answers this; Zellij proxies it to inner panes as of 0.44.2.
+# `trap` guarantees tty mode is restored even on failure: a stuck raw/no-echo
+# terminal would be its own visible bug.
+def query-terminal-polarity []: nothing -> string {
+  if not (is-terminal --stdout) { return '' }
+  let script = '
+    old=$(stty -g 2>/dev/null) || exit 1
+    trap '"'"'stty "$old" 2>/dev/null'"'"' EXIT
+    stty raw -echo 2>/dev/null
+    printf "\033[?996n" > /dev/tty 2>/dev/null
+    IFS= read -r -t 0.2 -d n reply < /dev/tty 2>/dev/null
+    printf "%s" "$reply"
+  '
+  let result = (^bash -c $script | complete)
+  if $result.exit_code != 0 { return '' }
+  if ($result.stdout | str contains ';1n') { 'dark' }
+  else if ($result.stdout | str contains ';2n') { 'light' }
+  else { '' }
+}
+
 # Re-theme when the polarity flipped since the last prompt (pre_prompt hook).
+# Prefers the live terminal query above; falls back to detect-polarity's
+# defaults-read/host-variant logic when the terminal doesn't answer.
 export def --env 'sync' [] {
-  let p = (detect-polarity)
+  let queried = (query-terminal-polarity)
+  let p = if $queried != '' { $queried } else { detect-polarity }
   if $p != ($env.NU_THEME_ACTIVE_POLARITY? | default '') {
     let name = (resolve $p)
     write-active $name
