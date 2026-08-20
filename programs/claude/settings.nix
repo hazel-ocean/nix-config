@@ -1,30 +1,17 @@
-{ stdenv, beads }:
+{ stdenv }:
 let
   hook = command: { hooks = [ { type = "command"; inherit command; } ]; };
-
-  # `bd prime` reinjects the beads issue graph on a new session and after a
-  # compaction. Outside a repo with .beads/ it prints nothing and exits 0, so
-  # it is safe to run globally. v1.0.3 has no --hook-json flag; cobra would
-  # exit non-zero on it.
-  beadsPrime = hook "${beads}/bin/bd prime";
 
   capture = hook "/Users/hazel/.claude/hooks/capture";
   cleanup = hook "/Users/hazel/.claude/hooks/cleanup";
   notify = hook "/Users/hazel/.claude/hooks/notify";
 
   darwinHooks = {
-    SessionStart = [
-      beadsPrime
-      capture
-    ];
+    SessionStart = [ capture ];
     UserPromptSubmit = [ capture ];
     SessionEnd = [ cleanup ];
     Notification = [ notify ];
     Stop = [ notify ];
-  };
-
-  linuxHooks = {
-    SessionStart = [ beadsPrime ];
   };
 in
 {
@@ -200,7 +187,7 @@ in
     defaultMode = "default";
   };
   model = "opus[1m]";
-  hooks = if stdenv.hostPlatform.isDarwin then darwinHooks else linuxHooks;
+  hooks = if stdenv.hostPlatform.isDarwin then darwinHooks else { };
   enabledPlugins = {
     "github@claude-plugins-official" = false;
     "rust-analyzer-lsp@claude-plugins-official" = true;

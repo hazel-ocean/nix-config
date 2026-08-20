@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 let
-  settings = import ./settings.nix {
-    inherit (pkgs) stdenv beads;
-  };
+  settings = import ./settings.nix { stdenv = pkgs.stdenv; };
 in
 {
   programs.claude-code = {
@@ -10,8 +8,6 @@ in
     skills = ./.agents/skills;
     commands.nu = ./commands/nu.md;
   };
-
-  home.packages = [ pkgs.beads ];
 
   # ~/.claude/settings.json is generated from settings.nix with platform-aware
   # conditionals (hooks only on Darwin). Runtime writers (/effort, /config,
