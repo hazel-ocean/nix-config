@@ -13,6 +13,7 @@ with pkgs;
     github-cli
     jujutsu
     riffdiff
+    tuicr
   ];
 
   # Program Definition
