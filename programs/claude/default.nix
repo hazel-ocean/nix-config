@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 let
-  settings = import ./settings.nix { stdenv = pkgs.stdenv; };
+  settings = import ./settings.nix {
+    inherit (pkgs) stdenv beads;
+  };
 in
 {
   programs.claude-code = {
