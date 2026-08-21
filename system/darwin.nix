@@ -46,6 +46,13 @@
       mineffect = "scale"; # Minimize to dock settings
       mru-spaces = false; # Don't automatically rearrange spaces
     };
+
+    CustomUserPreferences = {
+      "com.apple.GameController" = {
+        longPressShareGesture_mac = -1; # Disable Home-button long-press overlay
+        doublePressShareGesture_mac = 0; # Disable Home-button double-press action
+      };
+    };
   };
 
   fonts.packages = import ./font-packages.nix { inherit pkgs; };
