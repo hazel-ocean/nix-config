@@ -1,6 +1,6 @@
 # Home-manager side of the niri session. Actual niri config lives in
 # ./niri-config.kdl, symlinked in (not store-built) so edits hot-reload.
-{ lib, ... }:
+{ config, lib, ... }:
 {
   wayland.windowManager.niri = {
     enable = true;
@@ -44,6 +44,10 @@
         };
       };
       colorSchemes.predefinedScheme = "Monochrome";
+      wallpaper = {
+        directory = "${config.home.homeDirectory}/.local/share/wallpapers";
+        automation.recursive = true;
+      };
     };
   };
 }
