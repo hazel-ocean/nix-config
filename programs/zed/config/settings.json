@@ -297,12 +297,21 @@
       },
     },
   },
+  // The repo copy is programs/ghostty/config/config, which the extension's own
+  // detection globs miss.
+  "file_types": {
+    "Ghostty": [
+      "**/ghostty/config",
+      "**/ghostty/config/config"
+    ]
+  },
   "auto_install_extensions": {
     "catppuccin": true,
     "catppuccin-icons": true,
     "dockerfile": true,
     "dracula": true,
     "fleet-themes": true,
+    "ghostty": true,
     "github-theme": true,
     "html": true,
     "just": true,
