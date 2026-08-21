@@ -63,13 +63,13 @@ theme = light:Xcode Light,dark:Xcode Dark hc
 font-size = 12
 
 #font-family = Maple Mono NF
-#adjust-cell-height = 20%
+#adjust-cell-height = 30%
 
-font-family = 0xProto Nerd Font Mono
-adjust-cell-height = 14%
+#font-family = 0xProto Nerd Font Mono
+#adjust-cell-height = 14%
 
-# font-family = Monocraft
-# adjust-cell-height = 28%
+font-family = Monocraft
+adjust-cell-height = 28%
 
 
 font-thicken = true
