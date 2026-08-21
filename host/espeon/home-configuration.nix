@@ -56,4 +56,12 @@
       ~/.config/ghostty
   '';
 
+  # Ghostty's Cmd+, hands the config to LaunchServices as text. Zed declares
+  # only these three text UTIs, so duti rejects anything broader.
+  home.activation.setDefaultEditor = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.duti}/bin/duti -s dev.zed.Zed public.plain-text all
+    run ${pkgs.duti}/bin/duti -s dev.zed.Zed public.text all
+    run ${pkgs.duti}/bin/duti -s dev.zed.Zed public.utf8-plain-text all
+  '';
+
 }
