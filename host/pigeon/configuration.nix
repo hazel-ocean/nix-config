@@ -125,7 +125,7 @@ in
       "mimestream"
       # "musescore"
       "monocle-app"
-      "moonlight"
+      # "moonlight" # built from source via moonlight-qt-latest instead
       # "nvidia-geforce-now"
       "obsidian"
       "plex"

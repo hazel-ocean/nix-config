@@ -42,6 +42,16 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixos-unstable";
     };
+    moonlight-qt-src = {
+      url = "git+https://github.com/moonlight-stream/moonlight-qt.git?ref=master&submodules=1";
+      flake = false;
+    };
+    # Pinned to the commit moonlight-qt's dependency bump targets, since it
+    # postdates libplacebo's last tagged release.
+    libplacebo-src = {
+      url = "github:haasn/libplacebo/4d82c6898551068d4ae6a6b5538efcddc2c7cf64";
+      flake = false;
+    };
   };
 
   outputs =
@@ -78,6 +88,10 @@
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default
         (import ./overlay/vimPlugins.nix)
+        (import ./overlay/moonlight-qt.nix {
+          src = inputs.moonlight-qt-src;
+          libplaceboSrc = inputs.libplacebo-src;
+        })
       ];
       config = {
         allowUnfree = true;

@@ -312,6 +312,23 @@
         "type": "github"
       }
     },
+    "libplacebo-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785432076,
+        "narHash": "sha256-QKOhccWH1dA2SbzE/H155gPIG4y/hmgE8ycnpQ3yHkI=",
+        "owner": "haasn",
+        "repo": "libplacebo",
+        "rev": "4d82c6898551068d4ae6a6b5538efcddc2c7cf64",
+        "type": "github"
+      },
+      "original": {
+        "owner": "haasn",
+        "repo": "libplacebo",
+        "rev": "4d82c6898551068d4ae6a6b5538efcddc2c7cf64",
+        "type": "github"
+      }
+    },
     "mcp-obsidian-src": {
       "flake": false,
       "locked": {
@@ -380,6 +397,25 @@
         "ref": "master",
         "repo": "things-mcp",
         "type": "github"
+      }
+    },
+    "moonlight-qt-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787109967,
+        "narHash": "sha256-8xqKkjnu73qhmplDGKId5X/tg+teGnNchUfIq58vqtQ=",
+        "ref": "master",
+        "rev": "d2f6990be699197385a6458e1231d070da83e665",
+        "revCount": 3353,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/moonlight-stream/moonlight-qt.git"
+      },
+      "original": {
+        "ref": "master",
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/moonlight-stream/moonlight-qt.git"
       }
     },
     "moonshine": {
@@ -800,7 +836,9 @@
         "helix": "helix",
         "home-manager-master": "home-manager-master",
         "home-manager-nixos-unstable": "home-manager-nixos-unstable",
+        "libplacebo-src": "libplacebo-src",
         "mcp-servers": "mcp-servers",
+        "moonlight-qt-src": "moonlight-qt-src",
         "moonshine": "moonshine",
         "nix-darwin": "nix-darwin",
         "nixos-stable": "nixos-stable",
