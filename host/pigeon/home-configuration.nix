@@ -7,6 +7,7 @@
   ];
 
   home.packages = with pkgs; [
+    moonlight-qt-latest
     # mcp-nixos # TODO: use flake from github repo
   ];
 

@@ -99,7 +99,6 @@ in
       "mimestream"
       "miro"
       "monocle-app"
-      "moonlight"
       "orion"
       "obsidian"
       "qlmarkdown"
