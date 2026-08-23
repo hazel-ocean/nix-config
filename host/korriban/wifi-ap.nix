@@ -57,6 +57,19 @@ in
         enable = true;
         operatingChannelWidth = "80";
       };
+      # The module's default HT40 lacks the +/- hostapd parses, leaving no
+      # secondary channel. 149 pairs upward with 153.
+      wifi4.capabilities = [
+        "HT40+"
+        "SHORT-GI-20"
+        "SHORT-GI-40"
+      ];
+      # The module never emits the 80 MHz centre-channel index. Without it
+      # hostapd derives a negative DFS channel index and aborts on startup.
+      settings = {
+        vht_oper_centr_freq_seg0_idx = 155;
+        he_oper_centr_freq_seg0_idx = 155;
+      };
       networks.${wlan} = {
         ssid = "korriban";
         settings.bridge = bridge;
