@@ -50,7 +50,8 @@ in
     radios.${wlan} = {
       band = "5g";
       channel = 149; # non-DFS at 30 dBm; ACS is unreliable on ath12k
-      countryCode = "US";
+      # No countryCode: the phy is self-managed and already enforces US limits.
+      # Setting it makes hostapd hang in COUNTRY_UPDATE and fail to initialise.
       wifi5.operatingChannelWidth = "80";
       wifi6 = {
         enable = true;
