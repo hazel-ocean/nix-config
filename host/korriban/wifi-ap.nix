@@ -1,12 +1,14 @@
 # Wi-Fi AP on the WCN785x radio, bridged onto the wired LAN so clients land on
 # the same subnet as the moonshine host itself.
-{ ... }:
+{ pkgs, ... }:
 let
   lan = "enp12s0";
   wlan = "wlp11s0";
   bridge = "br0";
 in
 {
+  environment.systemPackages = [ pkgs.iw ]; # inspect associations on the AP
+
   # hostapd and NetworkManager's wpa_supplicant cannot share the radio.
   networking.networkmanager.unmanaged = [ "interface-name:${wlan}" ];
 
