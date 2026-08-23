@@ -3,6 +3,11 @@
 
 spawn-at-startup "noctalia"
 
+// Nested winit output.
+output "winit" {
+    scale 1.35
+}
+
 input {
     keyboard {
         numlock
