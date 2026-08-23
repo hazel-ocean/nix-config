@@ -32,6 +32,7 @@ in
     ./hardware-configuration.nix
     ../../system/linux.nix
     ./niri.nix
+    ./wifi-ap.nix
   ];
 
   boot.initrd.kernelModules = [ "uinput" ];
