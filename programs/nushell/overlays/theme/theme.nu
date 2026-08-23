@@ -118,19 +118,19 @@ export def --env 'reset' [] {
 # terminal would be its own visible bug.
 def query-terminal-polarity []: nothing -> string {
   if not (is-terminal --stdout) { return '' }
-  let script = '
+  let script = r#'
     old=$(stty -g 2>/dev/null) || exit 1
-    trap '"'"'stty "$old" 2>/dev/null'"'"' EXIT
+    trap 'stty "$old" 2>/dev/null' EXIT
     stty raw -echo 2>/dev/null
     printf "\033[?996n" > /dev/tty 2>/dev/null
     IFS= read -r -t 0.2 -d n reply < /dev/tty 2>/dev/null
     printf "%s" "$reply"
-  '
+  '#
   let result = (^bash -c $script | complete)
   if $result.exit_code != 0 { return '' }
-  if ($result.stdout | str contains ';1n') { 'dark' }
+  (if ($result.stdout | str contains ';1n') { 'dark' }
   else if ($result.stdout | str contains ';2n') { 'light' }
-  else { '' }
+  else { '' })
 }
 
 # Re-theme when the polarity flipped since the last prompt (pre_prompt hook).
