@@ -79,7 +79,7 @@ in
       settings = {
         he_oper_centr_freq_seg0_idx = 39;
         op_class = 133;
-        he_6ghz_reg_pwr_type = 0; # indoor low-power, per the NO-OUTDOOR rule
+        he_6ghz_reg_pwr_type = 3; # indoor enabled AP
       };
       networks.${wlan} = {
         ssid = "korriban";
