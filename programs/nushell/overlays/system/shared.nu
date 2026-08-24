@@ -6,7 +6,7 @@
 #   system edit-me    # edit this overlay's source in the repo
 #
 # Host-specific commands live in <hostname>.nu beside this file and join the
-# same namespace on that host only (default.nix builds the overlay entrypoint).
+# same namespace on that host only.
 
 const REPO = "~/.config/nix-config"
 
