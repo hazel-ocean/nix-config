@@ -66,27 +66,30 @@ in
   services.hostapd = {
     enable = true;
     radios.${wlan} = {
-      band = "6g";
-      channel = 37; # a PSC, so clients sweeping 6 GHz can find a lone AP
+      band = "5g";
+      channel = 149; # non-DFS at 30 dBm; ACS is unreliable on ath12k
       # countryCode hangs hostapd in COUNTRY_UPDATE: the phy is self-managed.
-      wifi4.enable = false; # 6 GHz is HE-only
-      wifi5.enable = false;
+      wifi5.operatingChannelWidth = "80";
       wifi6 = {
         enable = true;
         operatingChannelWidth = "80";
       };
-      # The module emits no centre-channel index. 39 centres the 33-45 block.
+      # The module default HT40 lacks the +/- hostapd parses for a secondary
+      # channel. 149 pairs upward with 153.
+      wifi4.capabilities = [
+        "HT40+"
+        "SHORT-GI-20"
+        "SHORT-GI-40"
+      ];
+      # The module emits no centre-channel index, so hostapd derives a negative
+      # DFS channel index and aborts.
       settings = {
-        he_oper_centr_freq_seg0_idx = 39;
-        op_class = 133;
-        he_6ghz_reg_pwr_type = 3; # indoor enabled AP
+        vht_oper_centr_freq_seg0_idx = 155;
+        he_oper_centr_freq_seg0_idx = 155;
       };
       networks.${wlan} = {
         ssid = "korriban";
-        settings = {
-          bridge = bridge;
-          sae_pwe = lib.mkForce 1; # 6 GHz mandates hash-to-element
-        };
+        settings.bridge = bridge;
         authentication = {
           mode = "wpa3-sae";
           saePasswords = [ { passwordFile = "/var/lib/hostapd/sae-passphrase"; } ];
