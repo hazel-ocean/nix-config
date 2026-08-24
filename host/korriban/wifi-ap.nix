@@ -45,9 +45,22 @@ in
     };
   };
 
-  # A soft rfkill block cuts the radio below NetworkManager, and systemd-rfkill
-  # restores it across reboots.
-  systemd.services.hostapd.preStart = lib.mkBefore "${pkgs.util-linux}/bin/rfkill unblock wlan";
+  # The card boots into regulatory domain 00, where every 5 GHz channel is
+  # receive-only. This board publishes no SMBIOS country and a self-managed phy
+  # ignores `iw reg set`, so the only way to reach US is to hear a neighbour's
+  # country IE. A soft rfkill block resets the domain the same way.
+  systemd.services.hostapd = {
+    path = [
+      pkgs.iproute2
+      pkgs.iw
+      pkgs.util-linux
+    ];
+    preStart = lib.mkBefore ''
+      rfkill unblock wlan
+      ip link set ${wlan} up
+      iw dev ${wlan} scan > /dev/null || true
+    '';
+  };
 
   # wlp11s0 has no profile: hostapd enslaves it to the bridge itself.
   services.hostapd = {

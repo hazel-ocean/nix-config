@@ -6,7 +6,7 @@
 #   system jellyfin   # drop into the Jellyfin volume (pigeon)
 #   system edit-me    # edit this overlay's source in the repo
 #   system moonshine pair 1234  # answer a Moonlight pairing request (korriban)
-#   system access-point status  # radio, clients and rfkill state (korriban)
+#   system access-point status  # radio, clients, country and rfkill (korriban)
 
 const REPO = "~/.config/nix-config"
 const AP_IFACE = "wlp11s0"
@@ -108,6 +108,7 @@ export def "access-point status" []: nothing -> record {
   {
     hostapd: (unit-state)
     rfkill: (rfkill-state)
+    country: (reg-country)
     radio: (radio-info)
     clients: (station-dump)
   }
@@ -117,16 +118,37 @@ export def "access-point status" []: nothing -> record {
 export def "access-point enable" []: nothing -> nothing {
   access-point-guard
 
-  ^sudo rfkill unblock wlan
   ^sudo systemctl reset-failed hostapd
   ^sudo systemctl start hostapd
 
-  match (unit-state) {
-    'active' => { magenta $'Access point up on ($AP_IFACE).' }
+  match (settled-state) {
+    'active' => { magenta $'Access point up on ($AP_IFACE), country (reg-country).' }
     $state => {
       error make { msg: $'hostapd is ($state); see journalctl --unit hostapd' }
     }
   }
+}
+
+# systemctl start returns as soon as hostapd forks, several hundred
+# milliseconds before it gives up on the radio.
+def settled-state []: nothing -> string {
+  for _ in 1..10 {
+    sleep 300ms
+    let state = (unit-state)
+    if $state != 'active' { return $state }
+  }
+  'active'
+}
+
+def reg-country []: nothing -> string {
+  let reg = (^iw reg get | complete)
+  if $reg.exit_code != 0 { return 'unknown' }
+
+  $reg.stdout
+  | split row --regex '(?m)^phy#'
+  | last
+  | field 'country (?<v>\w{2})'
+  | default 'unknown'
 }
 
 def access-point-guard []: nothing -> nothing {
