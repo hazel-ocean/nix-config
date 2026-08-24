@@ -41,6 +41,7 @@ inputs@{ config, pkgs, ... }:
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  # upstream: none filed; drop when nixpkgs carries a pnpm past the CVE.
   nixpkgs.config.permittedInsecurePackages = [
     "pnpm-10.29.2"
   ];

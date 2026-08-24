@@ -16,6 +16,7 @@ rustPlatform.buildRustPackage {
   };
 
   cargoSha256 = "1d748vh1ig8r0cd70lsnw9fdmanic4jxxibbbagd5mrh8462v64v";
+  # upstream: none filed; drop when itm ships a v3 lockfile.
   cargoPatches = [ ./cargo_lock.patch ];
 
   meta = with lib; {

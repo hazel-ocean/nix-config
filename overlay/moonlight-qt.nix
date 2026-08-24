@@ -2,6 +2,7 @@
 final: prev: {
   # moonlight-qt master pins a post-release libplacebo commit for its
   # PL_COLOR_TRC_SCRGB usage in the Vulkan/Metal renderer.
+  # upstream: none filed; drop when libplacebo tags that commit.
   libplacebo-latest = prev.libplacebo.overrideAttrs (_old: {
     version = "unstable-${libplaceboSrc.lastModifiedDate}-${libplaceboSrc.shortRev}";
     src = libplaceboSrc;
@@ -10,10 +11,12 @@ final: prev: {
   # nixpkgs disables ffmpeg's Vulkan support on Darwin by default; its
   # postFixup also runs a Linux-only patchelf step whenever Vulkan is on,
   # unconditional of platform, which we drop since it doesn't apply here.
+  # upstream: none filed; drop when generic.nix guards that step on isLinux.
   ffmpeg-vulkan = (prev.ffmpeg_9.override { withVulkan = true; }).overrideAttrs (_old: {
     postFixup = "";
   });
 
+  # upstream: none filed; drop when nixpkgs ships a release with these.
   moonlight-qt-latest = prev.moonlight-qt.overrideAttrs (old: {
     pname = "moonlight-qt";
     version = "unstable-${src.lastModifiedDate}-${src.shortRev}";

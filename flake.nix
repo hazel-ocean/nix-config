@@ -75,7 +75,7 @@
         (final: prev: {
           room = room.packages.${prev.stdenv.hostPlatform.system}.default;
           helix-latest = helix.packages.${prev.stdenv.hostPlatform.system}.default.override {
-            # Filter out the broken grammar
+            # upstream: none filed; drop when the lua-format-string grammar builds.
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
           nu-scripts = inputs.nu-scripts;
@@ -87,6 +87,7 @@
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default
+        (import ./overlay/patches.nix)
         (import ./overlay/vimPlugins.nix)
         (import ./overlay/moonlight-qt.nix {
           src = inputs.moonlight-qt-src;
@@ -158,11 +159,6 @@
           homeDirectory = "/home/${username}";
           overlays = baseOverlays ++ [
             (import ./overlay/theme { source = ./host/${hostname}/theme.nix; })
-            (final: prev: {
-              openldap = prev.openldap.overrideAttrs (_: {
-                doCheck = !prev.stdenv.hostPlatform.isi686;
-              });
-            })
           ];
         in
         nixpkgs.lib.nixosSystem {
