@@ -48,15 +48,15 @@ let
     (^open ($env.HOME | path join "Applications" "ClawdBack.app") --args notify --title $title --message $body --session-id $session_id --cwd $cwd)
   '';
 
-  # Fired by Claude's SessionStart + UserPromptSubmit hooks. Records Claude's
-  # window/tab (via the notifier's `capture` mode) so notify/click can return to
-  # the exact window. On SessionStart only for session initiation
-  # (startup/resume/clear/fork) — never background compaction, which could run
-  # while the terminal isn't frontmost. UserPromptSubmit (no `source` field)
-  # re-captures every turn so a Zellij reattach into a different window refreshes
-  # the stale ids; the app only saves when the terminal is frontmost, which both
-  # events guarantee. Guarded on the app existing, so it's a no-op if
-  # activation hasn't installed it yet.
+  # Fired by Claude's SessionStart + UserPromptSubmit hooks. Re-derives Claude's
+  # window/tab and Zellij pane (via the notifier's `capture` mode) so notify/click
+  # can return to the exact window, and clears any banner the session left
+  # behind. On SessionStart only for session initiation (startup/resume/clear/
+  # fork), never background compaction. UserPromptSubmit (no `source` field) runs
+  # every turn: the app re-reads what it can and drops any target that no longer
+  # resolves, so a Zellij reattach into a different window refreshes the stale
+  # ids. Guarded on the app existing, so it's a no-op if activation hasn't
+  # installed it yet.
   capture = pkgs.writeScript "claude-capture.nu" ''
     #!${pkgs.nushell}/bin/nu --stdin
     let input = (try { $in | from json } catch { {} })
