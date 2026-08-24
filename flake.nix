@@ -26,9 +26,7 @@
       flake = false;
     };
     clawd-back = {
-      # Local checkout, so a change is testable before it is pushed. Point this
-      # back at github:hazel-ocean/clawd-back to build on any other host.
-      url = "git+file:///Users/hazel/OneSignal/workbench/workspaces/clawd-back/repo";
+      url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     agent-skills = {

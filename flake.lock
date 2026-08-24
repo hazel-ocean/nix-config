@@ -31,17 +31,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1787607536,
-        "narHash": "sha256-n2XPJ6SjwllqpuCXQIJzF1DnETTxikvArHPfA0a8G98=",
-        "ref": "refs/heads/main",
-        "rev": "74c2da9643e38dea59f37623318cccf90d665679",
-        "revCount": 63,
-        "type": "git",
-        "url": "file:///Users/hazel/OneSignal/workbench/workspaces/clawd-back/repo"
+        "lastModified": 1787609137,
+        "narHash": "sha256-r8aCZ5d4aaFiKxA6BNhp5nJ506D4J20V6UBjUUDwnqk=",
+        "owner": "hazel-ocean",
+        "repo": "clawd-back",
+        "rev": "33d2c79004ca98ca0bbdff9a05707b11077c42d7",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///Users/hazel/OneSignal/workbench/workspaces/clawd-back/repo"
+        "owner": "hazel-ocean",
+        "repo": "clawd-back",
+        "type": "github"
       }
     },
     "determinate": {
