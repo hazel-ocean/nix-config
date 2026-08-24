@@ -1,74 +1,12 @@
-# System administration helpers.
-#
-# Auto-loaded on every host, with `--prefix`, so commands are namespaced:
-#   system admin      # open the nix-config session in zellij
-#   system apply      # switch this host to the current nix-config
-#   system jellyfin   # drop into the Jellyfin volume (pigeon)
-#   system edit-me    # edit this overlay's source in the repo
-#   system moonshine pair 1234  # answer a Moonlight pairing request (korriban)
-#   system access-point status  # radio, clients, country and rfkill (korriban)
+use ./util.nu *
 
-const REPO = "~/.config/nix-config"
 const AP_IFACE = "wlp11s0"
 const PAIR_WINDOW = "-10 minutes"
 
-# Open the nix-config session in zellij.
-export def admin []: nothing -> nothing {
-  cd ($REPO | path expand)
-  clear -k
-  zellij attach --create nix-config
-}
-
-# Build and switch this host to the current nix-config.
-export def apply []: nothing -> nothing {
-  cd ($REPO | path expand)
-  just apply
-}
-
-def aliases-for []: nothing -> list<string> {[ nushell ]}
-
-# Edit aliases available to the shell to be available on next session
-export def aliases [--shell: string@aliases-for]: nothing -> nothing {
-  cd ($REPO | path expand)
-  let config_file = fd --full-path 'nushell/default.nix'
-  let location = (
-    rg 'aliases = \{' $config_file --line-number --column
-    | split row ':'
-    | take 2
-    | str join ':'
-  )
-  hx $"($config_file):($location)"
-
-  let key = do {
-    print --no-newline "Apply changes? (y/N) > "
-    (input listen --timeout 20sec --types [key]).code
-  }
-  print $key
-  match $key {
-    'y' => { just apply },
-    _ => { }
-  }
-}
-
-# Drop into the Jellyfin volume with its Justfile listed (pigeon only).
-export def jellyfin []: nothing -> nothing {
-  let volume = "/Volumes/Jellyfin"
-  if not ($volume | path exists) {
-    error make { msg: $"Jellyfin volume not mounted at ($volume)" }
-  }
-  cd $volume
-  clear -k
-  magenta "Starting interactive shell..."
-  ^nu --execute 'just --list'
-}
-
-# Answer moonshine's pending Moonlight pairing request (korriban only).
+# Answer moonshine's pending Moonlight pairing request.
 export def "moonshine pair" [
   pin: string # the four-digit PIN shown by the Moonlight client
 ]: nothing -> nothing {
-  if (which journalctl | is-empty) {
-    error make { msg: "moonshine runs on korriban; no journal to read here" }
-  }
   if ($pin !~ '^\d{4}$') {
     error make { msg: $"PIN must be four digits, got '($pin)'" }
   }
@@ -101,10 +39,8 @@ export def "moonshine pair" [
   magenta $"Paired client ($uniqueid)."
 }
 
-# Report the access point's radio, clients and rfkill state (korriban only).
+# Report the access point's radio, clients and rfkill state.
 export def "access-point status" []: nothing -> record {
-  access-point-guard
-
   {
     hostapd: (unit-state)
     rfkill: (rfkill-state)
@@ -114,10 +50,8 @@ export def "access-point status" []: nothing -> record {
   }
 }
 
-# Clear the rfkill block and start the access point (korriban only).
+# Clear the rfkill block and start the access point.
 export def "access-point enable" []: nothing -> nothing {
-  access-point-guard
-
   ^sudo systemctl reset-failed hostapd
   ^sudo systemctl start hostapd
 
@@ -149,12 +83,6 @@ def reg-country []: nothing -> string {
   | last
   | field 'country (?<v>\w{2})'
   | default 'unknown'
-}
-
-def access-point-guard []: nothing -> nothing {
-  if not ($'/sys/class/net/($AP_IFACE)' | path exists) {
-    error make { msg: $'($AP_IFACE) not found; the access point runs on korriban' }
-  }
 }
 
 def unit-state []: nothing -> string {
@@ -210,11 +138,3 @@ def station-dump []: nothing -> table {
 def field [pattern: string]: string -> any {
   $in | parse --regex $pattern | get v.0?
 }
-
-# Edit this overlay's source file in the repo.
-export def edit-me []: nothing -> nothing {
-  let file = ($REPO | path expand | path join programs nushell overlays system mod.nu)
-  ^$env.EDITOR $file
-}
-
-def magenta [msg: string]: nothing -> nothing { print $"(ansi magenta)($msg)(ansi reset)" }

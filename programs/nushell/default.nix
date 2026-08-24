@@ -8,6 +8,7 @@
 let
   inherit (pkgs)
     runCommandLocal
+    writeTextDir
     zoxide
     nushell
     nufmt
@@ -35,10 +36,25 @@ let
   themeSrc = ./overlays/theme;
   themesDir = "${pkgs.nu-scripts}/themes/nu-themes";
 
+  hostname = osConfig.networking.hostName;
+
+  # Nushell resolves `use` at parse time, so the host split happens here: the
+  # generated entrypoint pulls in the shared commands plus <hostname>.nu, when
+  # the host has one. Both land in the same `system` namespace.
+  systemDir = ./overlays/system;
+  systemHostModule = systemDir + "/${hostname}.nu";
+
+  systemSrc = writeTextDir "mod.nu" (
+    lib.concatLines (
+      [ "export use ${systemDir}/shared.nu *" ]
+      ++ lib.optional (builtins.pathExists systemHostModule) "export use ${systemHostModule} *"
+    )
+  );
+
   overlays = [
     {
       name = "system";
-      src = ./overlays/system;
+      src = systemSrc;
       enable = true;
       prefix = true;
     }
@@ -64,7 +80,6 @@ let
     }
     (
       let
-        hostname = osConfig.networking.hostName;
         user = config.home.username;
       in
       {
