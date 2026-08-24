@@ -1,10 +1,4 @@
-# System administration helpers, on every host.
-#
-# Auto-loaded with `--prefix`, so commands are namespaced:
-#   system admin      # open the nix-config session in zellij
-#   system apply      # switch this host to the current nix-config
-#   system edit-me    # edit this overlay's source in the repo
-#
+# System administration helpers, namespaced as `system *` on every host.
 # Host-specific commands live in <hostname>.nu beside this file and join the
 # same namespace on that host only.
 

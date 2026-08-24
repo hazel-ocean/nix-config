@@ -47,8 +47,8 @@ let
       enable = true;
       prefix = true;
     }
-    # Loading a second overlay under the same name merges into it, so the host
-    # commands join the `system` namespace without an entrypoint module.
+    # A second overlay of the same name merges into it, so the host commands join
+    # the `system` namespace.
     {
       name = "system";
       src = systemDir;
