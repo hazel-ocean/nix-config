@@ -25,7 +25,6 @@
         widgets = {
           left = [
             { id = "ControlCenter"; useDistroLogo = true; }
-            { id = "Network"; }
             { id = "Bluetooth"; }
           ];
           center = [

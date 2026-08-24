@@ -1,19 +1,18 @@
-# Wi-Fi AP on the WCN785x radio, bridged onto the wired LAN so clients land on
-# the same subnet as the moonshine host itself.
-{ pkgs, ... }:
+# Wi-Fi AP on the WCN785x radio, bridged onto the wired LAN.
+{ lib, pkgs, ... }:
 let
   lan = "enp12s0";
   wlan = "wlp11s0";
   bridge = "br0";
 in
 {
-  environment.systemPackages = [ pkgs.iw ]; # inspect associations on the AP
+  environment.systemPackages = [ pkgs.iw ];
 
   # hostapd and NetworkManager's wpa_supplicant cannot share the radio.
   networking.networkmanager.unmanaged = [ "interface-name:${wlan}" ];
 
-  # NetworkManager forces networking.useDHCP = false, so the bridge has to be
-  # one of its profiles to get an address.
+  # NetworkManager forces networking.useDHCP = false, so a native bridge never
+  # gets an address.
   networking.networkmanager.ensureProfiles.profiles = {
     ${bridge} = {
       connection = {
@@ -23,7 +22,7 @@ in
         autoconnect-priority = 100;
       };
       bridge = {
-        # Pinned to enp12s0 so korriban's LAN address survives wlp11s0 joining.
+        # Pinned to enp12s0 so the LAN address survives wlp11s0 joining.
         mac-address = "9C:6B:00:C4:89:30";
         stp = false;
       };
@@ -46,28 +45,31 @@ in
     };
   };
 
-  # wlp11s0 has no profile here: hostapd enslaves it to the bridge itself.
+  # A soft rfkill block cuts the radio below NetworkManager, and systemd-rfkill
+  # restores it across reboots.
+  systemd.services.hostapd.preStart = lib.mkBefore "${pkgs.util-linux}/bin/rfkill unblock wlan";
+
+  # wlp11s0 has no profile: hostapd enslaves it to the bridge itself.
   services.hostapd = {
     enable = true;
     radios.${wlan} = {
       band = "5g";
       channel = 149; # non-DFS at 30 dBm; ACS is unreliable on ath12k
-      # No countryCode: the phy is self-managed and already enforces US limits.
-      # Setting it makes hostapd hang in COUNTRY_UPDATE and fail to initialise.
+      # countryCode hangs hostapd in COUNTRY_UPDATE: the phy is self-managed.
       wifi5.operatingChannelWidth = "80";
       wifi6 = {
         enable = true;
         operatingChannelWidth = "80";
       };
-      # The module's default HT40 lacks the +/- hostapd parses, leaving no
-      # secondary channel. 149 pairs upward with 153.
+      # The module default HT40 lacks the +/- hostapd parses for a secondary
+      # channel. 149 pairs upward with 153.
       wifi4.capabilities = [
         "HT40+"
         "SHORT-GI-20"
         "SHORT-GI-40"
       ];
-      # The module never emits the 80 MHz centre-channel index. Without it
-      # hostapd derives a negative DFS channel index and aborts on startup.
+      # The module emits no centre-channel index, so hostapd derives a negative
+      # DFS channel index and aborts.
       settings = {
         vht_oper_centr_freq_seg0_idx = 155;
         he_oper_centr_freq_seg0_idx = 155;
