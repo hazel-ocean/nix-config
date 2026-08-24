@@ -1,7 +1,8 @@
 # System administration helpers.
 #
 # Auto-loaded on every host, with `--prefix`, so commands are namespaced:
-#   system config     # open the nix-config Justfile menu
+#   system admin      # open the nix-config session in zellij
+#   system apply      # switch this host to the current nix-config
 #   system jellyfin   # drop into the Jellyfin volume (pigeon)
 #   system edit-me    # edit this overlay's source in the repo
 #   system moonshine pair 1234  # answer a Moonlight pairing request (korriban)
@@ -11,11 +12,17 @@ const REPO = "~/.config/nix-config"
 const AP_IFACE = "wlp11s0"
 const PAIR_WINDOW = "-10 minutes"
 
-# Change directories and edit nix-config.
-export def nix-config []: nothing -> nothing {
+# Open the nix-config session in zellij.
+export def admin []: nothing -> nothing {
   cd ($REPO | path expand)
   clear -k
   zellij attach --create nix-config
+}
+
+# Build and switch this host to the current nix-config.
+export def apply []: nothing -> nothing {
+  cd ($REPO | path expand)
+  just apply
 }
 
 def aliases-for []: nothing -> list<string> {[ nushell ]}
@@ -184,7 +191,7 @@ def field [pattern: string]: string -> any {
 
 # Edit this overlay's source file in the repo.
 export def edit-me []: nothing -> nothing {
-  let file = ($REPO | path expand | path join programs nushell overlays admin mod.nu)
+  let file = ($REPO | path expand | path join programs nushell overlays system mod.nu)
   ^$env.EDITOR $file
 }
 
