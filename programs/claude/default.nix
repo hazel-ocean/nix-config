@@ -12,7 +12,8 @@ in
   # ~/.claude/settings.json is generated from settings.nix with platform-aware
   # conditionals (hooks only on Darwin). Runtime writers (/effort, /config,
   # /model, /permissions) can modify it directly; edits persist across rebuilds.
+  # pkgs.formats.json pretty-prints it, so those edits stay diffable.
   home.file.".claude/settings.json" = {
-    text = builtins.toJSON settings;
+    source = (pkgs.formats.json { }).generate "claude-settings.json" settings;
   };
 }
