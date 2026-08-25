@@ -8,6 +8,11 @@ output "winit" {
     scale 1.35
 }
 
+output "HDMI-A-1" {
+    mode "3840x2160@120"
+    scale 1
+}
+
 input {
     keyboard {
         numlock
