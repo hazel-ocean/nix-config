@@ -4,7 +4,7 @@ let
 in
 {
   programs.claude-code = {
-    context = ./memory.md;
+    context = ./CLAUDE.md;
     skills = ./.agents/skills;
     commands.nu = ./commands/nu.md;
   };

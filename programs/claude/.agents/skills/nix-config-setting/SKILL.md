@@ -32,8 +32,9 @@ store. To change a setting you edit its declarative source and re-apply.
      - `voice.{enabled,mode}`
      - `permissions.{allow,ask,deny}`, `permissions.defaultMode`
      - `enabledPlugins`, `hooks`
-   - **Global Claude rules / memory** → `programs/claude/memory.md` (personal
-     workflow conventions). Nushell rules live under its `## Nushell` section.
+   - **Global Claude rules** → `programs/claude/CLAUDE.md`, which home-manager
+     renders to `~/.claude/CLAUDE.md`. Nushell rules live under its `## Nushell`
+     section.
    - **Host-specific settings** → `host/<host>/home-configuration.nix` or
      `host/<host>/configuration.nix` (hosts: `espeon`, `pigeon` on darwin;
      `korriban`, `ghastly`, `rpi5` on NixOS).
@@ -41,10 +42,10 @@ store. To change a setting you edit its declarative source and re-apply.
      home-manager option or program) and edit where it's defined.
 
 3. **Make the edit.** Keep it minimal and match the surrounding Nix style. Follow
-   the repo's `CLAUDE.md`: terse comments only where they earn their place. If the
+   the root `CLAUDE.md`: terse comments only where they earn their place. If the
    key doesn't exist yet, add it in the natural spot within the relevant attrset.
 
-4. **Sanity-check evaluation — never build or switch.** Per the repo `CLAUDE.md`,
+4. **Sanity-check evaluation — never build or switch.** Per the root `CLAUDE.md`,
    do not run `darwin-rebuild` / `nixos-rebuild` or a full host build. A
    lightweight eval is enough to catch errors:
    ```
