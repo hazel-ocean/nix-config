@@ -28,6 +28,17 @@ layout {
         proportion 0.66667
     }
     default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 5
+        active-color "#c678dd"
+        inactive-color "#6c7086"
+    }
+}
+
+window-rule {
+    geometry-corner-radius 4
+    clip-to-geometry true
 }
 
 prefer-no-csd
