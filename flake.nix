@@ -125,6 +125,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                backupFileExtension = "backup";
                 users.${username} = import ./home/desktop-user.nix {
                   inherit
                     hostname

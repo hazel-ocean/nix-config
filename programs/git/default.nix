@@ -10,11 +10,23 @@ with pkgs;
     difftastic
     delta
     git-crypt
-    github-cli
     jujutsu
     riffdiff
     tuicr
   ];
+
+  programs.gh = {
+    enable = true;
+    extensions = [
+      gh-dash
+      gh-pr-review
+    ];
+
+    settings = {
+      git_protocol = "https";
+      aliases.co = "pr checkout";
+    };
+  };
 
   # Program Definition
   # - https://github.com/rycee/home-manager/blob/master/modules/programs/git.nix
