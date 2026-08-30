@@ -3,6 +3,7 @@
 // "Mod" follows the backend: Super on DRM, Alt when nested.
 
 spawn-at-startup "noctalia"
+spawn-at-startup "nu" "--no-config-file" "-c" "use /home/hazel/.config/nix-config/programs/nushell/overlays/system/korriban.nu *; brightness warm-cache"
 
 xwayland-satellite {
     path "xwayland-satellite"
@@ -153,6 +154,25 @@ binds {
     Alt+Print { screenshot-window; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // Noctalia draws the OSD for these.
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-up"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-down"; }
+    Shift+XF86AudioRaiseVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-up" "1"; }
+    Shift+XF86AudioLowerVolume allow-when-locked=true { spawn "noctalia" "msg" "volume-down" "1"; }
+    XF86AudioMute allow-when-locked=true repeat=false { spawn "noctalia" "msg" "volume-mute"; }
+    XF86AudioMicMute allow-when-locked=true repeat=false { spawn "noctalia" "msg" "mic-mute"; }
+
+    XF86AudioPlay allow-when-locked=true repeat=false { spawn "noctalia" "msg" "media" "toggle"; }
+    XF86AudioStop allow-when-locked=true repeat=false { spawn "noctalia" "msg" "media" "stop"; }
+    XF86AudioNext allow-when-locked=true repeat=false { spawn "noctalia" "msg" "media" "next"; }
+    XF86AudioPrev allow-when-locked=true repeat=false { spawn "noctalia" "msg" "media" "previous"; }
+
+    // Backlight, DDC/CI or gamma, picked per press: see the korriban nushell overlay.
+    XF86MonBrightnessUp allow-when-locked=true { spawn "nu" "--no-config-file" "-c" "use /home/hazel/.config/nix-config/programs/nushell/overlays/system/korriban.nu *; brightness up"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "nu" "--no-config-file" "-c" "use /home/hazel/.config/nix-config/programs/nushell/overlays/system/korriban.nu *; brightness down"; }
+    Shift+XF86MonBrightnessUp allow-when-locked=true { spawn "nu" "--no-config-file" "-c" "use /home/hazel/.config/nix-config/programs/nushell/overlays/system/korriban.nu *; brightness up 1"; }
+    Shift+XF86MonBrightnessDown allow-when-locked=true { spawn "nu" "--no-config-file" "-c" "use /home/hazel/.config/nix-config/programs/nushell/overlays/system/korriban.nu *; brightness down 1"; }
 
     Mod+Shift+E { quit; }
 }

@@ -47,6 +47,8 @@ in
   hardware.steam-hardware.enable = true;
   hardware.enableAllHardware = true;
   hardware.uinput.enable = true;
+  # DDC/CI brightness on the HDMI output; see the korriban nushell overlay.
+  hardware.i2c.enable = true;
 
   # Microcode updates for Ryzen
   hardware.cpu.amd.updateMicrocode = true;
@@ -179,6 +181,7 @@ in
       "video"
       "render"
       "input"
+      "i2c"
       # hardware.uinput.enable's 99-local.rules overrides moonshine's GROUP="input";
       # moonshine streams are headless, so the uaccess ACL is not there to fall back on.
       "uinput"
@@ -369,6 +372,10 @@ in
 
     jq
     pulseaudio
+
+    # Brightness backends for niri; system-wide so moonshine's service PATH sees them.
+    ddcutil
+    wl-gammarelay-rs
   ];
 
   environment.sessionVariables = {
