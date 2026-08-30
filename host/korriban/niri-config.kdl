@@ -46,6 +46,26 @@ window-rule {
     clip-to-geometry true
 }
 
+// Steam's toast windows tile as full columns otherwise.
+window-rule {
+    match app-id=r#"^steam$"# title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=0 y=0 relative-to="bottom-right"
+    open-floating true
+}
+
+// HDMI-A-1 reports no VRR support; the rule is here for displays that do.
+window-rule {
+    match app-id=r#"^gamescope$"#
+    open-fullscreen true
+    variable-refresh-rate true
+}
+
+// The whole session is streamed over the LAN, so the vault is on the wire.
+window-rule {
+    match app-id=r#"^1Password$"#
+    block-out-from "screen-capture"
+}
+
 prefer-no-csd
 
 binds {
