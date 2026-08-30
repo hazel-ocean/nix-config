@@ -12,6 +12,32 @@
     sidra
   ];
 
+  # The whole default-application set, since home-manager replaces mimeapps.list
+  # wholesale rather than merging into it.
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "application/xhtml+xml" = "firefox.desktop";
+      "application/x-extension-htm" = "firefox.desktop";
+      "application/x-extension-html" = "firefox.desktop";
+      "application/x-extension-shtml" = "firefox.desktop";
+      "application/x-extension-xht" = "firefox.desktop";
+      "application/x-extension-xhtml" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/chrome" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
+      "x-scheme-handler/unknown" = "firefox.desktop";
+      "x-scheme-handler/itms" = "sidra.desktop";
+      "x-scheme-handler/discord" = "vesktop.desktop";
+      "x-scheme-handler/heroic" = "com.heroicgameslauncher.hgl.desktop";
+      "x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
+    };
+  };
+
+  home.sessionVariables.BROWSER = "firefox";
+
   services.shairport-sync = {
     enable = true;
     name = "Korriban";
