@@ -31,6 +31,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../system/linux.nix
+    ./kde.nix
     ./niri.nix
     ./wifi-ap.nix
   ];
@@ -126,12 +127,8 @@ in
   services.xserver.enable = false;
   # services.xserver.videoDrivers
   programs.xwayland.enable = true;
-  # niri (moonshine-streamed only) + noctalia-shell live in ./niri.nix and
-  # ./home-niri.nix.
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.plasma-login-manager.enable = true;
+  # Plasma lives in ./kde.nix; niri (moonshine-streamed only) + noctalia-shell
+  # in ./niri.nix and ./home-niri.nix.
 
   # services.displayManager.gdm.enable = true;
   # services.desktopManager.gnome.enable = true;
@@ -320,69 +317,59 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    with pkgs;
-    [
-      brave
-      firefox
-      google-chrome
-      helix
-      lapce
-      # noctalia-git
-      vlc
-      zed-editor
-      zellij
-      yazi
-      entr
+  environment.systemPackages = with pkgs; [
+    brave
+    firefox
+    google-chrome
+    helix
+    lapce
+    # noctalia-git
+    vlc
+    zed-editor
+    zellij
+    yazi
+    entr
 
-      dconf-editor
-      gnome-tweaks
-      gnome-remote-desktop
-      ghostty
+    dconf-editor
+    gnome-tweaks
+    gnome-remote-desktop
+    ghostty
 
-      wayland-utils
-      wl-clipboard
-      pciutils
-      libva-utils
-      radeontop
-      nvtopPackages.amd
+    wayland-utils
+    wl-clipboard
+    pciutils
+    libva-utils
+    radeontop
+    nvtopPackages.amd
 
-      tailscale
-      shairport-sync
+    tailscale
+    shairport-sync
 
-      jellyfin
-      jellyfin-ffmpeg
-      jellyfin-desktop
-      jellyfin-web
+    jellyfin
+    jellyfin-ffmpeg
+    jellyfin-desktop
+    jellyfin-web
 
-      protonup-ng
-      protonplus
-      lutris
-      gamescope-wsi
-      mangojuice
-      (heroic.override {
-        extraPkgs =
-          pkgs: with pkgs; [
-            gamescope
-            gamemode
-          ];
-      })
-      bottles
+    protonup-ng
+    protonplus
+    lutris
+    gamescope-wsi
+    mangojuice
+    (heroic.override {
+      extraPkgs =
+        pkgs: with pkgs; [
+          gamescope
+          gamemode
+        ];
+    })
+    bottles
 
-      vesktop
-      discord-canary
+    vesktop
+    discord-canary
 
-      jq
-      pulseaudio
-    ]
-    ++ (with pkgs.kdePackages; [
-      discover
-      kcalc
-      ksystemlog
-      sddm-kcm
-      isoimagewriter
-      partitionmanager
-    ]);
+    jq
+    pulseaudio
+  ];
 
   environment.sessionVariables = {
     DXVK_HDR = "1";
