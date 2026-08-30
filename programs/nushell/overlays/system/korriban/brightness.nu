@@ -6,6 +6,9 @@ use ./util.nu *
 
 const VCP_BRIGHTNESS = "10"
 const CACHE_FILE = "niri-brightness-ddc.json"
+# A display that answers, either way, is answering about itself and is believed
+# until it is unplugged. A failed read says nothing, so it expires.
+const UNREACHABLE_TTL = 5min
 
 # Raise the focused output's brightness.
 export def "brightness up" [step: int = 5]: nothing -> nothing {
@@ -25,15 +28,16 @@ export def "brightness warm-cache" []: nothing -> nothing {
 # Report which backend each connected output would use.
 export def "brightness status" []: nothing -> table {
   if (backlight-present) {
-    return [{ output: "*", backend: "backlight", bus: null }]
+    return [{ output: "*", backend: "backlight", support: null, bus: null }]
   }
 
   connectors | each {|connector|
-    let ddc = (ddc-target $connector)
+    let ddc = (ddc-support $connector)
     {
       output: $connector
-      backend: (if $ddc == null { "gamma" } else { "ddc" })
-      bus: ($ddc | get -o bus)
+      backend: (if $ddc.support == "supported" { "ddc" } else { "gamma" })
+      support: $ddc.support
+      bus: $ddc.bus
     }
   }
 }
@@ -107,16 +111,25 @@ def connector-key [connector: string]: nothing -> any {
 }
 
 def ddc-target [connector: string]: nothing -> any {
-  if not (installed ddcutil) { return null }
+  match (ddc-support $connector) {
+    { support: "supported", bus: $bus } => ({ bus: $bus })
+    _ => null
+  }
+}
+
+# "asleep" and "no-bus" say nothing about the display, so neither is cached.
+def ddc-support [connector: string]: nothing -> record {
+  if not (installed ddcutil) { return ({ support: "no-bus", bus: null }) }
 
   let bus = (connector-bus $connector)
   let key = (connector-key $connector)
-  if ($bus == null) or ($key == null) { return null }
+  if ($bus == null) or ($key == null) { return ({ support: "no-bus", bus: null }) }
+  if not (awake $connector) { return ({ support: "asleep", bus: $bus }) }
 
-  let supported = (
-    match (cache-read | get -o $key) {
+  let support = (
+    match (cached-support $key) {
       null => {
-        let probed = ((ddc-read $bus) != null)
+        let probed = (ddc-probe $bus)
         cache-write $key $probed
         $probed
       }
@@ -124,18 +137,43 @@ def ddc-target [connector: string]: nothing -> any {
     }
   )
 
-  if $supported { { bus: $bus } } else { null }
+  { support: $support, bus: $bus }
+}
+
+def ddc-probe [bus: string]: nothing -> string {
+  let fields = (ddc-fields $bus)
+
+  match ($fields | get -o 2) {
+    "ERR" => "unreachable"
+    _ => (if (vcp-value $fields) == null { "unsupported" } else { "supported" })
+  }
+}
+
+# ddcutil exits 0 on a failed read, so its output is the only signal.
+# --brief prints "VCP 10 C <current> <max>", or "VCP 10 ERR".
+def ddc-fields [bus: string]: nothing -> list<string> {
+  ^ddcutil --bus $bus --brief getvcp $VCP_BRIGHTNESS
+  | complete
+  | get stdout
+  | str trim
+  | split row --regex '\s+'
+}
+
+def vcp-value [fields: list<string>]: nothing -> any {
+  if ($fields | length) < 5 { return null }
+
+  try { { current: ($fields.3 | into int), max: ($fields.4 | into int) } } catch { null }
 }
 
 def ddc-read [bus: string]: nothing -> any {
-  let vcp = (^ddcutil --bus $bus --brief getvcp $VCP_BRIGHTNESS | complete)
-  if $vcp.exit_code != 0 { return null }
+  vcp-value (ddc-fields $bus)
+}
 
-  # --brief prints "VCP 10 C <current> <max>".
-  let fields = ($vcp.stdout | str trim | split row --regex '\s+')
-  if ($fields | length) < 5 { return null }
+def awake [connector: string]: nothing -> bool {
+  let dpms = (glob --follow-symlinks $"/sys/class/drm/card*-($connector)/dpms" | get -o 0)
+  if $dpms == null { return true }
 
-  { current: ($fields.3 | into int), max: ($fields.4 | into int) }
+  (open --raw $dpms | str trim) == "On"
 }
 
 def ddc-step [target: record, delta: int]: nothing -> nothing {
@@ -213,6 +251,23 @@ def cache-read []: nothing -> record {
   try { open $path } catch { {} }
 }
 
-def cache-write [key: string, supported: bool]: nothing -> nothing {
-  cache-read | upsert $key $supported | to json | save --force (cache-path)
+# Anything that is not a probe record is a miss, so a cache written by an older
+# shape is ignored rather than trusted.
+def cached-support [key: string]: nothing -> any {
+  let entry = (cache-read | get -o $key)
+  if ($entry | describe) !~ '^record' { return null }
+
+  match ($entry | get -o support) {
+    "unreachable" => (
+      if ((date now) - ($entry.probed | into datetime)) > $UNREACHABLE_TTL { null } else { "unreachable" }
+    )
+    $support => $support
+  }
+}
+
+def cache-write [key: string, support: string]: nothing -> nothing {
+  cache-read
+  | upsert $key ({ support: $support, probed: (date now) })
+  | to json
+  | save --force (cache-path)
 }
