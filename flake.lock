@@ -425,11 +425,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787088788,
-        "narHash": "sha256-cd7IHexHOqcgS/X1362FPQ7F1GmtncXKvCOhx1xCc5w=",
+        "lastModified": 1788032236,
+        "narHash": "sha256-Ezo2vG1S4KxKyHpPWeCVlR1hRexxQ06vZR0mx4/ToQU=",
         "owner": "hgaiser",
         "repo": "moonshine",
-        "rev": "c2da458ac8de7776086d8814bbeb1a525319b368",
+        "rev": "fc118a7d1c81cec9067d4fd1ad006da74cf4a68a",
         "type": "github"
       },
       "original": {
