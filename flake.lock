@@ -847,7 +847,8 @@
         "noctalia-shell": "noctalia-shell",
         "nu-scripts": "nu-scripts",
         "obsidian-plugins": "obsidian-plugins",
-        "room": "room"
+        "room": "room",
+        "sidra": "sidra"
       }
     },
     "rust-overlay": {
@@ -889,6 +890,26 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sidra": {
+      "inputs": {
+        "nixpkgs": [
+          "nixos-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787786351,
+        "narHash": "sha256-IdcF4NFQORtS2FJ7aXYDod204+WQS8ymmdqiqbUMlMY=",
+        "owner": "wimpysworld",
+        "repo": "sidra",
+        "rev": "126a06eb4d3ba1c19ada5ca1a8c4869b37db574a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "wimpysworld",
+        "repo": "sidra",
         "type": "github"
       }
     },

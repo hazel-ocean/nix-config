@@ -42,6 +42,10 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixos-unstable";
     };
+    sidra = {
+      url = "github:wimpysworld/sidra";
+      inputs.nixpkgs.follows = "nixos-unstable";
+    };
     moonlight-qt-src = {
       url = "git+https://github.com/moonlight-stream/moonlight-qt.git?ref=master&submodules=1";
       flake = false;
@@ -84,6 +88,7 @@
           onesignal-repos-mcp =
             inputs.agent-skills.packages.${prev.stdenv.hostPlatform.system}.repos-mcp;
           onesignal-plugins = inputs.agent-skills.lib.plugins;
+          sidra = inputs.sidra.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         mcp-servers.overlays.default
         obsidian-plugins.overlays.default

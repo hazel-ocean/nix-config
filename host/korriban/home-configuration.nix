@@ -9,6 +9,7 @@
 
   home.packages = with pkgs; [
     libreoffice
+    sidra
   ];
 
   services.shairport-sync = {
