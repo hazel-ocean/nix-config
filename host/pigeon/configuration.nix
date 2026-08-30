@@ -128,6 +128,7 @@ in
       # "moonlight" # built from source via moonlight-qt-latest instead
       # "nvidia-geforce-now"
       "obsidian"
+      "orion"
       "plex"
       "protonvpn"
       "qbittorrent"
