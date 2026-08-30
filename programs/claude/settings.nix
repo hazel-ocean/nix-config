@@ -18,6 +18,8 @@ in
   "$schema" = "https://json.schemastore.org/claude-code-settings.json";
   permissions = {
     allow = [
+      # Entering plan mode is harmless; ExitPlanMode is the real approval gate.
+      "EnterPlanMode"
       "WebSearch"
       "WebFetch"
       "mcp__plugin_hm_obsidian__search_notes"
