@@ -166,6 +166,18 @@ in
     #media-session.enable = true;
   };
 
+  # Two PipeWire instances cannot share an ALSA card; the greeter's loses the
+  # race for the GPU HDMI PCM and leaves the session with only a null sink.
+  systemd.user.services = {
+    pipewire.unitConfig.ConditionUser = "!plasmalogin";
+    pipewire-pulse.unitConfig.ConditionUser = "!plasmalogin";
+    wireplumber.unitConfig.ConditionUser = "!plasmalogin";
+  };
+  systemd.user.sockets = {
+    pipewire.unitConfig.ConditionUser = "!plasmalogin";
+    pipewire-pulse.unitConfig.ConditionUser = "!plasmalogin";
+  };
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
