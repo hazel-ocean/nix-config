@@ -68,12 +68,13 @@ font-size = 12
 #font-family = 0xProto Nerd Font Mono
 #adjust-cell-height = 14%
 
-# font-family = Monocraft
-# adjust-cell-height = 28%
+# DepartureMono ships Regular only, so it has no weight above this.
+# font-family = DepartureMono Nerd Font
+# adjust-cell-height = 35%
 
-font-family = DepartureMono Nerd Font
-adjust-cell-height = 35%
-
+font-family = Monocraft
+adjust-cell-height = 28%
+font-style = SemiBold
 
 font-thicken = true
 font-thicken-strength = 200
