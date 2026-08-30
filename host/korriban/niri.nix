@@ -5,7 +5,10 @@
   programs.niri.enable = true;
 
   # System-wide, not home.packages: niri runs under moonshine's service PATH.
-  environment.systemPackages = [ pkgs.xwayland-satellite ];
+  environment.systemPackages = [
+    pkgs.xwayland-satellite
+    pkgs.gnome-font-viewer
+  ];
 
   # programs.niri mkDefaults this to "niri", conflicting with plasma6's own.
   services.displayManager.defaultSession = "plasma";
