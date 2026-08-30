@@ -178,7 +178,12 @@ let
         light = selectTheme "helix" helix-themes name "light";
         fallback = opt.helix or (selectTheme "helix" helix-themes name variant);
       };
-      zellij = selectTheme "zellij" zellij-themes name variant;
+      # Zellij resolves polarity at runtime via theme_dark/theme_light, so both
+      # must map.
+      zellij = {
+        dark = selectTheme "zellij" zellij-themes name "dark";
+        light = selectTheme "zellij" zellij-themes name "light";
+      };
       bat = {
         dark = selectTheme "bat" bat-themes name "dark";
         light = selectTheme "bat" bat-themes name "light";

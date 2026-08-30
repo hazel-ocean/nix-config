@@ -8,7 +8,8 @@ let
   inherit (pkgs) stdenv theme zellijPlugins room;
 
   configText = ''
-    theme "${theme.zellij}"
+    theme_dark "${theme.zellij.dark}"
+    theme_light "${theme.zellij.light}"
     ${strings.optionalString stdenv.hostPlatform.isDarwin ''copy_command "pbcopy"''}
     ${builtins.readFile ./config.kdl}
 
