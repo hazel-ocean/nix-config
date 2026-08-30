@@ -7,6 +7,10 @@
     ./home-niri.nix
   ];
 
+  home.packages = with pkgs; [
+    libreoffice
+  ];
+
   services.shairport-sync = {
     enable = true;
     name = "Korriban";
