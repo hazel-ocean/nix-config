@@ -7,7 +7,7 @@ use ./util.nu *
 const VCP_BRIGHTNESS = "10"
 const CACHE_FILE = "niri-brightness-ddc.json"
 # A display that answers, either way, is answering about itself and is believed
-# until it is unplugged. A failed read says nothing, so it expires.
+# until it is unplugged. "unreachable" means ddcutil itself failed, so it expires.
 const UNREACHABLE_TTL = 5min
 
 # Raise the focused output's brightness.
@@ -23,6 +23,15 @@ export def "brightness down" [step: int = 5]: nothing -> nothing {
 # Probe DDC/CI on every connected output so the first keypress is not slow.
 export def "brightness warm-cache" []: nothing -> nothing {
   connectors | each {|connector| ddc-target $connector } | ignore
+}
+
+# Forget what the displays answered and ask again, after changing a setting on
+# one of them.
+export def "brightness recheck" []: nothing -> table {
+  let path = (cache-path)
+  if ($path | path exists) { rm --force $path }
+
+  brightness status
 }
 
 # Report which backend each connected output would use.
@@ -141,17 +150,21 @@ def ddc-support [connector: string]: nothing -> record {
 }
 
 def ddc-probe [bus: string]: nothing -> string {
-  let fields = (ddc-fields $bus)
+  let fields = (ddc-getvcp $bus)
+  if (vcp-value $fields) != null { return "supported" }
 
+  # "ERR" means the display was asked and did not answer, and the DPMS guard
+  # already excluded a sleeping one, so that is its answer: the LG TV reads its
+  # EDID at 0x50 and never ACKs 0x37, whatever the retries. No VCP line at all
+  # means ddcutil never got as far as asking.
   match ($fields | get -o 2) {
-    "ERR" => "unreachable"
-    _ => (if (vcp-value $fields) == null { "unsupported" } else { "supported" })
+    "ERR" => "unsupported"
+    _ => "unreachable"
   }
 }
 
-# ddcutil exits 0 on a failed read, so its output is the only signal.
-# --brief prints "VCP 10 C <current> <max>", or "VCP 10 ERR".
-def ddc-fields [bus: string]: nothing -> list<string> {
+# --brief prints "VCP 10 C <current> <max>", or "VCP 10 ERR" on a failed read.
+def ddc-getvcp [bus: string]: nothing -> list<string> {
   ^ddcutil --bus $bus --brief getvcp $VCP_BRIGHTNESS
   | complete
   | get stdout
@@ -166,7 +179,7 @@ def vcp-value [fields: list<string>]: nothing -> any {
 }
 
 def ddc-read [bus: string]: nothing -> any {
-  vcp-value (ddc-fields $bus)
+  vcp-value (ddc-getvcp $bus)
 }
 
 def awake [connector: string]: nothing -> bool {
