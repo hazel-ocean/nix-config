@@ -1,9 +1,14 @@
 // Symlinked in (see ../home-niri.nix), not store-built, so edits hot-reload.
-// Nested under moonshine, so "Mod" is Alt here, not Super.
+// Serves both backends: the DRM login session and the nested moonshine one.
+// "Mod" follows the backend: Super on DRM, Alt when nested.
 
 spawn-at-startup "noctalia"
 
-// Nested winit output.
+xwayland-satellite {
+    path "xwayland-satellite"
+}
+
+// Nested backend only; the DRM session uses HDMI-A-1 below.
 output "winit" {
     scale 1.35
 }

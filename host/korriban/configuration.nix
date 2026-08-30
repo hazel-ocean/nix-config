@@ -118,10 +118,7 @@ in
     };
   };
 
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "hazel";
-  };
+  services.displayManager.autoLogin.enable = false;
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = false;
