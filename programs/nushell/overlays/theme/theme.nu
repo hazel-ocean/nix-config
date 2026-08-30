@@ -44,16 +44,28 @@ def --env apply-live [name: string] {
 }
 
 # Current light/dark polarity:
-#   1. $env.NU_THEME_POLARITY override (light|dark), for Linux / other DEs
-#   2. macOS system appearance
-#   3. Nix host variant (dark/black -> dark, light -> light)
+#   1. $env.NU_THEME_POLARITY override (light|dark)
+#   2. Terminal's own report, so a light terminal on a dark desktop themes light
+#   3. Desktop appearance (macOS defaults, Linux XDG colour-scheme)
+#   4. Nix host variant (dark/black -> dark, light -> light)
 export def 'detect-polarity' []: nothing -> string {
   let override = ($env.NU_THEME_POLARITY? | default '' | str lowercase)
   if $override in ['light' 'dark'] { return $override }
 
+  let queried = (query-terminal-polarity)
+  if $queried != '' { return $queried }
+
   if $nu.os-info.name == 'macos' {
     let r = (^defaults read -g AppleInterfaceStyle | complete)
     return (if $r.exit_code == 0 and ($r.stdout | str trim) == 'Dark' { 'dark' } else { 'light' })
+  }
+
+  # dconf is absent on darwin and on minimal Linux hosts.
+  if (which dconf | is-not-empty) {
+    let r = (^dconf read /org/gnome/desktop/interface/color-scheme | complete)
+    let v = (if $r.exit_code == 0 { $r.stdout | str trim } else { '' })
+    if ($v | str contains 'light') { return 'light' }
+    if ($v | str contains 'dark') { return 'dark' }
   }
 
   if ($env.NU_THEME_HOST_VARIANT? | default 'dark') == 'light' { 'light' } else { 'dark' }
@@ -128,17 +140,15 @@ def query-terminal-polarity []: nothing -> string {
   '#
   let result = (^bash -c $script | complete)
   if $result.exit_code != 0 { return '' }
-  (if ($result.stdout | str contains ';1n') { 'dark' }
-  else if ($result.stdout | str contains ';2n') { 'light' }
+  # `read -d n` eats the terminator: the reply arrives as `[?997;N`.
+  (if ($result.stdout | str contains ';1') { 'dark' }
+  else if ($result.stdout | str contains ';2') { 'light' }
   else { '' })
 }
 
 # Re-theme when the polarity flipped since the last prompt (pre_prompt hook).
-# Prefers the live terminal query above; falls back to detect-polarity's
-# defaults-read/host-variant logic when the terminal doesn't answer.
 export def --env 'sync' [] {
-  let queried = (query-terminal-polarity)
-  let p = if $queried != '' { $queried } else { detect-polarity }
+  let p = (detect-polarity)
   if $p != ($env.NU_THEME_ACTIVE_POLARITY? | default '') {
     let name = (resolve $p)
     write-active $name
