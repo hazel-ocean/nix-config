@@ -23,6 +23,11 @@
     enableNushellIntegration = true;
   };
 
+  # Wheel scrolling under niri overshoots at ghostty's default of 3.
+  home.file.".config/ghostty.local".text = ''
+    mouse-scroll-multiplier = discrete:1
+  '';
+
   home.activation.makeSymbolicLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ln -fsn $VERBOSE_ARG \
       ~/.config/nix-config/programs/ghostty/config \
