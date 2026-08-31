@@ -15,15 +15,18 @@ let
 
     plugins {
       room location="file:${room}/lib/zellij/plugins/room.wasm"
+      // Palette names, not hex: zjstatus cannot read the zellij theme
+      // (dj95/zjstatus#12), but index 7/8 track the terminal foreground and dim
+      // grey, which Ghostty repaints on a light/dark switch.
       zjstatus location="file:${zellijPlugins.zjstatus}" {
-        format_left  "{mode} #[fg=#89B4FA,bold]{session} {tabs}"
+        format_left  "{mode} #[fg=blue,bold]{session} {tabs}"
         // format_right "{command_git_branch} {datetime}"
         format_right "{datetime}"
         format_space ""
 
         border_enabled  "false"
         border_char     "─"
-        border_format   "#[fg=#6C7086]{char}"
+        border_format   "#[fg=bright_black]{char}"
         border_position "top"
 
         mode_normal        "#[bg=] {name} "
@@ -41,15 +44,15 @@ let
         mode_prompt        "#[bg=] {name} "
         mode_tmux          "#[bg=] {name} "
 
-        tab_normal   "#[fg=#6C7086] {name} "
-        tab_active   "#[fg=#9399B2,bold,italic] {name} "
+        tab_normal   "#[fg=bright_black] {name} "
+        tab_active   "#[fg=white,bold,italic] {name} "
 
         command_git_branch_command     "git rev-parse --abbrev-ref HEAD"
         command_git_branch_format      "#[fg=blue] {stdout} "
         command_git_branch_interval    "10"
         command_git_branch_rendermode  "static"
 
-        datetime        "#[fg=#6C7086,bold] {format} "
+        datetime        "#[fg=bright_black,bold] {format} "
         datetime_format "%A, %d %b %Y %H:%M"
         datetime_timezone "America/Los_Angeles"
       }
