@@ -20,6 +20,9 @@ in
     allow = [
       # Entering plan mode is harmless; ExitPlanMode is the real approval gate.
       "EnterPlanMode"
+      # The plan file is a scratch artifact. ExitPlanMode is the gate that matters.
+      "Write(/Users/hazel/.claude/plans/**)"
+      "Edit(/Users/hazel/.claude/plans/**)"
       "WebSearch"
       "WebFetch"
       "mcp__plugin_hm_obsidian__search_notes"
