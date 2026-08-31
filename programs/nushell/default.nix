@@ -189,6 +189,7 @@ let
     $env.NU_THEME_HOST_VARIANT = "${pkgs.theme.variant}"
 
     use ${themeSrc}/theme.nu
+    $env.NU_THEME_TERM_QUERY = (theme probe-terminal)
     theme write-startup
   '';
 

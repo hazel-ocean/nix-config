@@ -128,7 +128,7 @@ export def --env 'reset' [] {
 # Ghostty answers this; Zellij proxies it to inner panes as of 0.44.2.
 # `trap` guarantees tty mode is restored even on failure: a stuck raw/no-echo
 # terminal would be its own visible bug.
-def query-terminal-polarity []: nothing -> string {
+def query-terminal-raw []: nothing -> string {
   if not (is-terminal --stdout) { return '' }
   let script = r#'
     old=$(stty -g 2>/dev/null) || exit 1
@@ -144,6 +144,20 @@ def query-terminal-polarity []: nothing -> string {
   (if ($result.stdout | str contains ';1') { 'dark' }
   else if ($result.stdout | str contains ';2') { 'light' }
   else { '' })
+}
+
+# A terminal that ignores DSR 996 never starts answering it, so the query costs
+# the full read timeout on every prompt. env.nu probes once and caches the
+# verdict; unset means query, so a shell that skipped env.nu still works.
+def query-terminal-polarity []: nothing -> string {
+  if ($env.NU_THEME_TERM_QUERY? | default 'yes') == 'no' { return '' }
+  query-terminal-raw
+}
+
+# Seed the cache query-terminal-polarity reads. Called from env.nu, before the
+# first `resolve`, so a shell pays the timeout once rather than once per prompt.
+export def 'probe-terminal' []: nothing -> string {
+  if (query-terminal-raw) == '' { 'no' } else { 'yes' }
 }
 
 # Zellij themes itself from the terminal's own colour-scheme notification, which
