@@ -146,6 +146,16 @@ def query-terminal-polarity []: nothing -> string {
   else { '' })
 }
 
+# Zellij themes itself from the terminal's own colour-scheme notification, which
+# Ghostty 1.3.1 does not deliver to every surface (ghostty-org/ghostty#8906). Its
+# attach-time probe is sound, so only a live flip needs the nudge. Push the
+# polarity we already resolved, which carries the desktop fallback zellij lacks.
+def sync-zellij [polarity: string] {
+  if ($env.ZELLIJ? | is-empty) or (which zellij | is-empty) { return }
+  let action = if $polarity == 'light' { 'set-light-theme' } else { 'set-dark-theme' }
+  ^zellij action $action | complete | ignore
+}
+
 # Re-theme when the polarity flipped since the last prompt (pre_prompt hook).
 export def --env 'sync' [] {
   let p = (detect-polarity)
@@ -153,6 +163,7 @@ export def --env 'sync' [] {
     let name = (resolve $p)
     write-active $name
     apply-live $name
+    sync-zellij $p
   }
 }
 
