@@ -11,7 +11,7 @@ xwayland-satellite {
 
 // Nested backend only; the DRM session uses HDMI-A-1 below.
 output "winit" {
-    scale 1.35
+    scale 1.30
 }
 
 output "HDMI-A-1" {
