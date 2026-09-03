@@ -25,6 +25,25 @@ let
       fi
     ''
   ];
+
+  # KDE writes Plasma's display scale into gtk-xft-dpi, and every compositor
+  # here already scales GTK apps itself, so the stream renders them twice as
+  # large. 98304 is 96 DPI in GTK's units.
+  gtkSettingsDir = "/run/moonshine-gtk";
+  gtkSettingsAt96Dpi = pkgs.writeShellScript "moonshine-gtk-dpi" ''
+    for version in 3.0 4.0; do
+      src="/home/hazel/.config/gtk-$version/settings.ini"
+      dst="${gtkSettingsDir}/gtk-$version-settings.ini"
+      if [ -f "$src" ] && ${pkgs.gnugrep}/bin/grep -q '^gtk-xft-dpi=' "$src"; then
+        ${pkgs.gnused}/bin/sed 's/^gtk-xft-dpi=.*/gtk-xft-dpi=98304/' "$src" > "$dst"
+      elif [ -f "$src" ]; then
+        { ${pkgs.coreutils}/bin/cat "$src"; echo 'gtk-xft-dpi=98304'; } > "$dst"
+      else
+        printf '[Settings]\ngtk-xft-dpi=98304\n' > "$dst"
+      fi
+      ${pkgs.coreutils}/bin/chmod 0644 "$dst"
+    done
+  '';
 in
 {
   imports = [
@@ -327,6 +346,25 @@ in
       ];
     };
   };
+
+  systemd.services.moonshine-gtk-dpi = {
+    description = "GTK settings for the moonshine stream, at 96 DPI";
+    before = [ "moonshine.service" ];
+    requiredBy = [ "moonshine.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      RuntimeDirectory = "moonshine-gtk";
+      RuntimeDirectoryPreserve = "yes";
+      ExecStart = gtkSettingsAt96Dpi;
+    };
+  };
+
+  # Everything moonshine launches reads these instead of the KDE-written files.
+  systemd.services.moonshine.serviceConfig.BindReadOnlyPaths = [
+    "${gtkSettingsDir}/gtk-3.0-settings.ini:/home/hazel/.config/gtk-3.0/settings.ini"
+    "${gtkSettingsDir}/gtk-4.0-settings.ini:/home/hazel/.config/gtk-4.0/settings.ini"
+  ];
 
   services.tailscale.enable = true;
 

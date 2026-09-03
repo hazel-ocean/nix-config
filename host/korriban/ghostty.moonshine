@@ -1,4 +1,0 @@
-# GTK apps take their point size from gtk-xft-dpi, which KDE writes from
-# Plasma's 2.35 display scale. That suits the 4K panel, not the stream.
-# 5pt here lands near 12pt at 96 DPI.
-font-size = 5
