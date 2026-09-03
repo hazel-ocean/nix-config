@@ -27,21 +27,27 @@ let
     ''
   ];
 
-  # KDE writes Plasma's display scale into gtk-xft-dpi, and every compositor
-  # here already scales GTK apps itself, so the stream renders them twice as
-  # large. 98304 is 96 DPI in GTK's units.
+  # GTK settings for the stream, bound over the real ones so Plasma keeps
+  # control of its own. 98304 is 96 DPI in GTK's units: KDE writes Plasma's
+  # display scale into gtk-xft-dpi, and every compositor here already scales
+  # GTK apps itself, so the stream would render them twice as large.
   gtkSettingsDir = "/run/moonshine-gtk";
-  gtkSettingsAt96Dpi = pkgs.writeShellScript "moonshine-gtk-dpi" ''
+  gtkSessionSettings = pkgs.writeShellScript "moonshine-gtk-settings" ''
     for version in 3.0 4.0; do
       src="/home/hazel/.config/gtk-$version/settings.ini"
       dst="${gtkSettingsDir}/gtk-$version-settings.ini"
-      if [ -f "$src" ] && ${pkgs.gnugrep}/bin/grep -q '^gtk-xft-dpi=' "$src"; then
-        ${pkgs.gnused}/bin/sed 's/^gtk-xft-dpi=.*/gtk-xft-dpi=98304/' "$src" > "$dst"
-      elif [ -f "$src" ]; then
-        { ${pkgs.coreutils}/bin/cat "$src"; echo 'gtk-xft-dpi=98304'; } > "$dst"
+      if [ -f "$src" ]; then
+        ${pkgs.gnugrep}/bin/grep -vE \
+          '^(gtk-xft-dpi|gtk-theme-name|gtk-application-prefer-dark-theme)=' \
+          "$src" > "$dst"
       else
-        printf '[Settings]\ngtk-xft-dpi=98304\n' > "$dst"
+        printf '[Settings]\n' > "$dst"
       fi
+      {
+        echo 'gtk-xft-dpi=98304'
+        echo 'gtk-theme-name=Adwaita-dark'
+        echo 'gtk-application-prefer-dark-theme=1'
+      } >> "$dst"
       ${pkgs.coreutils}/bin/chmod 0644 "$dst"
     done
   '';
@@ -348,8 +354,8 @@ in
     };
   };
 
-  systemd.services.moonshine-gtk-dpi = {
-    description = "GTK settings for the moonshine stream, at 96 DPI";
+  systemd.services.moonshine-gtk-settings = {
+    description = "GTK settings for the moonshine stream";
     before = [ "moonshine.service" ];
     requiredBy = [ "moonshine.service" ];
     serviceConfig = {
@@ -357,7 +363,7 @@ in
       RemainAfterExit = true;
       RuntimeDirectory = "moonshine-gtk";
       RuntimeDirectoryPreserve = "yes";
-      ExecStart = gtkSettingsAt96Dpi;
+      ExecStart = gtkSessionSettings;
     };
   };
 

@@ -8,6 +8,7 @@
   environment.systemPackages = [
     pkgs.xwayland-satellite
     pkgs.gnome-font-viewer
+    pkgs.gnome-themes-extra # Adwaita-dark for GTK3
   ];
 
   # programs.niri mkDefaults this to "niri", conflicting with plasma6's own.

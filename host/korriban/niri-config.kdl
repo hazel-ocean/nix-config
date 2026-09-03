@@ -2,6 +2,12 @@
 // Serves both backends: the DRM login session and the nested moonshine one.
 // "Mod" follows the backend: Super on DRM, Alt when nested.
 
+// libadwaita ignores settings.ini and asks the portal, which reports the
+// user-wide preference Plasma owns. This is the only per-session override it has.
+environment {
+    ADW_DEBUG_COLOR_SCHEME "prefer-dark"
+}
+
 spawn-at-startup "noctalia"
 spawn-at-startup "nu" "--no-config-file" "-c" "use /home/hazel/.config/nix-config/programs/nushell/overlays/system/korriban.nu *; brightness warm-cache"
 
