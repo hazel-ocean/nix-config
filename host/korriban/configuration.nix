@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -362,11 +363,14 @@ in
 
   # moonshine runs the streamed app as a transient user unit, outside its own
   # namespace, so the overlay has to attach there.
-  environment.etc."systemd/user/moonshine-session.service.d/gtk-dpi.conf".text = ''
-    [Service]
-    BindReadOnlyPaths=-${gtkSettingsDir}/gtk-3.0-settings.ini:/home/hazel/.config/gtk-3.0/settings.ini
-    BindReadOnlyPaths=-${gtkSettingsDir}/gtk-4.0-settings.ini:/home/hazel/.config/gtk-4.0/settings.ini
-  '';
+  systemd.user.services.moonshine-session = {
+    overrideStrategy = "asDropin"; # the unit itself is transient, made by moonshine
+    environment = lib.mkForce { }; # the generator would otherwise clobber the session PATH
+    serviceConfig.BindReadOnlyPaths = [
+      "-${gtkSettingsDir}/gtk-3.0-settings.ini:/home/hazel/.config/gtk-3.0/settings.ini"
+      "-${gtkSettingsDir}/gtk-4.0-settings.ini:/home/hazel/.config/gtk-4.0/settings.ini"
+    ];
+  };
 
   services.tailscale.enable = true;
 
