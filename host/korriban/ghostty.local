@@ -1,0 +1,2 @@
+# Wheel scrolling under niri overshoots at ghostty's default of 3.
+mouse-scroll-multiplier = discrete:1
