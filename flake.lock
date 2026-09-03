@@ -10,11 +10,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787844793,
-        "narHash": "sha256-2b64PZcw9+jgdVJjXAvXRvqwYIItPgJZqF1y3XkwH0s=",
+        "lastModified": 1788378590,
+        "narHash": "sha256-9KXdq/Oly8HAAfP6YhBooFgZCdmMxwfzQpv72l7DXTw=",
         "ref": "refs/heads/main",
-        "rev": "cc9c53f6d3d8383e27a01c742cc94525bdb674d1",
-        "revCount": 378,
+        "rev": "749694d044a4e0b37c43d49d1f87e904e9deac7b",
+        "revCount": 392,
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/agent-skills"
       },
@@ -277,11 +277,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787797243,
-        "narHash": "sha256-8+Q7NOB7RPajRjA4pbCDLzqH+MTjnG9x6LUPLfL2joA=",
+        "lastModified": 1788355065,
+        "narHash": "sha256-gAz5oTI7ur34CfuakQduiQd/2ZhO62Bn2XXg08nZYYQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "99c9ec63390f1d8c14d95d9e8b17cc29cfbd4e11",
+        "rev": "d9d750e4fc11c10cab2da677bdd31e427f3a3a71",
         "type": "github"
       },
       "original": {
@@ -298,11 +298,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787797243,
-        "narHash": "sha256-8+Q7NOB7RPajRjA4pbCDLzqH+MTjnG9x6LUPLfL2joA=",
+        "lastModified": 1788355065,
+        "narHash": "sha256-gAz5oTI7ur34CfuakQduiQd/2ZhO62Bn2XXg08nZYYQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "99c9ec63390f1d8c14d95d9e8b17cc29cfbd4e11",
+        "rev": "d9d750e4fc11c10cab2da677bdd31e427f3a3a71",
         "type": "github"
       },
       "original": {
@@ -402,11 +402,11 @@
     "moonlight-qt-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1787725891,
-        "narHash": "sha256-3sM7En4f9LO5K7A5QBdJOCDbSWW7hf29CSp8HO+XfVo=",
+        "lastModified": 1788125732,
+        "narHash": "sha256-AUFyA/baxa2lh4gr3M5Wcqs76S/ngjaT/KAhFdVt9i0=",
         "ref": "master",
-        "rev": "1da6ff434c7a4afa206d3215a5559ccc4c9df3c5",
-        "revCount": 3354,
+        "rev": "0eff3b9b4dd685e07b15a383519e1972e626c9b3",
+        "revCount": 3356,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/moonlight-stream/moonlight-qt.git"
@@ -425,11 +425,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788032236,
-        "narHash": "sha256-Ezo2vG1S4KxKyHpPWeCVlR1hRexxQ06vZR0mx4/ToQU=",
+        "lastModified": 1788288819,
+        "narHash": "sha256-CyusUkuNUxFEaLb9tYz/S50eWcwCAxeEcYpmT+7Nda8=",
         "owner": "hgaiser",
         "repo": "moonshine",
-        "rev": "fc118a7d1c81cec9067d4fd1ad006da74cf4a68a",
+        "rev": "3a990098191fe1e62b5247ebf5f5fe8bd42b7620",
         "type": "github"
       },
       "original": {
@@ -482,11 +482,11 @@
     },
     "nixos-stable": {
       "locked": {
-        "lastModified": 1787848966,
-        "narHash": "sha256-7gDpu5hpq0rOYnYMcOWqSzquK4HA/xU8Xf3CjUBOOJA=",
+        "lastModified": 1788297115,
+        "narHash": "sha256-Z+vUNbfd2FIKkWOTkcT7RYlh3oFCnig/d2eXD1SWf2E=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d57af924f160a5084293c71c2043f058bd1cdb60",
+        "rev": "a3116115851d68b8952a2a4221cc25a84e56b532",
         "type": "github"
       },
       "original": {
@@ -498,11 +498,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1787900134,
-        "narHash": "sha256-VYXO0XZlgj06dxJZRhrD3WoSsvq/c7+/Akyoa22pefw=",
+        "lastModified": 1788179007,
+        "narHash": "sha256-hn1oU2rue2SYK8dAr8+WNZWtbsz1S2W5mnHlSEuh3bo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "83199d0d373dd3ac2b9a1996b1d0263f76ab7a4c",
+        "rev": "34ab99075ac4f7e40cf037eef32cb1c360bb85e9",
         "type": "github"
       },
       "original": {
@@ -675,11 +675,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788056502,
-        "narHash": "sha256-ZAS3aQIuKEuUh1GujQDq/D2XNuVc+YDHqDOWOf3uQok=",
+        "lastModified": 1788404626,
+        "narHash": "sha256-aJjQhcVJTXyES4G0LrmmlnkGFOzt3CpMIg8JdUdKfWU=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "037804f86a3d2b75a7d741e6b6a965e8cba8e5b0",
+        "rev": "a1a0e0ffc841af1f77901bc7ebc81c104ed8d56e",
         "type": "github"
       },
       "original": {
