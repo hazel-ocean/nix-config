@@ -62,22 +62,23 @@ theme = light:Xcode Light,dark:Xcode Dark hc
 ## Fonts
 font-size = 12
 
-#font-family = Maple Mono NF
-#adjust-cell-height = 30%
-
-#font-family = 0xProto Nerd Font Mono
-#adjust-cell-height = 14%
-
-# DepartureMono ships Regular only, so it has no weight above this.
-# font-family = DepartureMono Nerd Font
+# font-family = Maple Mono NF
 # adjust-cell-height = 35%
+# font-thicken = true
+# font-thicken-strength = 200
 
-font-family = Monocraft
-adjust-cell-height = 28%
-font-style = SemiBold
+# font-family = 0xProto Nerd Font Mono
+# adjust-cell-height = 14%
 
+font-family = DepartureMono Nerd Font
+adjust-cell-height = 35%
 font-thicken = true
-font-thicken-strength = 200
+# font-thicken-strength = 200
+
+# font-family = Monocraft
+# adjust-cell-height = 28%
+# font-style = SemiBold
+
 font-feature = "cv02"
 font-feature = "cv03"
 font-feature = "cv05"
