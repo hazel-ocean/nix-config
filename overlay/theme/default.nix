@@ -61,8 +61,8 @@ let
   # map both light and dark, since Nushell resolves polarity at runtime;
   # `configuredTheme` throws on an unmapped name/variant.
   nushell-themes = rec {
-    standard.light = "cupertino";
-    standard.dark = "catppuccin-mocha";
+    standard.light = "atelier-dune-light";
+    standard.dark = "horizon-terminal-dark";
     # standard.dark = "amora";
     # standard.dark = "dark-pastel";
     standard.black = "dark-pastel";
