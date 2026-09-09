@@ -31,15 +31,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1787766741,
-        "narHash": "sha256-qM6O7G8WRYOYCNhCBM7pNb484OsQIke5sQvPL6eD3hA=",
+        "lastModified": 1788989744,
+        "narHash": "sha256-UybRxjmKIHq7v7Fg1IDxI7YNliAyYCjVZUBt+DxWl74=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "e4462dea427ee746b1cc93a3c5bb674c74c1d089",
+        "rev": "5d2c215d6a1bbe5028abb8991a76b8fe94aacebc",
         "type": "github"
       },
       "original": {
         "owner": "hazel-ocean",
+        "ref": "cross-space-focus",
         "repo": "clawd-back",
         "type": "github"
       }
