@@ -43,9 +43,14 @@ let
     })
     let body = (if ($last_said | str trim | is-empty) { "Click to go check on Clawd." } else { $last_said })
 
+    # macOS stamps the launching app's bundle id on this process, so it names
+    # the host the session runs in. Forwarded because LaunchServices overwrites
+    # it with ClawdBack's own id in the app `open` launches.
+    let host = ($env.__CFBundleIdentifier? | default "")
+
     # `open` propagates the ZELLIJ_* env, so the app captures the
     # session/pane to return to.
-    (^open ($env.HOME | path join "Applications" "ClawdBack.app") --args notify --title $title --message $body --session-id $session_id --cwd $cwd)
+    (^open ($env.HOME | path join "Applications" "ClawdBack.app") --args notify --title $title --message $body --session-id $session_id --cwd $cwd --host-bundle-id $host)
   '';
 
   # Fired by Claude's SessionStart + UserPromptSubmit hooks. Re-derives Claude's
@@ -65,8 +70,12 @@ let
     let session_id = ($input.session_id? | default "")
     let app = ($env.HOME | path join "Applications" "ClawdBack.app")
     let wanted = (($source in ["startup" "resume" "clear" "fork"]) or ($event == "UserPromptSubmit"))
+    # macOS stamps the launching app's bundle id on this process, so it names
+    # the host the session runs in. Forwarded because LaunchServices overwrites
+    # it with ClawdBack's own id in the app `open` launches.
+    let host = ($env.__CFBundleIdentifier? | default "")
     if ($session_id | is-not-empty) and $wanted and ($app | path exists) {
-      ^open $app --args capture --session-id $session_id
+      ^open $app --args capture --session-id $session_id --host-bundle-id $host
     }
   '';
 
