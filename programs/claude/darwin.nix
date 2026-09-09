@@ -35,9 +35,9 @@ let
     # tells you which workspace wants you.
     let workspace = ($env.ZELLIJ_SESSION_NAME? | default "")
     let title = (match [$event $workspace] {
-      ["Notification" ""]  => (if ($message | str trim | is-empty) { "Claude needs your input" } else { $message })
+      ["Notification" ""]  => (if ($message | str trim | is-empty) { "Claude has something to say" } else { $message })
       ["Stop" ""]          => "Claude has finished and is waiting"
-      ["Notification" $ws] => $"[($ws)] needs your input."
+      ["Notification" $ws] => $"[($ws)] has something to say."
       ["Stop" $ws]         => $"[($ws)] is waiting."
       [$other _]           => (error make { msg: $"unknown hook event: ($other)" })
     })
