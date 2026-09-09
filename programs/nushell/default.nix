@@ -39,7 +39,24 @@ let
 
   systemDir = ./overlays/system;
 
+  nuRecord =
+    attrs: "{ ${lib.concatStringsSep ", " (lib.mapAttrsToList (k: v: ''${k}: "${v}"'') attrs)} }";
+
+  # Retire an alias: `ze = deprecated.error { from = "ze"; to = "zl"; };`.
+  # `warn` runs `to` verbatim as the replacement.
+  deprecated = {
+    error = opts: "deprecated error ${nuRecord opts}";
+    warn = opts: "deprecated warn ${nuRecord opts} { ${opts.to} }";
+  };
+
   overlays = [
+    # Loaded first so every later overlay and alias can retire a name.
+    {
+      name = "deprecated";
+      src = ./overlays/deprecated;
+      enable = true;
+      prefix = true;
+    }
     {
       name = "system";
       src = systemDir;
@@ -112,7 +129,11 @@ let
           k = "kubectl";
 
           za = "zellij attach";
-          ze = "zellij list-sessions";
+          ze = deprecated.error {
+            from = "ze";
+            to = "zl";
+          };
+          zl = "zellij list-sessions";
 
           fg = "job unfreeze";
 
