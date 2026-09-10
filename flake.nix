@@ -26,7 +26,7 @@
       flake = false;
     };
     clawd-back = {
-      url = "github:hazel-ocean/clawd-back/cross-space-focus";
+      url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     agent-skills = {
