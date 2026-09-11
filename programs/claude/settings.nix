@@ -223,6 +223,9 @@ in
   };
   theme = "auto";
   editorMode = "vim";
+  # The default injects a Co-Authored-By trailer and a PR footer, which the
+  # attribution rule in CLAUDE.md forbids.
+  includeCoAuthoredBy = false;
   preferredNotifChannel = "notifications_disabled";
   inputNeededNotifEnabled = false;
   agentPushNotifEnabled = false;
