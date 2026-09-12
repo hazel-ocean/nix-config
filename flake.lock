@@ -277,11 +277,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789071706,
-        "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+        "lastModified": 1789150619,
+        "narHash": "sha256-Vsgv5atXkGWOOdLOL8oQLnZSGt1h140synPfFdwbyjU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+        "rev": "e4345d5ae8aa1def34378d2a60ac5e6e4c8fd7c1",
         "type": "github"
       },
       "original": {
@@ -298,11 +298,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789071706,
-        "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+        "lastModified": 1789150619,
+        "narHash": "sha256-Vsgv5atXkGWOOdLOL8oQLnZSGt1h140synPfFdwbyjU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+        "rev": "e4345d5ae8aa1def34378d2a60ac5e6e4c8fd7c1",
         "type": "github"
       },
       "original": {
@@ -402,11 +402,11 @@
     "moonlight-qt-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1788929373,
-        "narHash": "sha256-Rz4yQd/6VL36O44oDjhFUSdvGubsdZK9OEJ4U6XdO8w=",
+        "lastModified": 1789092057,
+        "narHash": "sha256-cqV7i2B2QD4v0W1EjOwILDYN/EfLYxSe04gmiJofBoU=",
         "ref": "master",
-        "rev": "14c26d8c7de8fd9cbde67dac8b47601faad46c6c",
-        "revCount": 3369,
+        "rev": "e3fd29e4d7dc5723d8d0da7d19e2698daec74456",
+        "revCount": 3370,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/moonlight-stream/moonlight-qt.git"
@@ -425,11 +425,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789077753,
-        "narHash": "sha256-P/+IFimz/7bgc9zC89taWgSJS2zZbquu1TPEzmzkEjI=",
+        "lastModified": 1789171076,
+        "narHash": "sha256-eWesU/waUa8V5+qcbNFXEM2eta2AyuxXjss22GsGMrU=",
         "owner": "hgaiser",
         "repo": "moonshine",
-        "rev": "ccfbee048032bdc9733daa50200618ce6081a17b",
+        "rev": "57d5b305e70be507d333729dfcb930462f6dbbbc",
         "type": "github"
       },
       "original": {
@@ -482,11 +482,11 @@
     },
     "nixos-stable": {
       "locked": {
-        "lastModified": 1789009968,
-        "narHash": "sha256-GB16oaxpsrnGNnGIE+0uYBqMRzB9X6FYDUvjvnJAYew=",
+        "lastModified": 1789114715,
+        "narHash": "sha256-ugpsyk3NM2s87vXfUiIIiibbJ4Pp0JPS5p/3mfs+q+c=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d58a46e3bc02d91ebe04667f8397752a749c0024",
+        "rev": "21a67dc470149f337cecafbe965d8d252a390518",
         "type": "github"
       },
       "original": {
@@ -560,11 +560,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1789012029,
-        "narHash": "sha256-1CBkBf+Nhggykzlx0jvXrj5rk20btl+tK8Fa8Ml/BL4=",
+        "lastModified": 1789073787,
+        "narHash": "sha256-xfX/toC2QV707s06GbP4II/TxYF0fNQj7s5/LClNDKc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68",
+        "rev": "aff8a0b28396750446e5537a96461bc4facdb287",
         "type": "github"
       },
       "original": {
@@ -675,11 +675,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789065747,
-        "narHash": "sha256-kX5eqD+MGMtGNRw6Y86eNTvC1zYUye49ESaiCXY9n0o=",
+        "lastModified": 1789176111,
+        "narHash": "sha256-yMDcKnbjtinVb+1B/gnxGtQ1IUhUcHyIE4jHvUm/KT0=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "0565d25c1d3f13c7432fd64d32d08e27dbaff444",
+        "rev": "9f35ead435feaa3cc6bcfc6585433abc9ae4db17",
         "type": "github"
       },
       "original": {
@@ -900,11 +900,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789047588,
-        "narHash": "sha256-I+35i20h4X+jDZWm82CeNLZj/hZazrMm3PRjBQ7CDEQ=",
+        "lastModified": 1789160807,
+        "narHash": "sha256-/ZtmocXdg21L6zEbUrsHdjqYEFKi3hK0vQXvEou3zts=",
         "owner": "wimpysworld",
         "repo": "sidra",
-        "rev": "6bfbc173c4bc448c5fd5e640817a233dde082120",
+        "rev": "f703605a8eef9c12734197f3d8658ede8a8cf368",
         "type": "github"
       },
       "original": {

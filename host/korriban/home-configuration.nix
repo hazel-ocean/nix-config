@@ -9,6 +9,7 @@
 
   home.packages = with pkgs; [
     libreoffice
+    proton-vpn
     sidra
   ];
 
