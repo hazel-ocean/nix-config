@@ -93,7 +93,7 @@ in
       "WhatsApp" = 310633997;
       "Xcode" = 497799835;
 
-      # "GarageBand" = 682658836;
+      "GarageBand" = 682658836;
       # "iMovie" = 408981434;
       # "Keynote" = 409183694;
       # "Numbers" = 409203825;
@@ -131,7 +131,6 @@ in
       "orion"
       "plex"
       "protonvpn"
-      "qbittorrent"
       "qlmarkdown"
       # "raspberry-pi-imager"
       "raycast"
@@ -145,6 +144,7 @@ in
       "tableplus"
       "thaw@beta"
       "thingsmacsandboxhelper"
+      "transmission"
       "visual-studio-code"
       "vlc"
       "wezterm"

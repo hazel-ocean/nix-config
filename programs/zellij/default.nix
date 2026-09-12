@@ -24,6 +24,10 @@ let
         format_right "{datetime}"
         format_space ""
 
+        // Drop the clock before the tabs when the window narrows
+        format_hide_on_overlength "true"
+        format_precedence "lcr"
+
         border_enabled  "false"
         border_char     "─"
         border_format   "#[fg=bright_black]{char}"
