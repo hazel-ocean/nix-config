@@ -94,7 +94,6 @@ in
       "google-drive"
       "handbrake-app"
       "linear"
-      "logi-options+"
       "macwhisper"
       "mimestream"
       "miro"
