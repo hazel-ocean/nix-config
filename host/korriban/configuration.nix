@@ -223,6 +223,8 @@ in
       # hardware.uinput.enable's 99-local.rules overrides moonshine's GROUP="input";
       # moonshine streams are headless, so the uaccess ACL is not there to fall back on.
       "uinput"
+      # Lets moonshine inhibit sleep during a stream.
+      "moonshine"
     ];
     openssh.authorizedKeys.keyFiles = [
       ../pigeon/ssh/id_ed25519.pub
