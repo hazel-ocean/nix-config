@@ -4,8 +4,8 @@
 }@config:
 let
   bat-themes = rec {
-    standard.light = "GitHub";
-    standard.dark = "Dracula";
+    standard.light = "ansi";
+    standard.dark = "ansi";
     standard.black = "ansi";
     high-contrast.light = standard.light;
     high-contrast.dark = standard.dark;
@@ -20,7 +20,8 @@ let
 
   helix-themes = rec {
     standard.light = "_papercolor-light";
-    standard.dark = "_dracula";
+    # standard.dark = "_dracula";
+    standard.dark = "_starlight";
     # standard.light = "_base16_terminal";
     # standard.dark =  "_base16_terminal";
     # standard.black = "_varua";
@@ -61,8 +62,10 @@ let
   # map both light and dark, since Nushell resolves polarity at runtime;
   # `configuredTheme` throws on an unmapped name/variant.
   nushell-themes = rec {
-    standard.light = "atelier-dune-light";
-    standard.dark = "horizon-terminal-dark";
+    standard.light = "rose-pine-dawn";
+    standard.dark = "neon-night";
+    # standard.light = "atelier-dune-light";
+    # standard.dark = "horizon-terminal-dark";
     # standard.dark = "amora";
     # standard.dark = "dark-pastel";
     standard.black = "dark-pastel";

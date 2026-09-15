@@ -150,10 +150,13 @@ let
 
   enabledOverlays = lib.filter (o: o.enable) overlays;
 
-  overlayLoads = lib.concatMapStringsSep "\n" (
+  overlayLoad =
     o:
-    "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}"
-  ) enabledOverlays;
+    "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}";
+
+  overlayLoads = lib.concatMapStringsSep "\n" overlayLoad enabledOverlays;
+
+  themeOverlay = lib.head (lib.filter (o: o.name == "theme") enabledOverlays);
 
   # Aliases contributed by overlays; defined after overlay loads so their
   # target commands are in scope.
