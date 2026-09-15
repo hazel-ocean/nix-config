@@ -35,7 +35,8 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     moonshine = {
-      url = "github:hgaiser/moonshine";
+      # Fork for the per-application hide_cursor option, until upstream merges it.
+      url = "github:hazel-ocean/moonshine/hide-cursor";
       inputs.nixpkgs.follows = "nixos-unstable";
     };
     noctalia-shell = {

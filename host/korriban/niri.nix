@@ -19,6 +19,8 @@
       title = "Niri Desktop";
       # niri-session forces --session (DRM backend); bare niri nests instead.
       command = [ "${config.programs.niri.package}/bin/niri" ];
+      # Nested niri draws its own cursor.
+      hide_cursor = true;
       stdout = "journal";
       stderr = "journal";
     }
