@@ -3,6 +3,7 @@
   imports = [
     ../../programs/claude
     ../../programs/claude/shared/github.nix
+    ../../programs/lan-mouse.nix
     ../../services/shairport-sync.nix
     ./home-niri.nix
   ];
@@ -46,6 +47,8 @@
   };
 
   programs.claude-code.enable = true;
+
+  programs.lan-mouse.enable = true;
 
   programs.direnv.mise.enable = true;
   programs.mise = {

@@ -481,6 +481,7 @@ in
     allowedUDPPorts = [
       config.services.tailscale.port
       3389
+      4242 # Lan Mouse (DTLS over UDP)
     ]
     ++ (builtins.genList (i: 6001 + i) 11); # UDP 6001-6011 for AirPlay audio
     allowedTCPPorts = [
