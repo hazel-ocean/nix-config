@@ -1,5 +1,6 @@
-# Software KVM: one daemon both captures and emulates, and the role is decided by
-# the mutable config.toml that its GUI and CLI write.
+# Software KVM. Peers are symmetric: every machine runs the same daemon and lists
+# the others as clients in its own mutable config.toml, which the GUI and CLI
+# write. Capture and emulation are per-direction, so neither end is a server.
 {
   config,
   lib,
@@ -14,25 +15,15 @@ in
     enable = lib.mkEnableOption "Lan Mouse software KVM";
 
     package = lib.mkPackageOption pkgs "lan-mouse" { };
-
-    service.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = pkgs.stdenv.hostPlatform.isLinux;
-      description = ''
-        Run the daemon unattended for the whole graphical session, so the host can
-        be driven without anyone opening the app. Wants a machine that is a target.
-        Linux only: darwin has no systemd, and the menu bar app carries the daemon
-        there.
-      '';
-    };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ];
 
-    # graphical-session.target is started by niri-session and by Plasma. A nested
+    # On darwin the menu bar app carries the daemon. Elsewhere it follows
+    # graphical-session.target, started by niri-session and by Plasma. A nested
     # niri (moonshine) runs bare niri, so it never starts a second daemon.
-    systemd.user.services = lib.mkIf cfg.service.enable {
+    systemd.user.services = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
       lan-mouse = {
         Unit = {
           Description = "Lan Mouse - software KVM";
