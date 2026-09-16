@@ -122,6 +122,7 @@ in
       "google-chrome"
       "ghostty"
       "handbrake-app"
+      "homebrew-app"
       "mimestream"
       # "musescore"
       "monocle-app"

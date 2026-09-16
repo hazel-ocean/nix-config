@@ -93,6 +93,7 @@ in
       "ghostty"
       "google-drive"
       "handbrake-app"
+      "homebrew-app"
       "linear"
       "macwhisper"
       "mimestream"
