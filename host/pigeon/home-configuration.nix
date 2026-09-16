@@ -4,6 +4,7 @@
     ../../programs/claude
     ../../programs/claude/darwin.nix
     ../../programs/claude/pigeon.nix
+    ../../programs/lan-mouse.nix
   ];
 
   home.packages = with pkgs; [
@@ -12,6 +13,8 @@
   ];
 
   programs.claude-code.enable = true;
+
+  programs.lan-mouse.enable = true;
 
   programs.direnv.mise.enable = true;
   programs.mise = {
