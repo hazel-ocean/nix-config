@@ -274,9 +274,7 @@ in
     extraConfig = lib.mkBefore overlayConfigs;
 
     environmentVariables = sessionVars;
-    plugins = [
-      # polars   # broken atm
-    ];
+    plugins = [ polars ];
   };
 
   # Out-of-store symlink to the working-tree config.nu, which the generated
