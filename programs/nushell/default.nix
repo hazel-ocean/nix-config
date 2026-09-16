@@ -79,6 +79,20 @@ let
       file = "theme.nu";
       enable = true;
       prefix = true;
+      # write-startup generates the file extraConfig sources at parse time, so it
+      # has to run here. probe-terminal precedes it to seed the cache resolve reads.
+      extraEnv = ''
+        $env.NU_THEMES_DIR = "${themesDir}"
+        $env.NU_THEME_DEFAULT_LIGHT = "${pkgs.theme.nushell.light}"
+        $env.NU_THEME_DEFAULT_DARK = "${pkgs.theme.nushell.dark}"
+        $env.NU_THEME_HOST_VARIANT = "${pkgs.theme.variant}"
+
+        $env.NU_THEME_TERM_QUERY = (theme probe-terminal)
+        theme write-startup
+      '';
+      # Sourced, not inlined: it carries no Nix values, so it stays a real .nu
+      # that nufmt formats and editors highlight.
+      extraConfig = "source ${themeSrc}/startup.nu";
     }
     {
       name = "task";
@@ -116,6 +130,7 @@ let
           "pigeon"
           "korriban"
         ];
+        # mod.nu already exports `workspace <sub>`; --prefix would double it.
         prefix = false;
         aliases = {
           en = "do { clear; exec nu }";
@@ -148,35 +163,42 @@ let
     )
   ];
 
-  enabledOverlays = lib.filter (o: o.enable) overlays;
+  # Entry schema. Every consumer below can read every field.
+  enabledOverlays = map (
+    o:
+    {
+      file = "mod.nu";
+      aliases = { };
+      extraEnv = "";
+      extraConfig = "";
+    }
+    // o
+  ) (lib.filter (o: o.enable) overlays);
 
   overlayLoad =
-    o:
-    "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file or "mod.nu"} as ${o.name}";
+    o: "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file} as ${o.name}";
 
   overlayLoads = lib.concatMapStringsSep "\n" overlayLoad enabledOverlays;
 
-  themeOverlay = lib.head (lib.filter (o: o.name == "theme") enabledOverlays);
+  # env.nu has no overlay in scope, so each snippet loads its own and drops it:
+  # two active frames of one module double every entry in the completion menu.
+  overlayEnvs = lib.concatMapStrings (
+    o:
+    lib.optionalString (o.extraEnv != "") ''
+      ${overlayLoad o}
+      ${o.extraEnv}
+      overlay hide ${o.name}
+    ''
+  ) enabledOverlays;
+
+  # config.nu loaded every overlay already, so these run bare.
+  overlayConfigs = lib.concatMapStrings (o: o.extraConfig) enabledOverlays;
 
   # Aliases contributed by overlays; defined after overlay loads so their
   # target commands are in scope.
   aliasLoads = lib.concatLists (
-    map (o: lib.mapAttrsToList (name: cmd: "alias ${name} = ${cmd}") (o.aliases or { })) enabledOverlays
+    map (o: lib.mapAttrsToList (name: cmd: "alias ${name} = ${cmd}") o.aliases) enabledOverlays
   );
-
-  # Appended after the overlay loads so `theme` is in scope. `source` needs a
-  # parse-time const path; env.nu writes the snippet before config.nu is parsed.
-  themeStartup = ''
-    const nu_theme_active_file = ($nu.data-dir | path join "theme-active.nu")
-    source $nu_theme_active_file
-
-    # Record the boot polarity so the pre_prompt hook only re-themes on a flip.
-    $env.NU_THEME_ACTIVE = (theme resolve)
-    $env.NU_THEME_ACTIVE_POLARITY = (theme detect-polarity)
-    $env.config.hooks.pre_prompt = (
-      $env.config.hooks.pre_prompt? | default [] | append {|| theme sync }
-    )
-  '';
 
   # home-manager owns config.nu (it also carries the mise/carapace/direnv nushell
   # inits appended by those modules), so we can't make it a bare symlink. Instead
@@ -192,34 +214,18 @@ let
     ++ aliasLoads
     ++ [
       "source ${zoxideInit}/init.nu"
-      themeStartup
       "source ${userConfig}"
     ]
   );
 
   # config.nu minus the prompt/completion machinery, for `nu -c` callers such as
-  # Claude Code's /nu command. themeStartup is the reason this can't just be
+  # Claude Code's /nu command. overlayConfigs is the reason this can't just be
   # config.nu: it writes OSC colour escapes to stdout ahead of any real output.
   nonInteractiveText = lib.concatLines ([ overlayLoads ] ++ aliasLoads ++ [ "source ${userConfig}" ]);
 
-  # Into env.nu (runs before config.nu parse): theme data + the write-startup that
-  # generates the snippet config.nu sources. Child shells inherit STARSHIP_CONFIG
-  # and lose their λ; rare enough to accept.
-  themeEnv = ''
-    $env.STARSHIP_CONFIG = "${starshipNuConfig}"
-    $env.NU_THEMES_DIR = "${themesDir}"
-    $env.NU_THEME_DEFAULT_LIGHT = "${pkgs.theme.nushell.light}"
-    $env.NU_THEME_DEFAULT_DARK = "${pkgs.theme.nushell.dark}"
-    $env.NU_THEME_HOST_VARIANT = "${pkgs.theme.variant}"
-
-    use ${themeSrc}/theme.nu
-    $env.NU_THEME_TERM_QUERY = (theme probe-terminal)
-    theme write-startup
-  '';
-
   # Only forward known-safe home.sessionVariables; other modules (e.g.
   # programs.starship) also write to this set, and blindly forwarding
-  # STARSHIP_CONFIG clobbers the nushell-specific one themeEnv sets below.
+  # STARSHIP_CONFIG clobbers the nushell-specific one extraEnv sets below.
   sessionVars = lib.filterAttrs (
     name: _:
     builtins.elem name [
@@ -253,7 +259,20 @@ in
     enable = true;
     package = nushell;
     configFile.text = configText;
-    extraEnv = lib.concatLines ([ themeEnv ] ++ lib.optional isDarwin darwinEnv);
+
+    # Child shells inherit STARSHIP_CONFIG and lose their λ; rare enough to accept.
+    extraEnv = lib.concatLines (
+      [
+        ''$env.STARSHIP_CONFIG = "${starshipNuConfig}"''
+        overlayEnvs
+      ]
+      ++ lib.optional isDarwin darwinEnv
+    );
+
+    # mkBefore so these land ahead of the other nushell integrations, which use
+    # plain priority or mkAfter.
+    extraConfig = lib.mkBefore overlayConfigs;
+
     environmentVariables = sessionVars;
     plugins = [
       # polars   # broken atm
