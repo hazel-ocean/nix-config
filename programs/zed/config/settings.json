@@ -23,7 +23,8 @@
   "agent_servers": {
     "claude-acp": {
       "default_config_options": {
-        "effort": "high",
+        "mode": "auto",
+        "effort": "medium",
         "model": "opus[1m]"
       },
       "type": "registry"
@@ -186,7 +187,7 @@
   },
   "theme": {
     "mode": "system",
-    "light": "kontras-light",
+    "light": "One Hunter Light",
     "dark": "Catppuccin Mocha"
   },
   "ui_font_size": 14.0,
