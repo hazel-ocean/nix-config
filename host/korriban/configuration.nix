@@ -174,6 +174,9 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # nautilus needs gvfs for trash, mounts and network shares.
+  services.gvfs.enable = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -401,6 +404,22 @@ in
     gnome-tweaks
     gnome-remote-desktop
     ghostty
+
+    # Both installed to compare; drop the loser.
+    mission-center
+    resources
+
+    nautilus
+    loupe
+    showtime
+    file-roller
+    baobab
+    gnome-text-editor
+    gnome-disk-utility
+
+    warp
+    gnome-decoder
+    audio-sharing
 
     wayland-utils
     wl-clipboard
