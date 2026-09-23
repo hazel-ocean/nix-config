@@ -109,6 +109,7 @@ in
     casks = [
       "1password"
       # "android-studio"
+      "arduino-ide"
       "brave-browser"
       "calibre"
       "chatgpt"
