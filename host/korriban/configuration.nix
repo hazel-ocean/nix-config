@@ -228,6 +228,7 @@ in
       "uinput"
       # Lets moonshine inhibit sleep during a stream.
       "moonshine"
+      "jellyfin"
     ];
     openssh.authorizedKeys.keyFiles = [
       ../pigeon/ssh/id_ed25519.pub
