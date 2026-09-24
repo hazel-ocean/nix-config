@@ -1,10 +1,15 @@
-# Obsidian MCP server + agent-client plugin symlink, parameterized by vault
-# path. Import as `(import ./shared/obsidian.nix { vault = "..."; })` from a
-# host's Claude config — used by both pigeon.nix (personal vault) and
-# espeon.nix (OneSignal vault).
-{ vault }:
-{ lib, pkgs, ... }:
+# Obsidian MCP server + agent-client plugin symlink. Inert until a host sets
+# `local.claude.obsidianVault`.
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  vault = config.local.claude.obsidianVault;
+in
+lib.mkIf (vault != null) {
   home.packages = with pkgs; [
     mcp-obsidian
     obsidian-agent-client

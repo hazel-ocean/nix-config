@@ -5,7 +5,35 @@
   ...
 }:
 let
-  settings = import ./settings.nix { stdenv = pkgs.stdenv; };
+  cfg = config.local.claude;
+
+  baseSettings = import ./settings.nix { stdenv = pkgs.stdenv; };
+
+  # recursiveUpdate replaces lists wholesale; the permission lists are the one
+  # place a fragment needs to add to what the base set already allows.
+  settings =
+    let
+      merged = lib.recursiveUpdate baseSettings cfg.extraSettings;
+      mergeList =
+        name:
+        lib.unique (
+          (baseSettings.permissions.${name} or [ ]) ++ (cfg.extraSettings.permissions.${name} or [ ])
+        );
+    in
+    merged
+    // {
+      permissions =
+        merged.permissions or { }
+        // lib.filterAttrs (_: v: v != [ ]) (lib.genAttrs [ "allow" "deny" "ask" ] mergeList);
+    };
+
+  # The upstream module only takes the `source` branch for a real path, so
+  # fragments have to be concatenated into a string rather than a derivation.
+  context =
+    if cfg.contextFragments == [ ] then
+      ./CLAUDE.md
+    else
+      lib.concatMapStringsSep "\n" builtins.readFile ([ ./CLAUDE.md ] ++ cfg.contextFragments);
 
   vendoredSkills = lib.genAttrs (builtins.attrNames (builtins.readDir ./.agents/skills)) (
     name: ./.agents/skills + "/${name}"
@@ -28,17 +56,53 @@ let
     '';
 in
 {
-  programs.claude-code = {
-    context = ./CLAUDE.md;
-    skills = vendoredSkills // {
-      gh-pr-review = gh-pr-review-skill;
+  imports = [ ./shared/obsidian.nix ];
+
+  options.local.claude = {
+    obsidianVault = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Obsidian vault the MCP server serves. Null disables it.";
     };
-    commands.nu = ./commands/nu.md;
+
+    extraSkills = lib.mkOption {
+      type = lib.types.attrsOf lib.types.path;
+      default = { };
+      description = "Skill directories to install alongside the vendored set.";
+    };
+
+    contextFragments = lib.mkOption {
+      type = lib.types.listOf lib.types.path;
+      default = [ ];
+      description = "Markdown appended to CLAUDE.md, in order.";
+    };
+
+    extraSettings = lib.mkOption {
+      type = lib.types.attrs;
+      default = { };
+      description = ''
+        Settings merged over settings.nix. `permissions.allow`, `.deny` and
+        `.ask` concatenate; every other key is replaced.
+      '';
+    };
   };
 
-  # Pretty-printed, because Claude Code's own writers (/effort, /config, /model,
-  # /permissions) rewrite this file in place.
-  home.file.".claude/settings.json" = {
-    source = (pkgs.formats.json { }).generate "claude-settings.json" settings;
+  config = {
+    programs.claude-code = {
+      inherit context;
+      skills =
+        vendoredSkills
+        // cfg.extraSkills
+        // {
+          gh-pr-review = gh-pr-review-skill;
+        };
+      commands.nu = ./commands/nu.md;
+    };
+
+    # Pretty-printed, because Claude Code's own writers (/effort, /config, /model,
+    # /permissions) rewrite this file in place.
+    home.file.".claude/settings.json" = {
+      source = (pkgs.formats.json { }).generate "claude-settings.json" settings;
+    };
   };
 }

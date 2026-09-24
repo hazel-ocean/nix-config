@@ -1,10 +1,10 @@
-# Pigeon-specific Claude config: personal (non-OneSignal) Obsidian vault and
-# the Craft MCP server.
+# Pigeon-specific Claude config: personal Obsidian vault and Craft.
 { config, ... }:
 {
   imports = [
     ./shared
     ./shared/craft.nix
-    (import ./shared/obsidian.nix { vault = "${config.home.homeDirectory}/Obsidian/Personal/"; })
   ];
+
+  local.claude.obsidianVault = "${config.home.homeDirectory}/Obsidian/Personal/";
 }

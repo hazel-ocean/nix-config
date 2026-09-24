@@ -28,12 +28,6 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 
 - Prefer `match` over `if`/`else if` chains, unless the condition is already a plain boolean. Matching on an enum also makes the compiler flag new variants instead of letting them fall into a silent default.
 
-## Workspaces
-
-- **Only ever work in repos checked out inside the active workspace** (`~/OneSignal/workbench/workspaces/<name>/<repo>`). Never edit, branch, or commit in the shared checkouts under `~/OneSignal/src`: those are shared across every workspace, so work done there leaks between unrelated tasks.
-- If a repo you need isn't in the workspace, stop and ask me before running anything against it, reads included. `workspace clone <repo>` is how it gets there.
-- Exception: `~/.config/nix-config`, which the `nix-config-setting` skill edits by design.
-
 ## Public Communication & Approvals
 
 - **Never post publicly without a drafted approval.** Do not reply to, comment on, or open anything outward-facing (GitHub issues/PRs/reviews, Slack, Linear, and any other public or shared channel) until you have shown me a draft of the exact wording and I have explicitly approved it. This covers opening PRs, posting review comments, sending Slack messages, and adding Linear comments. Draft first, wait for my go-ahead, then send.
@@ -59,68 +53,8 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 - MCP server: `mcp-things`
 
 ### Conventions
-- Starting a new project always mean creating a Project in Things underneath the OneSignal Area
+- Starting a new project always mean creating a Project in Things
 - Update todos as work progresses (mark complete, add notes)
 - Create new todos for discovered work
 - When backing out changes, update relevant todos accordingly
 - When referring to a repo, we generally use the repo name in backticks omitting the organization.
-
-## Progress Logging (Obsidian)
-
-- **Obsidian** is used for keeping detail progress notes
-- MCP server: `mcp-obsidian`
-- Vault: `OneSignal` (work-related)
-
-### Journal Structure
-- Location: `Projects/<Project Name>/Journal/YYYY.MM.DD.md`
-- The `Project Name` is a concice name that, if dash-cased, would be suitable for a `git branch`
-- The `project-tag` is the `Project Name` converted to dash-casing whose format is suitable for a `git branch`
-- Title (H1) should be a brief summary of the session's outcome, never mirror the name of the file in the Title
-- Format: Decision Log / ADR-lite style
-- Tags: `projects`, `<project-tag>`, `journal`
-
-### Project Journal Conventions
-- Capture: problems encountered, decisions made, solutions implemented
-- **Never put TODOs or next steps in journal entries** — those belong exclusively in Things.app
-- **Always ask before updating the journal** - never auto-update
-- If we back out a change, document that with reasoning
-- Periodically prompt me to update the journal after completing a problem/solution cycle
-
-### Daily Note Conventions
-- Location: `Daily Notes/YYYY.MM.DD.md`
-- Daily Notes capture a chronological timeline of what's been worked on
-- Links are kept to relevant Project Journal documents
-- When appending to an existing daily note, use `mode: append` — never
-overwrite
-
-## Work Management (Linear)
-
-- **Linear** tracks work items and projects at the team level
-- MCP server: `Linear` (claude.ai connector)
-- Things projects often link to Linear issues
-- Estimates are made by the team during Story Time — unless told otherwise, newly created Linear tickets get **No Estimate**
-- Tickets are drafted in Obsidian first, as `Projects/<Ticket Name>/<Ticket Name>.md`, with a callout at the top recording the issue id once filed
-- **Search `Projects/` before drafting a ticket.** A draft that is already filed reads as unfiled work, and filing it again creates a duplicate
-
-## Keeping Things in Sync
-
-The three systems should tell a coherent story:
-1. **Linear** - What needs to be done (team-visible)
-2. **Things** - My personal breakdown of the work (todos)
-3. **Obsidian** - Detailed log of how the work was done (journal)
-
-## Session Start
-
-When beginning work on a task, offer to:
-1. Load the relevant Things project todos
-2. Read recent daily notes and project journal entries for context
-3. Check Linear for any updates
-
-## Session End / Checkpoints
-
-Periodically (or when prompted), offer to:
-1. Update completed todos in Things
-2. Draft entries for both:
-  - Daily note (lightweight summary with links)
-  - Project journal (detailed technical decisions)
-3. Identify any new todos discovered during work

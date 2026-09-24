@@ -6,6 +6,8 @@
   ...
 }:
 let
+  cfg = config.local.nushell;
+
   inherit (pkgs)
     runCommandLocal
     zoxide
@@ -49,7 +51,7 @@ let
     warn = opts: "deprecated warn ${nuRecord opts} { ${opts.to} }";
   };
 
-  overlays = [
+  builtinOverlays = [
     # Loaded first so every later overlay and alias can retire a name.
     {
       name = "deprecated";
@@ -107,61 +109,43 @@ let
       enable = isDarwin;
       prefix = true;
     }
-    (
-      let
-        user = config.home.username;
-      in
-      {
-        name = "workspace";
-        src =
-          if hostname == "espeon" then
-            "/Users/${user}/OneSignal/workbench"
-          else if hostname == "pigeon" then
-            "/Users/${user}/workbench"
-          else if hostname == "korriban" then
-            "/home/hazel/workbench"
-          else
-            throw ''
-              Nushell overlay (workspace) is not configured for current host: ${hostname}
-            '';
+    {
+      name = "workspace";
+      src = cfg.workspaceRoot;
+      enable = cfg.workspaceRoot != null;
+      # mod.nu already exports `workspace <sub>`; --prefix would double it.
+      prefix = false;
+      aliases = {
+        en = "do { clear; exec nu }";
 
-        enable = builtins.elem hostname [
-          "espeon"
-          "pigeon"
-          "korriban"
-        ];
-        # mod.nu already exports `workspace <sub>`; --prefix would double it.
-        prefix = false;
-        aliases = {
-          en = "do { clear; exec nu }";
+        wa = "workspace attach";
+        we = "workspace enter";
+        wl = "workspace list";
+        wr = "workspace rename";
+        wi = "workspace info";
 
-          wa = "workspace attach";
-          we = "workspace enter";
-          wl = "workspace list";
-          wr = "workspace rename";
-          wi = "workspace info";
+        k = "kubectl";
 
-          k = "kubectl";
-
-          za = "zellij attach";
-          ze = deprecated.error {
-            from = "ze";
-            to = "zl";
-          };
-          zl = "zellij list-sessions";
-
-          fg = "job unfreeze";
-
-          fe = "yazi";
-
-          te = "tmux list-sessions";
-          ta = "tmux attach";
-
-          cr = "claude --resume";
+        za = "zellij attach";
+        ze = deprecated.error {
+          from = "ze";
+          to = "zl";
         };
-      }
-    )
+        zl = "zellij list-sessions";
+
+        fg = "job unfreeze";
+
+        fe = "yazi";
+
+        te = "tmux list-sessions";
+        ta = "tmux attach";
+
+        cr = "claude --resume";
+      };
+    }
   ];
+
+  overlays = builtinOverlays ++ cfg.extraOverlays;
 
   # Entry schema. Every consumer below can read every field.
   enabledOverlays = map (
@@ -253,48 +237,114 @@ let
       $env.INFOPATH = $"($brew_prefix)/share/info:($env.INFOPATH? | default "")"
     }
   '';
+  overlayModule = {
+    options = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        description = "Overlay name, as `overlay use ... as <name>` binds it.";
+      };
+      src = lib.mkOption {
+        type = lib.types.either lib.types.path lib.types.str;
+        description = "Directory holding the module.";
+      };
+      file = lib.mkOption {
+        type = lib.types.str;
+        default = "mod.nu";
+        description = "Module entry point, relative to `src`.";
+      };
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
+      prefix = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = ''
+          Load with `--prefix`, so commands are namespaced under `name`. Set
+          false when the module already exports its own prefix.
+        '';
+      };
+      aliases = lib.mkOption {
+        type = lib.types.attrsOf lib.types.str;
+        default = { };
+        description = "Aliases defined after the overlay loads, so targets are in scope.";
+      };
+      extraEnv = lib.mkOption {
+        type = lib.types.lines;
+        default = "";
+        description = "Nushell run in env.nu, with the overlay loaded and then hidden.";
+      };
+      extraConfig = lib.mkOption {
+        type = lib.types.lines;
+        default = "";
+        description = "Nushell run in config.nu, with the overlay already in scope.";
+      };
+    };
+  };
 in
 {
-  programs.nushell = {
-    enable = true;
-    package = nushell;
-    configFile.text = configText;
+  options.local.nushell = {
+    extraOverlays = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule overlayModule);
+      default = [ ];
+      description = ''
+        Nushell modules to load on top of the built-in set. Each entry is
+        sourced in config.nu and non-interactive.nu alike.
+      '';
+    };
 
-    # Child shells inherit STARSHIP_CONFIG and lose their λ; rare enough to accept.
-    extraEnv = lib.concatLines (
-      [
-        ''$env.STARSHIP_CONFIG = "${starshipNuConfig}"''
-        overlayEnvs
-      ]
-      ++ lib.optional isDarwin darwinEnv
-    );
-
-    # mkBefore so these land ahead of the other nushell integrations, which use
-    # plain priority or mkAfter.
-    extraConfig = lib.mkBefore overlayConfigs;
-
-    environmentVariables = sessionVars;
-    plugins = [ polars ];
+    workspaceRoot = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = "${config.home.homeDirectory}/workbench";
+      description = ''
+        Directory holding the `workspace` nushell module. Null disables the
+        overlay and the aliases that come with it.
+      '';
+    };
   };
 
-  # Out-of-store symlink to the working-tree config.nu, which the generated
-  # config.nu sources last (see userConfig). Editing programs/nushell/config.nu
-  # then reflects in new shells without a rebuild, like ~/.claude/settings.json.
-  home.file.".config/nushell/user-config.nu".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix-config/programs/nushell/config.nu";
+  config = {
+    programs.nushell = {
+      enable = true;
+      package = nushell;
+      configFile.text = configText;
 
-  home.file.".config/nushell/non-interactive.nu".text = nonInteractiveText;
+      # Child shells inherit STARSHIP_CONFIG and lose their λ; rare enough to accept.
+      extraEnv = lib.concatLines (
+        [
+          ''$env.STARSHIP_CONFIG = "${starshipNuConfig}"''
+          overlayEnvs
+        ]
+        ++ lib.optional isDarwin darwinEnv
+      );
 
-  # Required for the task module
-  services.pueue.enable = true;
+      # mkBefore so these land ahead of the other nushell integrations, which use
+      # plain priority or mkAfter.
+      extraConfig = lib.mkBefore overlayConfigs;
 
-  # Multi-shell argument completer — nushell's external completer, covering the
-  # long tail of CLIs (kubectl, terraform, docker, gh, git, …). Its integration
-  # appends to programs.nushell.config, so it composes with configText above.
-  programs.carapace = {
-    enable = true;
-    enableNushellIntegration = true;
+      environmentVariables = sessionVars;
+      plugins = [ polars ];
+    };
+
+    # Out-of-store symlink to the working-tree config.nu, which the generated
+    # config.nu sources last (see userConfig). Editing programs/nushell/config.nu
+    # then reflects in new shells without a rebuild, like ~/.claude/settings.json.
+    home.file.".config/nushell/user-config.nu".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix-config/programs/nushell/config.nu";
+
+    home.file.".config/nushell/non-interactive.nu".text = nonInteractiveText;
+
+    # Required for the task module
+    services.pueue.enable = true;
+
+    # Multi-shell argument completer — nushell's external completer, covering the
+    # long tail of CLIs (kubectl, terraform, docker, gh, git, …). Its integration
+    # appends to programs.nushell.config, so it composes with configText above.
+    programs.carapace = {
+      enable = true;
+      enableNushellIntegration = true;
+    };
+
+    home.packages = [ nufmt ];
   };
-
-  home.packages = [ nufmt ];
 }

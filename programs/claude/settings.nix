@@ -1,6 +1,13 @@
 { stdenv }:
 let
-  hook = command: { hooks = [ { type = "command"; inherit command; } ]; };
+  hook = command: {
+    hooks = [
+      {
+        type = "command";
+        inherit command;
+      }
+    ];
+  };
 
   capture = hook "/Users/hazel/.claude/hooks/capture";
   cleanup = hook "/Users/hazel/.claude/hooks/cleanup";
@@ -34,52 +41,6 @@ in
       "mcp__plugin_hm_obsidian__list_all_tags"
       "mcp__plugin_hm_obsidian__patch_note"
       "mcp__plugin_hm_obsidian__write_note"
-      "mcp__claude_ai_Linear__get_attachment"
-      "mcp__claude_ai_Linear__get_diff"
-      "mcp__claude_ai_Linear__get_diff_threads"
-      "mcp__claude_ai_Linear__get_document"
-      "mcp__claude_ai_Linear__get_initiative"
-      "mcp__claude_ai_Linear__get_issue"
-      "mcp__claude_ai_Linear__get_issue_status"
-      "mcp__claude_ai_Linear__get_milestone"
-      "mcp__claude_ai_Linear__get_project"
-      "mcp__claude_ai_Linear__get_status_updates"
-      "mcp__claude_ai_Linear__get_team"
-      "mcp__claude_ai_Linear__get_user"
-      "mcp__claude_ai_Linear__list_comments"
-      "mcp__claude_ai_Linear__list_customers"
-      "mcp__claude_ai_Linear__list_cycles"
-      "mcp__claude_ai_Linear__list_diffs"
-      "mcp__claude_ai_Linear__list_documents"
-      "mcp__claude_ai_Linear__list_initiatives"
-      "mcp__claude_ai_Linear__list_issue_labels"
-      "mcp__claude_ai_Linear__list_issue_statuses"
-      "mcp__claude_ai_Linear__list_issues"
-      "mcp__claude_ai_Linear__list_milestones"
-      "mcp__claude_ai_Linear__list_project_labels"
-      "mcp__claude_ai_Linear__list_projects"
-      "mcp__claude_ai_Linear__list_teams"
-      "mcp__claude_ai_Linear__list_users"
-      "mcp__claude_ai_Linear__search_documentation"
-      "mcp__plugin_hm_slack__channels_list"
-      "mcp__plugin_hm_slack__channels_me"
-      "mcp__plugin_hm_slack__conversations_history"
-      "mcp__plugin_hm_slack__conversations_replies"
-      "mcp__plugin_hm_slack__conversations_search_messages"
-      "mcp__plugin_hm_slack__conversations_unreads"
-      "mcp__plugin_hm_slack__saved_list"
-      "mcp__plugin_hm_slack__usergroups_list"
-      "mcp__plugin_hm_slack__usergroups_me"
-      "mcp__plugin_hm_slack__users_search"
-      "mcp__plugin_hm_slack__conversations_mark"
-      "mcp__claude_ai_Slack__slack_read_canvas"
-      "mcp__claude_ai_Slack__slack_read_channel"
-      "mcp__claude_ai_Slack__slack_read_thread"
-      "mcp__claude_ai_Slack__slack_read_user_profile"
-      "mcp__claude_ai_Slack__slack_search_channels"
-      "mcp__claude_ai_Slack__slack_search_public"
-      "mcp__claude_ai_Slack__slack_search_public_and_private"
-      "mcp__claude_ai_Slack__slack_search_users"
       "mcp__plugin_hm_things__get_anytime"
       "mcp__plugin_hm_things__get_areas"
       "mcp__plugin_hm_things__get_headings"
@@ -126,15 +87,6 @@ in
       "mcp__plugin_hm_github__search_pull_requests"
       "mcp__plugin_hm_github__search_repositories"
       "mcp__plugin_hm_github__search_users"
-      "mcp__plugin_hm_onesignal-repos__check_remote_access"
-      "mcp__plugin_hm_onesignal-repos__file_exists"
-      "mcp__plugin_hm_onesignal-repos__get_repo_path"
-      "mcp__plugin_hm_onesignal-repos__list_all_repos"
-      "mcp__plugin_hm_onesignal-repos__list_files"
-      "mcp__plugin_hm_onesignal-repos__list_repos"
-      "mcp__plugin_hm_onesignal-repos__read_file"
-      "mcp__plugin_hm_onesignal-repos__read_knowledge"
-      "mcp__plugin_hm_onesignal-repos__search_files"
       "mcp__plugin_hm_wispr-flow__get_account_info"
       "mcp__plugin_hm_wispr-flow__get_calendar_event"
       "mcp__plugin_hm_wispr-flow__get_meeting"
@@ -178,12 +130,6 @@ in
       "mcp__plugin_hm_obsidian__read_note_lines"
       "mcp__plugin_hm_obsidian__wiki_link"
       "mcp__plugin_hm_things__get_tag_usage"
-      "mcp__claude_ai_Linear__get_workspace"
-      "mcp__claude_ai_Linear__get_release"
-      "mcp__claude_ai_Linear__get_release_note"
-      "mcp__claude_ai_Linear__list_releases"
-      "mcp__claude_ai_Linear__list_release_notes"
-      "mcp__claude_ai_Linear__list_release_pipelines"
     ];
     deny = [
       "Bash(brew style:*)"

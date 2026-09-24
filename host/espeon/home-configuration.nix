@@ -2,37 +2,14 @@
 {
   imports = [
     ../../programs/claude
+    ../../programs/claude/shared
     ../../programs/claude/darwin.nix
-    ../../programs/claude/espeon.nix
   ];
 
   home.packages = with pkgs; [
     moonlight-qt-latest
     # mcp-nixos # TODO: use flake from github repo
   ];
-
-  home.file."Library/Application Support/Claude/claude_desktop_config.json" = {
-    force = true;
-    text = builtins.toJSON {
-      mcpServers = {
-        obsidian = {
-          command = lib.getExe pkgs.mcp-obsidian;
-          args = [ "/Users/hazel/Library/Mobile Documents/com~apple~CloudDocs/Obsidian/OneSignal/" ];
-        };
-        things = {
-          command = "${pkgs.mcp-things}/bin/mcp-things";
-          args = [ ];
-        };
-        slack = {
-          command = "/bin/sh";
-          args = [
-            "-c"
-            "export SLACK_MCP_XOXC_TOKEN=$(cat ~/.config/mcp-slack/xoxc-token) && export SLACK_MCP_XOXD_TOKEN=$(cat ~/.config/mcp-slack/xoxd-token) && exec ${pkgs.mcp-slack}/bin/mcp-slack"
-          ];
-        };
-      };
-    };
-  };
 
   programs.claude-code.enable = true;
 

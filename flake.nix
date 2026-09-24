@@ -29,8 +29,10 @@
       url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    agent-skills = {
-      url = "git+ssh://git@github.com/OneSignal/agent-skills";
+    # Work layer. Contributes only `local.*` options, so the flake still
+    # evaluates for a host that never imports it.
+    onesignal-private = {
+      url = "git+ssh://git@github.com/hazel-ocean/onesignal";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.flake-utils.follows = "flake-utils";
     };
@@ -84,11 +86,7 @@
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
           nu-scripts = inputs.nu-scripts;
-          clawd-back =
-            inputs.clawd-back.packages.${prev.stdenv.hostPlatform.system}.default;
-          onesignal-repos-mcp =
-            inputs.agent-skills.packages.${prev.stdenv.hostPlatform.system}.repos-mcp;
-          onesignal-plugins = inputs.agent-skills.lib.plugins;
+          clawd-back = inputs.clawd-back.packages.${prev.stdenv.hostPlatform.system}.default;
           sidra = inputs.sidra.packages.${prev.stdenv.hostPlatform.system}.default;
         })
         mcp-servers.overlays.default
@@ -147,7 +145,8 @@
                 };
               };
             }
-          ] ++ extraModules;
+          ]
+          ++ extraModules;
         };
 
       mkNixosHost =
@@ -236,7 +235,7 @@
         stateVersion = "24.11";
         extraModules = [
           determinate.darwinModules.default
- 
+
           ({ ... }: {
             # Enable the Determinate Nix module
             determinateNix.enable = true;
@@ -257,6 +256,7 @@
         hostname = "espeon";
         username = "hazel";
         stateVersion = "25.05";
+        extraImports = [ inputs.onesignal-private.homeModules.espeon ];
       };
     };
 }
