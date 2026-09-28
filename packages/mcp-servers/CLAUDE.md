@@ -179,8 +179,21 @@ To update a specific source:
 
 ```bash
 cd packages/mcp-servers
-nix flake update mcp-obsidian-src
+nix flake update mcp-slack-src
 ```
+
+### mcp-obsidian is the exception
+
+`mcp-obsidian` builds from the published npm tarball, not a flake input, because
+upstream's git lockfile omits `resolved`/`integrity` on most entries and cannot
+install offline. `nix flake update` does not move it. To update:
+
+1. Set the new `version` in `obsidian.nix`.
+2. Take `hash` from `curl -s https://registry.npmjs.org/@bitbonsai/mcpvault/<version> | jq -r .dist.integrity`.
+3. Regenerate `obsidian-package-lock.json`: extract the tarball, delete
+   `devDependencies` from `package.json`, then
+   `npm install --package-lock-only --omit=dev`.
+4. Build, and take the new `npmDepsHash` from the mismatch error.
 
 After updating, rebuild and fix any hash mismatches:
 

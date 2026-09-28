@@ -1,10 +1,5 @@
 {
   inputs = {
-    mcp-obsidian-src = {
-      url = "github:bitbonsai/mcp-obsidian/main";
-      flake = false;
-    };
-
     mcp-things-src = {
       url = "github:hald/things-mcp/master";
       flake = false;
@@ -33,7 +28,6 @@
 
   outputs =
     {
-      mcp-obsidian-src,
       mcp-things-src,
       mcp-slack-src,
       pyproject-nix,
@@ -43,7 +37,7 @@
     }:
     {
       overlays.default = final: prev: {
-        mcp-obsidian = final.callPackage ./obsidian.nix { src = mcp-obsidian-src; };
+        mcp-obsidian = final.callPackage ./obsidian.nix { };
         mcp-things = final.callPackage ./things.nix {
           src = mcp-things-src;
           inherit pyproject-nix uv2nix pyproject-build-systems;

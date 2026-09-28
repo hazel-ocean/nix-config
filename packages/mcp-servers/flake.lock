@@ -1,22 +1,5 @@
 {
   "nodes": {
-    "mcp-obsidian-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786625141,
-        "narHash": "sha256-/9cty7MdGdoCuPrfrFJSa44evWpVuEqVJsXZeQNMGhs=",
-        "owner": "bitbonsai",
-        "repo": "mcp-obsidian",
-        "rev": "3a14634153652c0ed059dfe1a743c24b57efbc16",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bitbonsai",
-        "ref": "main",
-        "repo": "mcp-obsidian",
-        "type": "github"
-      }
-    },
     "mcp-slack-src": {
       "flake": false,
       "locked": {
@@ -143,7 +126,6 @@
     },
     "root": {
       "inputs": {
-        "mcp-obsidian-src": "mcp-obsidian-src",
         "mcp-slack-src": "mcp-slack-src",
         "mcp-things-src": "mcp-things-src",
         "pyproject-build-systems": "pyproject-build-systems",
