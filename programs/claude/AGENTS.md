@@ -46,15 +46,17 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 - Don't use underscores to denote private vs public.
 - Prefer nushell (`nu`) for non-trivial scripts and workspace tooling, invoked as a subprocess (`nu -c '...'` or `nu script.nu`). Keep simple one-shot commands (`grep`, `git`, `ls`) as plain POSIX shell.
 
-## Task Management (Things.app)
+## Task Management
 
-- **Things.app** is my task management system
-- When I refer to "task list", "todos", or "my tasks", I mean the Things project associated with the current work
-- MCP server: `mcp-things`
+- **beads** (`bd`) tracks engineering work: the task breakdown, the dependency
+  graph, and decision records. Both Claude and Codex read it.
+- **Things.app** holds my personal life and the triage inbox. MCP server:
+  `mcp-things`.
+- "Task list", "todos" and "my tasks" mean beads when the subject is
+  engineering work, and Things otherwise.
 
 ### Conventions
-- Starting a new project always mean creating a Project in Things
-- Update todos as work progresses (mark complete, add notes)
-- Create new todos for discovered work
-- When backing out changes, update relevant todos accordingly
+- Update tasks as work progresses. Mark them complete and add notes.
+- Create new tasks for discovered work.
+- When backing out changes, update the affected tasks.
 - When referring to a repo, we generally use the repo name in backticks omitting the organization.
