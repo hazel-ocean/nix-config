@@ -95,6 +95,7 @@ in
       "handbrake-app"
       "homebrew-app"
       "linear"
+      "logi-options+"
       "macwhisper"
       "mimestream"
       "miro"
