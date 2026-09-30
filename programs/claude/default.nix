@@ -27,17 +27,21 @@ let
         // lib.filterAttrs (_: v: v != [ ]) (lib.genAttrs [ "allow" "deny" "ask" ] mergeList);
     };
 
+  # One source feeds both tools. Claude Code has no AGENTS.md at user scope, so
+  # it still gets CLAUDE.md; Codex reads only AGENTS.md.
+  agentContext = lib.concatMapStringsSep "\n" builtins.readFile (
+    [ ./AGENTS.md ] ++ cfg.contextFragments
+  );
+
   # The upstream module only takes the `source` branch for a real path, so
   # fragments have to be concatenated into a string rather than a derivation.
-  context =
-    if cfg.contextFragments == [ ] then
-      ./CLAUDE.md
-    else
-      lib.concatMapStringsSep "\n" builtins.readFile ([ ./CLAUDE.md ] ++ cfg.contextFragments);
+  context = if cfg.contextFragments == [ ] then ./AGENTS.md else agentContext;
 
   vendoredSkills = lib.genAttrs (builtins.attrNames (builtins.readDir ./.agents/skills)) (
     name: ./.agents/skills + "/${name}"
   );
+
+  beads-skill = "${pkgs.beads.src}/plugins/beads/skills/beads";
 
   # The packaged 1.6.2 tree carries no SKILL.md, so the skill comes from a main
   # rev of the same repo. Drop the rev once nixpkgs ships a release with it.
@@ -74,7 +78,7 @@ in
     contextFragments = lib.mkOption {
       type = lib.types.listOf lib.types.path;
       default = [ ];
-      description = "Markdown appended to CLAUDE.md, in order.";
+      description = "Markdown appended to the agent context, in order.";
     };
 
     extraSettings = lib.mkOption {
@@ -95,14 +99,19 @@ in
         // cfg.extraSkills
         // {
           gh-pr-review = gh-pr-review-skill;
+          beads = beads-skill;
         };
       commands.nu = ./commands/nu.md;
     };
+
+    home.packages = [ pkgs.beads ];
 
     # Pretty-printed, because Claude Code's own writers (/effort, /config, /model,
     # /permissions) rewrite this file in place.
     home.file.".claude/settings.json" = {
       source = (pkgs.formats.json { }).generate "claude-settings.json" settings;
     };
+
+    home.file.".codex/AGENTS.md".text = agentContext;
   };
 }

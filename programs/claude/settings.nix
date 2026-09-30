@@ -126,12 +126,22 @@ in
       "Bash(git branch:*)"
       "Bash(git blame:*)"
       "Bash(git remote -v)"
+      # Beads is the work tracker. History-destroying and raw-SQL
+      # subcommands are denied below.
+      "Bash(bd:*)"
       "mcp__plugin_hm_obsidian__get_note_outline"
       "mcp__plugin_hm_obsidian__read_note_lines"
       "mcp__plugin_hm_obsidian__wiki_link"
       "mcp__plugin_hm_things__get_tag_usage"
     ];
     deny = [
+      "Bash(bd sql:*)"
+      "Bash(bd purge:*)"
+      "Bash(bd prune:*)"
+      "Bash(bd flatten:*)"
+      "Bash(bd gc:*)"
+      "Bash(bd delete:*)"
+      "Bash(bd admin:*)"
       "Bash(brew style:*)"
       "Bash(brew audit:*)"
       "Bash(brew tests:*)"
@@ -161,6 +171,9 @@ in
     "typescript-lsp@claude-plugins-official" = true;
     "swift-lsp@claude-plugins-official" = true;
   };
+  # Codex reads AGENTS.md only. Loading both keeps the user-scope CLAUDE.md,
+  # which has no AGENTS.md equivalent, alongside the per-repo AGENTS.md.
+  pluginConfigs."agents-md@builtin".options.instructionFiles = "claude-md-and-agents-md";
   effortLevel = "medium";
   tui = "fullscreen";
   voice = {
