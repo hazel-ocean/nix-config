@@ -3,18 +3,20 @@
     "agent-skills": {
       "inputs": {
         "flake-utils": [
+          "onesignal-private",
           "flake-utils"
         ],
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "onesignal-private",
+          "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1790105389,
-        "narHash": "sha256-xNakvISLx1zylTWVkPtnkLgDSfguRPx/ZAagh7tax7g=",
+        "lastModified": 1790725156,
+        "narHash": "sha256-mJ2XLYn3SlKYHeLF0qkjMod/G4A2yb/JxVi1vzPxR3c=",
         "ref": "refs/heads/main",
-        "rev": "4b134c05272437a40bd41f1eb63dcfa2aeb2e98b",
-        "revCount": 422,
+        "rev": "78067bad7eeb0b6816d406c1cb4a6531fe299b47",
+        "revCount": 434,
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/agent-skills"
       },
@@ -257,11 +259,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1784822617,
-        "narHash": "sha256-IYDL6Vnf13Sa+wbeXZTAxvdLA4h8Ew5ha0spcJy/Yk0=",
+        "lastModified": 1790649139,
+        "narHash": "sha256-ZjMduEHRsY0H8OHJ5oiF/AcxOBhIiCBwo7D+g1yYwKc=",
         "owner": "helix-editor",
         "repo": "helix",
-        "rev": "079a789e8cb08ead67f19e1971a1b7438b37354b",
+        "rev": "ba40e547426b0f9896c8bdc699a4ab11f2b37dbc",
         "type": "github"
       },
       "original": {
@@ -277,11 +279,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790128814,
-        "narHash": "sha256-6Gm9q+wW3E4Ey4F6wEbJAwaMsEK6hvCYfTW7yY64ZfA=",
+        "lastModified": 1790802803,
+        "narHash": "sha256-pna6bbbXEqnAWb3GuioIEKu+yFxSVFR0UX+2QjxI6eg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "0b2f1129177f70c5f0f5d88bb53c49ca47d0bfc0",
+        "rev": "e4122ec2a3cf7fede335e5c9975639d1e84dc04d",
         "type": "github"
       },
       "original": {
@@ -298,11 +300,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790128814,
-        "narHash": "sha256-6Gm9q+wW3E4Ey4F6wEbJAwaMsEK6hvCYfTW7yY64ZfA=",
+        "lastModified": 1790802803,
+        "narHash": "sha256-pna6bbbXEqnAWb3GuioIEKu+yFxSVFR0UX+2QjxI6eg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "0b2f1129177f70c5f0f5d88bb53c49ca47d0bfc0",
+        "rev": "e4122ec2a3cf7fede335e5c9975639d1e84dc04d",
         "type": "github"
       },
       "original": {
@@ -329,26 +331,8 @@
         "type": "github"
       }
     },
-    "mcp-obsidian-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786625141,
-        "narHash": "sha256-/9cty7MdGdoCuPrfrFJSa44evWpVuEqVJsXZeQNMGhs=",
-        "owner": "bitbonsai",
-        "repo": "mcp-obsidian",
-        "rev": "3a14634153652c0ed059dfe1a743c24b57efbc16",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bitbonsai",
-        "ref": "main",
-        "repo": "mcp-obsidian",
-        "type": "github"
-      }
-    },
     "mcp-servers": {
       "inputs": {
-        "mcp-obsidian-src": "mcp-obsidian-src",
         "mcp-slack-src": "mcp-slack-src",
         "mcp-things-src": "mcp-things-src",
         "pyproject-build-systems": "pyproject-build-systems",
@@ -402,11 +386,11 @@
     "moonlight-qt-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1789935823,
-        "narHash": "sha256-LjVq38MgEqE8XSN0q5A624smk6lZ8OSx5ZvCBSLdFKs=",
+        "lastModified": 1790548750,
+        "narHash": "sha256-W1EOcoB3Lc5pdys8g9aB1+AzLnsneMUA8Zr1ynxprsg=",
         "ref": "master",
-        "rev": "032529d782242e3833e0b3b147dbbf96e878e3ca",
-        "revCount": 3373,
+        "rev": "8369d1a0e11b999d4d1598f62ca5f6dea49602fb",
+        "revCount": 3378,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/moonlight-stream/moonlight-qt.git"
@@ -483,11 +467,11 @@
     },
     "nixos-stable": {
       "locked": {
-        "lastModified": 1789998861,
-        "narHash": "sha256-62XMQD4WLdMAfdT0/8gJmPH2dKeTw908ryNloAplTr8=",
+        "lastModified": 1790635395,
+        "narHash": "sha256-bNyvoIyOCu7lzoCpWKWGIsHpTtERUWzqYWFPlN++WTw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1e8bc658fc985ef27ccd66d107d767b32bb7ef98",
+        "rev": "7fc6f2c20af09cdcaf48b92ec3121860139ec668",
         "type": "github"
       },
       "original": {
@@ -499,11 +483,11 @@
     },
     "nixos-unstable": {
       "locked": {
-        "lastModified": 1790046670,
-        "narHash": "sha256-MYiI+CzL0tuWgRPjGsKCDHqYs2T3OzMlMQWOYWG0qso=",
+        "lastModified": 1790689126,
+        "narHash": "sha256-ilerN1WLSvF+HMjziC/Wv99J5y02maDH+6hZPwsORKg=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "6774f7bc253789b113a4f39285dc0fa100abeacc",
+        "rev": "b4fd65b198c599cbe814fcb9f42d25d021595ec9",
         "type": "github"
       },
       "original": {
@@ -561,11 +545,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1790055231,
-        "narHash": "sha256-QpXotokGh5eeMG1Njiuh27oP0rK6t5+cMp7ymXSs7mc=",
+        "lastModified": 1790652569,
+        "narHash": "sha256-641r7xrlSOHYoktL9/aArPIYNgZJ9eM5URzSEOtPJDY=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "b6c98e9e6633ee64753b594ff4a5febf0367fc00",
+        "rev": "b6c8664de9b6cc07fe5666a29f91884ba81197c4",
         "type": "github"
       },
       "original": {
@@ -676,11 +660,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790104132,
-        "narHash": "sha256-yvcudrhnWvWSFS2ujWxAJ7CVdgdiZs2BDGbgn38p1l0=",
+        "lastModified": 1790718664,
+        "narHash": "sha256-LWil4xgSyqIFZ9sydvL1glFOoiqAOknWUwykC4sqxuY=",
         "owner": "noctalia-dev",
         "repo": "noctalia-shell",
-        "rev": "61aa22730c434500fd3f2048eba47658b1f20aad",
+        "rev": "fd9759c892fe5034b682c185695f1bee121cd5b3",
         "type": "github"
       },
       "original": {
@@ -692,11 +676,11 @@
     "nu-scripts": {
       "flake": false,
       "locked": {
-        "lastModified": 1789906887,
-        "narHash": "sha256-LKONPdLlXfDZ03tEHiJ7rH49vwPHaiFIE0Zvi3bh+UY=",
+        "lastModified": 1790518668,
+        "narHash": "sha256-hkx6hi5CB8Wp0YWeZD7v8tuANVQzmaTcD5kCOcFLT3E=",
         "owner": "nushell",
         "repo": "nu_scripts",
-        "rev": "a571833566d71671151566e1a2cda4e6338f27bb",
+        "rev": "32be8aa912f78fbb0abd5ce87fa8555161931b99",
         "type": "github"
       },
       "original": {
@@ -708,11 +692,11 @@
     "obsidian-agent-client-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1786718633,
-        "narHash": "sha256-sID/u1k5WQgUPUFEPJYGrHi/VZPxDxGzJBKhbctQ42o=",
+        "lastModified": 1789366186,
+        "narHash": "sha256-aPUci+nxxsOLRm8JG3h1yMspIRJPwEx/t/FbEr++w0E=",
         "owner": "RAIT-09",
         "repo": "obsidian-agent-client",
-        "rev": "55dc9e3a3d5bfa3e2b0535585e0ea096689eec85",
+        "rev": "3d069c91636588be4e65d955e670403a9ea642d8",
         "type": "github"
       },
       "original": {
@@ -734,6 +718,31 @@
         "type": "path"
       },
       "parent": []
+    },
+    "onesignal-private": {
+      "inputs": {
+        "agent-skills": "agent-skills",
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "sms-grpc": "sms-grpc"
+      },
+      "locked": {
+        "lastModified": 1790808087,
+        "narHash": "sha256-fGMHSOvqQhJoNuecv1/hjo7aqVL8cxTU1pwiJSP3/YQ=",
+        "ref": "refs/heads/main",
+        "rev": "334e640055ff21e119a28458abb3e3912971b696",
+        "revCount": 8,
+        "type": "git",
+        "url": "ssh://git@github.com/hazel-ocean/onesignal"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/hazel-ocean/onesignal"
+      }
     },
     "pre-commit-hooks": {
       "inputs": {
@@ -830,7 +839,6 @@
     },
     "root": {
       "inputs": {
-        "agent-skills": "agent-skills",
         "clawd-back": "clawd-back",
         "determinate": "determinate",
         "flake-utils": "flake-utils_2",
@@ -848,6 +856,7 @@
         "noctalia-shell": "noctalia-shell",
         "nu-scripts": "nu-scripts",
         "obsidian-plugins": "obsidian-plugins",
+        "onesignal-private": "onesignal-private",
         "room": "room",
         "sidra": "sidra"
       }
@@ -912,6 +921,22 @@
         "owner": "wimpysworld",
         "repo": "sidra",
         "type": "github"
+      }
+    },
+    "sms-grpc": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790800069,
+        "narHash": "sha256-GL6Geve3EOZxLJ0yU5OGyu7XI86D/KlcnCU4cJSKDE4=",
+        "ref": "refs/heads/main",
+        "rev": "3efe902b1ff9b9de2e75cf0e813e3ca6b25474ab",
+        "revCount": 831,
+        "type": "git",
+        "url": "ssh://git@github.com/OneSignal/sms-grpc"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/OneSignal/sms-grpc"
       }
     },
     "systems": {
