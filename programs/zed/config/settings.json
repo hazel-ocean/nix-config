@@ -143,7 +143,7 @@
     "favorite_models": [
       {
         "provider": "anthropic",
-        "model": "claude-opus-4-8",
+        "model": "claude-opus-5-5",
         "enable_thinking": true,
         "effort": "high"
       }
@@ -158,7 +158,7 @@
       "effort": "high",
       "enable_thinking": true,
       "provider": "anthropic",
-      "model": "claude-opus-4-8",
+      "model": "claude-opus-5-5",
     },
   },
   "context_servers": {
@@ -187,7 +187,7 @@
   },
   "theme": {
     "mode": "system",
-    "light": "One Hunter Light",
+    "light": "kontras-light",
     "dark": "Catppuccin Mocha"
   },
   "ui_font_size": 14.0,
