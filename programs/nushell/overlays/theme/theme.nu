@@ -124,6 +124,18 @@ export def --env 'reset' [] {
   apply-live $name
 }
 
+# Pin this shell's polarity, or `auto` to resume detection.
+export def --env 'polarity' [mode: string@[light dark auto]] {
+  match $mode {
+    'light' | 'dark' => { $env.NU_THEME_POLARITY = $mode }
+    'auto' => { hide-env -i NU_THEME_POLARITY }
+    _ => { error make { msg: $'unknown polarity: ($mode)' } }
+  }
+  # Clearing the recorded polarity makes `sync` re-theme even without a flip.
+  $env.NU_THEME_ACTIVE_POLARITY = ''
+  sync
+}
+
 # DEC mode 2031 / DSR 996-997 (https://vtdn.dev/docs/decset/mode2031-color-scheme).
 # Ghostty answers this; Zellij proxies it to inner panes as of 0.44.2.
 # `trap` guarantees tty mode is restored even on failure: a stuck raw/no-echo
