@@ -653,26 +653,6 @@
         "type": "github"
       }
     },
-    "noctalia-shell": {
-      "inputs": {
-        "nixpkgs": [
-          "nixos-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1790718664,
-        "narHash": "sha256-LWil4xgSyqIFZ9sydvL1glFOoiqAOknWUwykC4sqxuY=",
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "rev": "fd9759c892fe5034b682c185695f1bee121cd5b3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "type": "github"
-      }
-    },
     "nu-scripts": {
       "flake": false,
       "locked": {
@@ -853,7 +833,6 @@
         "nixos-stable": "nixos-stable",
         "nixos-unstable": "nixos-unstable",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "noctalia-shell": "noctalia-shell",
         "nu-scripts": "nu-scripts",
         "obsidian-plugins": "obsidian-plugins",
         "onesignal-private": "onesignal-private",

@@ -41,10 +41,6 @@
       url = "github:hazel-ocean/moonshine/hide-cursor";
       inputs.nixpkgs.follows = "nixos-unstable";
     };
-    noctalia-shell = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixos-unstable";
-    };
     sidra = {
       url = "github:wimpysworld/sidra";
       inputs.nixpkgs.follows = "nixos-unstable";
@@ -226,7 +222,6 @@
         nixpkgs = nixos-unstable;
         home-manager = home-manager-nixos-unstable;
         extraModules = [ inputs.moonshine.nixosModules.default ];
-        extraImports = [ inputs.noctalia-shell.homeModules.default ];
       };
 
       darwinConfigurations.pigeon = mkDarwinHost {
