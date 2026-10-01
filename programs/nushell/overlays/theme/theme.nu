@@ -23,10 +23,21 @@ def read-state []: nothing -> record {
   if ($f | path exists) { defaults | merge (open $f) } else { defaults }
 }
 
-# Write the snippet config.nu sources at startup (full-fidelity apply).
+# Write the snippet config.nu sources at startup (full-fidelity apply). The
+# block scopes the import: a bare `source` leaks the theme's `main`,
+# `set color_config` and `update terminal` into the shell.
 def write-active [name: string] {
   mkdir $nu.data-dir
-  $'source "(theme-path $name)"(char nl)' | save -f (active-file)
+  [
+    'do --env {'
+    $"  use \"(theme-path $name)\" ['set color_config' 'update terminal']"
+    '  set color_config'
+    '  update terminal'
+    '}'
+    ''
+  ]
+  | str join (char nl)
+  | save -f (active-file)
 }
 
 # Apply a theme to the *current* shell. Closure-valued colors are dropped (they
