@@ -45,20 +45,22 @@ def --env apply-live [name: string] {
 
 # Current light/dark polarity:
 #   1. $env.NU_THEME_POLARITY override (light|dark)
-#   2. Terminal's own report, so a light terminal on a dark desktop themes light
-#   3. Desktop appearance (macOS defaults, Linux XDG colour-scheme)
-#   4. Nix host variant (dark/black -> dark, light -> light)
+#   2. macOS: system appearance (defaults), which always answers
+#   3. Terminal's own report, so a light terminal on a dark desktop themes light
+#   4. Linux XDG colour-scheme
+#   5. Nix host variant (dark/black -> dark, light -> light)
 export def 'detect-polarity' []: nothing -> string {
   let override = ($env.NU_THEME_POLARITY? | default '' | str lowercase)
   if $override in ['light' 'dark'] { return $override }
 
-  let queried = (query-terminal-polarity)
-  if $queried != '' { return $queried }
-
+  # The key is absent in light mode, so a failed read means light.
   if $nu.os-info.name == 'macos' {
     let r = (^defaults read -g AppleInterfaceStyle | complete)
     return (if $r.exit_code == 0 and ($r.stdout | str trim) == 'Dark' { 'dark' } else { 'light' })
   }
+
+  let queried = (query-terminal-polarity)
+  if $queried != '' { return $queried }
 
   # dconf is absent on darwin and on minimal Linux hosts.
   if (which dconf | is-not-empty) {
