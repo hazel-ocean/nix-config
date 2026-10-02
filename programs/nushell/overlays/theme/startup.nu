@@ -9,3 +9,12 @@ $env.NU_THEME_ACTIVE_POLARITY = (theme detect-polarity)
 $env.config.hooks.pre_prompt = (
   $env.config.hooks.pre_prompt? | default [] | append {|| theme sync }
 )
+
+# A string hook is parsed when it runs, so this `source` reads the snippet as
+# `theme sync` just wrote it. env_change hooks run after pre_prompt in the same
+# cycle. The counter is unset at boot, so the first prompt does not fire it.
+$env.config.hooks.env_change.NU_THEME_GENERATION = (
+  $env.config.hooks.env_change.NU_THEME_GENERATION?
+  | default []
+  | append $"source '($nu_theme_active_file)'"
+)

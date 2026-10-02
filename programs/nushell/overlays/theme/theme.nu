@@ -1,9 +1,10 @@
 # Theme management over the nu_scripts themes at $env.NU_THEMES_DIR.
 #
-# Full-fidelity apply needs a parse-time `source`, so new shells source a written
-# snippet ($nu.data-dir/theme-active.nu). Live switches instead go through a child
-# `nu` and lose the theme's closure colors (bool/datetime/filesize), which can't
-# cross a process boundary; the next shell restores them.
+# Applying a theme needs `source` to keep its closure colors (bool/datetime/
+# filesize), so every apply goes through a written snippet
+# ($nu.data-dir/theme-active.nu). New shells source it from startup.nu. Live
+# switches bump $env.NU_THEME_GENERATION, whose env_change string hook re-parses
+# and sources the snippet before the next prompt.
 #
 # Loaded with `--prefix`: `main` -> `theme`, subcommands -> `theme <sub>`.
 
@@ -40,18 +41,15 @@ def write-active [name: string] {
   | save -f (active-file)
 }
 
-# Apply a theme to the *current* shell. Closure-valued colors are dropped (they
-# can't be serialized out of the child `nu`); the next shell restores them.
+# Apply the written snippet to the *current* shell at the next prompt. The
+# env_change hook in startup.nu does the `source`.
 def --env apply-live [name: string] {
-  let path = (theme-path $name)
-  if not ($path | path exists) {
+  if not ((theme-path $name) | path exists) {
     error make { msg: $'unknown theme: ($name)' }
   }
-  let strip = (r#'| items {|k, v| {k: $k, v: $v} } | where ($in.v | describe) != closure | transpose -rd | to nuon'#)
-  $env.config.color_config = (^nu --no-config-file -c $"use '($path)'; ($name) ($strip)" | from nuon)
-  ^nu --no-config-file -c $"use '($path)'; ($name) update terminal"
   $env.NU_THEME_ACTIVE = $name
   $env.NU_THEME_ACTIVE_POLARITY = (detect-polarity)
+  $env.NU_THEME_GENERATION = ($env.NU_THEME_GENERATION? | default 0) + 1
 }
 
 # Current light/dark polarity:
