@@ -13,6 +13,7 @@
   ];
 
   programs.claude-code.enable = true;
+  local.claude.persona = "uwu";
 
   # pueued daemon (launchd agent) backing the nushell `task` overlay.
   services.pueue.enable = true;

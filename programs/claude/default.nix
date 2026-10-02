@@ -7,7 +7,16 @@
 let
   cfg = config.local.claude;
 
-  baseSettings = import ./settings.nix { stdenv = pkgs.stdenv; };
+  # The file stem must match the output style's frontmatter `name`, which is
+  # the value `outputStyle` selects.
+  personas = lib.mapAttrs' (file: _: {
+    name = lib.removeSuffix ".md" file;
+    value = ./personas + "/${file}";
+  }) (builtins.readDir ./personas);
+
+  baseSettings =
+    import ./settings.nix { stdenv = pkgs.stdenv; }
+    // lib.optionalAttrs (cfg.persona != null) { outputStyle = cfg.persona; };
 
   # recursiveUpdate replaces lists wholesale; the permission lists are the one
   # place a fragment needs to add to what the base set already allows.
@@ -69,6 +78,12 @@ in
       description = "Obsidian vault the MCP server serves. Null disables it.";
     };
 
+    persona = lib.mkOption {
+      type = lib.types.nullOr (lib.types.enum (builtins.attrNames personas));
+      default = null;
+      description = "Output style from ./personas that sets the voice. Null keeps the default.";
+    };
+
     extraSkills = lib.mkOption {
       type = lib.types.attrsOf lib.types.path;
       default = { };
@@ -102,6 +117,7 @@ in
           beads = beads-skill;
         };
       commands.nu = ./commands/nu.md;
+      outputStyles = personas;
     };
 
     home.packages = [ pkgs.beads ];
