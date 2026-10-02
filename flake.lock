@@ -711,11 +711,11 @@
         "sms-grpc": "sms-grpc"
       },
       "locked": {
-        "lastModified": 1790808087,
-        "narHash": "sha256-fGMHSOvqQhJoNuecv1/hjo7aqVL8cxTU1pwiJSP3/YQ=",
+        "lastModified": 1790968975,
+        "narHash": "sha256-A5DhJXdmQEV7IqVA7Oy3ErrFMWpk2eOy+oPfzYmOGWo=",
         "ref": "refs/heads/main",
-        "rev": "334e640055ff21e119a28458abb3e3912971b696",
-        "revCount": 8,
+        "rev": "ebbed9fe85b333a6415250c6fddf751ff0d854dc",
+        "revCount": 9,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
