@@ -136,15 +136,8 @@ in
     kubectl
     kubectx
 
-    # Rust
-    sccache
-
     # Apple Shortcuts
     # - "Set the default browser"
     defaultbrowser
   ];
-
-  environment.variables = {
-    RUSTC_WRAPPER = "${pkgs.sccache}/bin/sccache";
-  };
 }

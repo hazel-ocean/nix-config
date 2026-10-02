@@ -4,6 +4,7 @@
     ../../programs/claude
     ../../programs/claude/shared
     ../../programs/claude/darwin.nix
+    ../../programs/rust-dev.nix
   ];
 
   home.packages = with pkgs; [
