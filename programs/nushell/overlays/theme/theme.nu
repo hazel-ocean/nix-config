@@ -6,6 +6,10 @@
 # switches bump $env.NU_THEME_GENERATION, whose env_change string hook re-parses
 # and sources the snippet before the next prompt.
 #
+# Two scopes per polarity. Global is the state file over the Nix defaults.
+# Local is $env.NU_THEME_LOCAL_LIGHT/DARK: this shell and its children only.
+# `reset` drops one scope's override at either level.
+#
 # Loaded with `--prefix`: `main` -> `theme`, subcommands -> `theme <sub>`.
 
 def themes-dir []: nothing -> string { $env.NU_THEMES_DIR }
@@ -44,10 +48,7 @@ def write-active [name: string] {
 # Apply the written snippet to the *current* shell at the next prompt. The
 # env_change hook in startup.nu does the `source`.
 def --env apply-live [name: string] {
-  if not ((theme-path $name) | path exists) {
-    error make { msg: $'unknown theme: ($name)' }
-  }
-  $env.NU_THEME_ACTIVE = $name
+  assert-theme $name
   $env.NU_THEME_ACTIVE_POLARITY = (detect-polarity)
   # A child nu inherits the counter from its parent as a string.
   $env.NU_THEME_GENERATION = (
@@ -99,9 +100,22 @@ export def 'explore' []: nothing -> nothing {
   }
 }
 
-# Theme name that should be active for a polarity (persisted choice or default).
+def local-var [polarity: string]: nothing -> string {
+  $'NU_THEME_LOCAL_($polarity | str uppercase)'
+}
+
+# Theme name that should be active for a polarity: local, else global.
 export def 'resolve' [polarity?: string]: nothing -> string {
-  read-state | get ($polarity | default (detect-polarity))
+  let p = ($polarity | default (detect-polarity))
+  $env
+  | get -o (local-var $p)
+  | default (read-state | get $p)
+}
+
+# Re-apply whatever `resolve` now returns, polarity flip or not.
+def --env retheme [] {
+  $env.NU_THEME_ACTIVE_POLARITY = ''
+  sync
 }
 
 # Regenerate the startup snippet for the resolved theme. Called from env.nu
@@ -110,32 +124,53 @@ export def 'write-startup' [] {
   write-active (resolve)
 }
 
-# Switch this shell to a theme and persist it for the current polarity.
-export def --env 'set' [name: string] {
+def assert-theme [name: string] {
   if not ((theme-path $name) | path exists) {
-    error make { msg: $'unknown theme: ($name)' }
+    error make --unspanned { msg: $'unknown theme: ($name)' }
   }
+}
+
+# Persist a theme for the current polarity in every shell. A local theme for
+# this polarity still wins in this shell.
+export def --env 'global set' [name: string@list] {
+  assert-theme $name
   let p = (detect-polarity)
   mkdir $nu.data-dir
   read-state | upsert $p $name | save -f (state-file)
-  write-active $name
-  apply-live $name
+  retheme
 }
 
-# Fuzzy-pick a theme, then set it.
-export def --env 'choose' []: nothing -> nothing {
+# Fuzzy-pick a theme, then set it globally.
+export def --env 'global choose' []: nothing -> nothing {
   let pick = (list | input list --fuzzy 'theme')
-  if ($pick | is-not-empty) { set $pick }
+  if ($pick | is-not-empty) { global set $pick }
 }
 
-# Drop the current polarity's override and revert to the Nix default.
-export def --env 'reset' [] {
+# Drop the current polarity's global choice and revert to the Nix default.
+export def --env 'global reset' [] {
   let p = (detect-polarity)
   let f = (state-file)
-  if ($f | path exists) { open $f | reject $p | save -f $f }
-  let name = (defaults | get $p)
-  write-active $name
-  apply-live $name
+  if ($f | path exists) { open $f | reject -o $p | save -f $f }
+  retheme
+}
+
+# Theme this shell and its children for the current polarity. Not persisted.
+export def --env 'local set' [name: string@list] {
+  assert-theme $name
+  load-env { (local-var (detect-polarity)): $name }
+  retheme
+}
+
+# Fuzzy-pick a theme, then set it locally.
+export def --env 'local choose' []: nothing -> nothing {
+  let pick = (list | input list --fuzzy 'theme')
+  if ($pick | is-not-empty) { local set $pick }
+}
+
+# Drop this shell's local themes, so it follows the global ones.
+export def --env 'reset' [] {
+  hide-env -i NU_THEME_LOCAL_LIGHT NU_THEME_LOCAL_DARK
+  retheme
 }
 
 # Pin this shell's polarity, or `auto` to resume detection.
@@ -143,11 +178,9 @@ export def --env 'polarity' [mode: string@[light dark auto]] {
   match $mode {
     'light' | 'dark' => { $env.NU_THEME_POLARITY = $mode }
     'auto' => { hide-env -i NU_THEME_POLARITY }
-    _ => { error make { msg: $'unknown polarity: ($mode)' } }
+    _ => { error make --unspanned { msg: $'unknown polarity: ($mode)' } }
   }
-  # Clearing the recorded polarity makes `sync` re-theme even without a flip.
-  $env.NU_THEME_ACTIVE_POLARITY = ''
-  sync
+  retheme
 }
 
 # DEC mode 2031 / DSR 996-997 (https://vtdn.dev/docs/decset/mode2031-color-scheme).
@@ -210,9 +243,18 @@ export def --env 'sync' [] {
 # Show the active theme and polarity.
 export def 'main' []: nothing -> record {
   {
-    active: ($env.NU_THEME_ACTIVE? | default '(startup default)')
-    polarity: (detect-polarity)
     resolved: (resolve)
-    state-file: (state-file)
+    polarity: (detect-polarity)
+    global: (
+      if ((state-file) | path exists) {
+        open (state-file)
+      } else {
+        $'(ansi yellow)missing(ansi reset)'
+      }
+    )
+    local: {
+      light: ($env.NU_THEME_LOCAL_LIGHT? | default '')
+      dark: ($env.NU_THEME_LOCAL_DARK? | default '')
+    }
   }
 }
