@@ -699,6 +699,22 @@
       },
       "parent": []
     },
+    "onesignal-nushell": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790992530,
+        "narHash": "sha256-OtY93X26+4YPQUs1rjoTxQG2YDpEsSk8Ns+FxNkOFUI=",
+        "ref": "refs/heads/main",
+        "rev": "968d7830a1636d05bf87a8d85f7db1421b3ce4c8",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/hazel-ocean/onesignal-nushell"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/hazel-ocean/onesignal-nushell"
+      }
+    },
     "onesignal-private": {
       "inputs": {
         "agent-skills": "agent-skills",
@@ -708,14 +724,14 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
-        "sms-grpc": "sms-grpc"
+        "onesignal-nushell": "onesignal-nushell"
       },
       "locked": {
-        "lastModified": 1790972403,
-        "narHash": "sha256-NWLsipLSS+lkocTaTMFt0fanMkrV1E7uG5H8lVVwSkA=",
+        "lastModified": 1790992667,
+        "narHash": "sha256-AciOqzrnquuKWtcaqzgV9CSLleauTY/4TPGHTc4JWyc=",
         "ref": "refs/heads/main",
-        "rev": "adb174a843dce94c9c6761b1180c3af6b49e97a5",
-        "revCount": 10,
+        "rev": "eade119f65da5d78a43e33ee97f52f1c064e6153",
+        "revCount": 12,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
@@ -900,22 +916,6 @@
         "owner": "wimpysworld",
         "repo": "sidra",
         "type": "github"
-      }
-    },
-    "sms-grpc": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1790800069,
-        "narHash": "sha256-GL6Geve3EOZxLJ0yU5OGyu7XI86D/KlcnCU4cJSKDE4=",
-        "ref": "refs/heads/main",
-        "rev": "3efe902b1ff9b9de2e75cf0e813e3ca6b25474ab",
-        "revCount": 831,
-        "type": "git",
-        "url": "ssh://git@github.com/OneSignal/sms-grpc"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/OneSignal/sms-grpc"
       }
     },
     "systems": {
