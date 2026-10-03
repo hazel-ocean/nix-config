@@ -130,20 +130,37 @@ def assert-theme [name: string] {
   }
 }
 
-# Persist a theme for the current polarity in every shell. A local theme for
-# this polarity still wins in this shell.
-export def --env 'global set' [name: string@list] {
+# Polarities named by --light/--dark, else the current one.
+def target-polarities [light: bool, dark: bool]: nothing -> list<string> {
+  let named = [
+    ...(if $light { ['light'] } else { [] })
+    ...(if $dark { ['dark'] } else { [] })
+  ]
+  if ($named | is-empty) { [(detect-polarity)] } else { $named }
+}
+
+# Persist a theme in every shell, for the current polarity unless --light or
+# --dark names one. A local theme for that polarity still wins in this shell.
+export def --env 'global set' [
+  name: string@list
+  --light   # Set the light theme
+  --dark    # Set the dark theme
+] {
   assert-theme $name
-  let p = (detect-polarity)
   mkdir $nu.data-dir
-  read-state | upsert $p $name | save -f (state-file)
+  target-polarities $light $dark
+  | reduce --fold (read-state) {|p, state| $state | upsert $p $name }
+  | save -f (state-file)
   retheme
 }
 
 # Fuzzy-pick a theme, then set it globally.
-export def --env 'global choose' []: nothing -> nothing {
+export def --env 'global choose' [
+  --light   # Set the light theme
+  --dark    # Set the dark theme
+]: nothing -> nothing {
   let pick = (list | input list --fuzzy 'theme')
-  if ($pick | is-not-empty) { global set $pick }
+  if ($pick | is-not-empty) { global set --light=$light --dark=$dark $pick }
 }
 
 # Drop the current polarity's global choice and revert to the Nix default.
@@ -154,17 +171,27 @@ export def --env 'global reset' [] {
   retheme
 }
 
-# Theme this shell and its children for the current polarity. Not persisted.
-export def --env 'local set' [name: string@list] {
+# Theme this shell and its children, for the current polarity unless --light
+# or --dark names one. Not persisted.
+export def --env 'local set' [
+  name: string@list
+  --light   # Set the light theme
+  --dark    # Set the dark theme
+] {
   assert-theme $name
-  load-env { (local-var (detect-polarity)): $name }
+  target-polarities $light $dark
+  | reduce --fold {} {|p, vars| $vars | insert (local-var $p) $name }
+  | load-env
   retheme
 }
 
 # Fuzzy-pick a theme, then set it locally.
-export def --env 'local choose' []: nothing -> nothing {
+export def --env 'local choose' [
+  --light   # Set the light theme
+  --dark    # Set the dark theme
+]: nothing -> nothing {
   let pick = (list | input list --fuzzy 'theme')
-  if ($pick | is-not-empty) { local set $pick }
+  if ($pick | is-not-empty) { local set --light=$light --dark=$dark $pick }
 }
 
 # Drop this shell's local themes, so it follows the global ones.
