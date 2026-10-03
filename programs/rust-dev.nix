@@ -5,6 +5,8 @@ in
 {
   # rustup, not a pinned nixpkgs toolchain: work repos pin their toolchain in
   # rust-toolchain.toml. Its proxies cover cargo, rustc and rust-analyzer.
+  # Each toolchain needs `rustup component add rust-analyzer`: without it, this
+  # proxy and the one in ~/.cargo/bin fall back to each other and recurse.
   home.packages = with pkgs; [
     rustup
     sccache
