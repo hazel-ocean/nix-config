@@ -49,7 +49,10 @@ def --env apply-live [name: string] {
   }
   $env.NU_THEME_ACTIVE = $name
   $env.NU_THEME_ACTIVE_POLARITY = (detect-polarity)
-  $env.NU_THEME_GENERATION = ($env.NU_THEME_GENERATION? | default 0) + 1
+  # A child nu inherits the counter from its parent as a string.
+  $env.NU_THEME_GENERATION = (
+    ($env.NU_THEME_GENERATION? | default 0 | into int) + 1
+  )
 }
 
 # Current light/dark polarity:
