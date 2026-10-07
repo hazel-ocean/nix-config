@@ -967,11 +967,11 @@
     "todo-beads-nushell": {
       "flake": false,
       "locked": {
-        "lastModified": 1791396222,
-        "narHash": "sha256-DGJ/zjnBfnbv/jd2Mdtvkt+FNCw3VGqnjW3wlC2XJ18=",
+        "lastModified": 1791396892,
+        "narHash": "sha256-pMRONAr0KfgFsQrF5dWdzFsgFOHlqiqjHlt82P3zuQg=",
         "ref": "refs/heads/main",
-        "rev": "44f86c2746a0a754b2cbc8719923f588fc5b0db3",
-        "revCount": 1,
+        "rev": "78fba7690e351020ed5f40982f0ede0bbf220b7d",
+        "revCount": 3,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/todo-beads-nushell"
       },

@@ -148,6 +148,7 @@ let
       src = "${pkgs.todo-beads-nushell}";
       enable = lib.elem pkgs.beads config.home.packages;
       prefix = true;
+      aliases.bj = "td bd";
     }
   ];
 
