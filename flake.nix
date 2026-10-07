@@ -25,6 +25,10 @@
       url = "github:nushell/nu_scripts";
       flake = false;
     };
+    todo-beads-nushell = {
+      url = "git+ssh://git@github.com/hazel-ocean/todo-beads-nushell";
+      flake = false;
+    };
     clawd-back = {
       url = "github:hazel-ocean/clawd-back";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -82,6 +86,7 @@
             includeGrammarIf = grammar: grammar.name != "lua-format-string";
           };
           nu-scripts = inputs.nu-scripts;
+          todo-beads-nushell = inputs.todo-beads-nushell;
           clawd-back = inputs.clawd-back.packages.${prev.stdenv.hostPlatform.system}.default;
           sidra = inputs.sidra.packages.${prev.stdenv.hostPlatform.system}.default;
         })

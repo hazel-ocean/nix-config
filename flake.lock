@@ -727,11 +727,11 @@
         "onesignal-nushell": "onesignal-nushell"
       },
       "locked": {
-        "lastModified": 1790996187,
-        "narHash": "sha256-0M5USTetXMcaoN1Bq7iUNzdmk+Qdu+oQnJbzrU/j+pQ=",
+        "lastModified": 1791395013,
+        "narHash": "sha256-NYZXdCX+1S40RBo5gq+casBZfMEHyaKK5pzlYCyVflI=",
         "ref": "refs/heads/main",
-        "rev": "987d4d893f9f90c4d36b40566fc3f67e5f5743d4",
-        "revCount": 13,
+        "rev": "37c0ddea9c331cb888ecbe9549a896de7b288ba2",
+        "revCount": 15,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
@@ -853,7 +853,8 @@
         "obsidian-plugins": "obsidian-plugins",
         "onesignal-private": "onesignal-private",
         "room": "room",
-        "sidra": "sidra"
+        "sidra": "sidra",
+        "todo-beads-nushell": "todo-beads-nushell"
       }
     },
     "rust-overlay": {
@@ -961,6 +962,22 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "todo-beads-nushell": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791396222,
+        "narHash": "sha256-DGJ/zjnBfnbv/jd2Mdtvkt+FNCw3VGqnjW3wlC2XJ18=",
+        "ref": "refs/heads/main",
+        "rev": "44f86c2746a0a754b2cbc8719923f588fc5b0db3",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/hazel-ocean/todo-beads-nushell"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/hazel-ocean/todo-beads-nushell"
       }
     },
     "treefmt-nix": {

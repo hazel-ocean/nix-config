@@ -143,6 +143,12 @@ let
         cr = "claude --resume";
       };
     }
+    {
+      name = "td";
+      src = "${pkgs.todo-beads-nushell}";
+      enable = lib.elem pkgs.beads config.home.packages;
+      prefix = true;
+    }
   ];
 
   overlays = builtinOverlays ++ cfg.extraOverlays;
@@ -218,6 +224,7 @@ let
       "PAGER"
       "FZF_DEFAULT_COMMAND"
       "BAT_CONFIG_PATH"
+      "BD_JSON_ENVELOPE"
     ]
   ) config.home.sessionVariables;
 

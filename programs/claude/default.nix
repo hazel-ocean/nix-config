@@ -121,6 +121,8 @@ in
     };
 
     home.packages = [ pkgs.beads ];
+    # Opts into the `{schema_version, data}` JSON shape before bd makes it the default.
+    home.sessionVariables.BD_JSON_ENVELOPE = "1";
 
     # Pretty-printed, because Claude Code's own writers (/effort, /config, /model,
     # /permissions) rewrite this file in place.
