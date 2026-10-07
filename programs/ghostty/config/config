@@ -50,7 +50,9 @@
 
 confirm-close-surface = false
 
-theme = light:Xcode Light,dark:Xcode Dark hc
+# theme = light:Xcode Light,dark:Xcode Dark hc
+#theme = light:Havn Daggry,dark:Horizon
+ theme = light:Light Owl,dark:Horizon
 # theme = light:Xcode Light,dark:Violite
 # theme = light:Xcode Light,dark:Mellow
 # theme = light:Xcode Light,dark:Melange Dark
@@ -62,18 +64,18 @@ theme = light:Xcode Light,dark:Xcode Dark hc
 ## Fonts
 font-size = 12
 
-# font-family = Maple Mono NF
-# adjust-cell-height = 35%
-# font-thicken = true
-# font-thicken-strength = 200
+#font-family = Maple Mono NF
+#adjust-cell-height = 35%
+#font-thicken = true
+#font-thicken-strength = 200
 
-# font-family = 0xProto Nerd Font Mono
-# adjust-cell-height = 14%
-
-font-family = DepartureMono Nerd Font
-adjust-cell-height = 35%
+font-family = 0xProto Nerd Font Mono
+adjust-cell-height = 14%
 font-thicken = true
-# font-thicken-strength = 200
+
+#font-family = DepartureMono Nerd Font
+#adjust-cell-height = 35%
+#font-thicken = true
 
 # font-family = Monocraft
 # adjust-cell-height = 28%
