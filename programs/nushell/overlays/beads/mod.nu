@@ -20,18 +20,19 @@ export def --wrapped bd [...args]: nothing -> any {
   let result = ^bd ...$args ...$flags | complete
   let command = $"bd ($args | str join ' ')"
 
-  let parsed = try {
-    $result.stdout | from json
-  } catch {
-    error make {msg: $"($command) did not return JSON: ($result.stderr | str trim)"}
+  # A failed command prints an envelope with the error under `data`, unless it
+  # fails before setup, e.g. with no database: then stdout is empty.
+  if $result.exit_code != 0 {
+    let failure = try { $result.stdout | from json | get data? } catch { null }
+    error make {
+      msg: ($failure.error? | default ($result.stderr | str trim))
+      help: $failure.hint?
+    }
   }
 
-  # A failed command still prints an envelope, with the error under `data`.
-  if $result.exit_code != 0 {
-    error make {
-      msg: ($parsed.data.error? | default ($result.stderr | str trim))
-      help: $parsed.data.hint?
-    }
+  let parsed = try { $result.stdout | from json } catch { null }
+  if $parsed.data? == null {
+    error make {msg: $"($command) did not return JSON: ($result.stderr | str trim)"}
   }
 
   $parsed.data
