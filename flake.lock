@@ -853,8 +853,7 @@
         "obsidian-plugins": "obsidian-plugins",
         "onesignal-private": "onesignal-private",
         "room": "room",
-        "sidra": "sidra",
-        "todo-beads-nushell": "todo-beads-nushell"
+        "sidra": "sidra"
       }
     },
     "rust-overlay": {
@@ -962,22 +961,6 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
-      }
-    },
-    "todo-beads-nushell": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1791396892,
-        "narHash": "sha256-pMRONAr0KfgFsQrF5dWdzFsgFOHlqiqjHlt82P3zuQg=",
-        "ref": "refs/heads/main",
-        "rev": "78fba7690e351020ed5f40982f0ede0bbf220b7d",
-        "revCount": 3,
-        "type": "git",
-        "url": "ssh://git@github.com/hazel-ocean/todo-beads-nushell"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/hazel-ocean/todo-beads-nushell"
       }
     },
     "treefmt-nix": {

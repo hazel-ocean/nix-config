@@ -145,7 +145,7 @@ let
     }
     {
       name = "td";
-      src = "${pkgs.todo-beads-nushell}";
+      src = ./overlays/beads;
       enable = lib.elem pkgs.beads config.home.packages;
       prefix = true;
       aliases.bj = "td bd";
