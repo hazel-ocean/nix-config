@@ -24,7 +24,7 @@ export def --wrapped bd [...args]: nothing -> any {
   # fails before setup, e.g. with no database: then stdout is empty.
   if $result.exit_code != 0 {
     let failure = try { $result.stdout | from json | get data? } catch { null }
-    error make {
+    error make --unspanned {
       msg: ($failure.error? | default ($result.stderr | str trim))
       help: $failure.hint?
     }
@@ -32,7 +32,7 @@ export def --wrapped bd [...args]: nothing -> any {
 
   let parsed = try { $result.stdout | from json } catch { null }
   if $parsed.data? == null {
-    error make {msg: $"($command) did not return JSON: ($result.stderr | str trim)"}
+    error make --unspanned {msg: $"($command) did not return JSON: ($result.stderr | str trim)"}
   }
 
   $parsed.data
@@ -47,10 +47,10 @@ export def list [
     null => (rows list $all)
     "repo" => (rows list $all | by-repo)
     "deps" => {
-      if $all { error make {msg: "--by deps shows open beads only"} }
+      if $all { error make --unspanned {msg: "--by deps shows open beads only"} }
       ^bd graph --all --compact
     }
-    _ => (error make {msg: $"unknown grouping: ($by)"})
+    _ => (error make --unspanned {msg: $"unknown grouping: ($by)"})
   }
 }
 
@@ -61,8 +61,8 @@ export def ready [
   match $by {
     null => (rows ready false)
     "repo" => (rows ready false | by-repo)
-    "deps" => (error make {msg: "--by deps is not supported for ready yet"})
-    _ => (error make {msg: $"unknown grouping: ($by)"})
+    "deps" => (error make --unspanned {msg: "--by deps is not supported for ready yet"})
+    _ => (error make --unspanned {msg: $"unknown grouping: ($by)"})
   }
 }
 
