@@ -47,7 +47,19 @@ let
   context = if cfg.contextFragments == [ ] then ./AGENTS.md else agentContext;
 
   vendoredSkills = lib.genAttrs (builtins.attrNames (builtins.readDir ./.agents/skills)) (
-    name: ./.agents/skills + "/${name}"
+    name:
+    let
+      src = ./.agents/skills + "/${name}";
+      supplement = ./supplements + "/${name}.md";
+    in
+    if builtins.pathExists supplement then
+      "${pkgs.runCommand "${name}-skill" { } ''
+        cp -r ${src} $out
+        chmod -R u+w $out
+        { echo; cat ${supplement}; } >> $out/SKILL.md
+      ''}"
+    else
+      src
   );
 
   beads-skill = "${pkgs.beads.src}/plugins/beads/skills/beads";
