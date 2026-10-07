@@ -35,7 +35,15 @@ let
   );
 
   themeSrc = ./overlays/theme;
-  themesDir = "${pkgs.nu-scripts}/themes/nu-themes";
+  # Repo themes join nu_scripts' tree so screenshots/ stays a sibling of nu-themes/.
+  themesRoot = pkgs.symlinkJoin {
+    name = "nu-themes";
+    paths = [
+      "${pkgs.nu-scripts}/themes"
+      ./themes
+    ];
+  };
+  themesDir = "${themesRoot}/nu-themes";
 
   hostname = osConfig.networking.hostName;
 
