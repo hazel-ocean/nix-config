@@ -1,5 +1,6 @@
+{ config, ... }:
 {
-  programs.direnv.mise.enable = true;
+  programs.direnv.mise.enable = config.programs.direnv.enable;
   programs.mise = {
     enable = true;
     enableBashIntegration = true;

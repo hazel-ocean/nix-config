@@ -5,6 +5,7 @@
     ../../programs/claude/shared
     ../../programs/claude/darwin.nix
     ../../programs/rust-dev.nix
+    ../../programs/mise.nix
   ];
 
   home.packages = with pkgs; [
@@ -17,14 +18,6 @@
 
   # pueued daemon (launchd agent) backing the nushell `task` overlay.
   services.pueue.enable = true;
-
-  programs.direnv.mise.enable = true;
-  programs.mise = {
-    enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    enableNushellIntegration = true;
-  };
 
   home.activation.makeSymbolicLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ln -fsn $VERBOSE_ARG \
