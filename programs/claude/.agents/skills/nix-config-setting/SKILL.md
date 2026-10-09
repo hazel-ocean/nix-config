@@ -37,7 +37,7 @@ store. To change a setting you edit its declarative source and re-apply.
      section.
    - **Host-specific settings** → `host/<host>/home-configuration.nix` or
      `host/<host>/configuration.nix` (hosts: `espeon`, `pigeon` on darwin;
-     `korriban`, `ghastly`, `rpi5` on NixOS).
+     `korriban` on NixOS).
    - **Anything else** → `grep -rn` the repo for the option name (e.g. the
      home-manager option or program) and edit where it's defined.
 

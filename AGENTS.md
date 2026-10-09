@@ -2,8 +2,11 @@
 
 A Nix flake managing macOS (nix-darwin) and NixOS hosts via home-manager.
 
-- **Hosts** (`host/<name>/`): `espeon` (darwin, primary — user `hazel`), `pigeon`
-  (darwin, user `ocean`), `korriban` (NixOS, `hazel`), `ghastly`/`rpi5` (NixOS).
+- **Hosts** (`host/<name>/`): `espeon` (darwin, primary), `pigeon` (darwin),
+  `korriban` (NixOS). All use user `hazel`.
+- **Nix daemon**: every host runs Determinate Nix. Shared Nix settings and the
+  flake registry live in `system/common.nix`. On darwin they go through
+  `determinateNix.*`, because the Determinate module turns off `nix.*`.
 - **Layout**: `flake.nix` wires hosts via `mkDarwinHost`/`mkNixosHost`; per-program
   home-manager modules live under `programs/`; host-specific config under `host/`.
 - Flake inputs are exposed to modules as `pkgs` attrs through `baseOverlays` in

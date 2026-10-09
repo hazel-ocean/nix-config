@@ -1,5 +1,5 @@
 # Shared configuration for Linux (NixOS) hosts
-inputs@{ config, pkgs, ... }:
+{ config, pkgs, ... }:
 {
   imports = [ ./packages.nix ];
 
@@ -7,11 +7,6 @@ inputs@{ config, pkgs, ... }:
     extra-substituters = [ "https://noctalia.cachix.org" ];
     extra-trusted-public-keys = [
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
-    experimental-features = [
-      "flakes"
-      "nix-command"
-      "pipe-operators"
     ];
   };
 

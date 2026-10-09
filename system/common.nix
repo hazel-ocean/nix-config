@@ -1,23 +1,43 @@
 # Shared configuration for all hosts
-{ ... }:
 {
-  nix = {
-    extraOptions = ''
-      build-users-group = nixbld
-      experimental-features = nix-command flakes pipe-operators
-      keep-outputs = true
-      keep-derivations = true
-    '';
-
-    gc.automatic = true;
-    optimise.automatic = true;
-
-    settings = {
-      download-buffer-size = 134217728; # 2^27
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
-    };
+  config,
+  lib,
+  options,
+  inputs,
+  ...
+}:
+let
+  settings = {
+    lazy-trees = true;
+    extra-experimental-features = [ "pipe-operators" ];
+    keep-outputs = true;
+    keep-derivations = true;
+    download-buffer-size = 134217728; # 2^27
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
+
+  # Roots every input, so GC keeps evaluation-only sources.
+  registry = lib.mapAttrs (_: flake: { inherit flake; }) (removeAttrs inputs [ "self" ]);
+in
+{
+  config = lib.mkMerge [
+    (lib.optionalAttrs (options ? determinateNix) {
+      determinateNix = {
+        customSettings = settings;
+        # Determinate on darwin turns off nix.*, which drops the nixpkgs entry
+        # that nixpkgs.flake.setFlakeRegistry adds.
+        registry = registry // {
+          nixpkgs.to = {
+            type = "path";
+            path = config.nixpkgs.flake.source;
+          };
+        };
+      };
+    })
+    (lib.optionalAttrs (!options ? determinateNix) {
+      nix = { inherit settings registry; };
+    })
+  ];
 }

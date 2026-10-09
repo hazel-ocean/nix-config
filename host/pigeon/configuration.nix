@@ -5,41 +5,14 @@ let
   HOME = "/Users/${USER}";
 in
 {
-  imports = [ ../../system/darwin.nix ];
+  imports = [
+    ../../system/common.nix
+    ../../system/darwin.nix
+  ];
 
-  nix = {
-    linux-builder = {
-      enable = false;
-      ephemeral = true;
-      config = {
-        virtualisation = {
-          darwin-builder = {
-            diskSize = 40 * 1024;
-            memorySize = 8 * 1024;
-          };
-          cores = 10;
-        };
-      };
-      systems = [
-        "aarch64-linux"
-        "x86_64-linux"
-      ];
-    };
-
-    extraOptions = ''
-      build-users-group = nixbld
-      experimental-features = nix-command flakes pipe-operators
-      extra-platforms = x86_64-darwin aarch64-darwin x86_64-linux aarch64-linux
-      keep-outputs = true
-      keep-derivations = true
-    '';
-
-    settings = {
-      trusted-users = [
-        USER
-        "@admin" # Required for nix-darwin's `nix.linux-builder`
-      ];
-    };
+  determinateNix.customSettings = {
+    extra-platforms = [ "x86_64-darwin" ];
+    trusted-users = [ USER ];
   };
 
   networking = {

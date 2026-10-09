@@ -117,7 +117,10 @@
         in
         nix-darwin.lib.darwinSystem {
           pkgs = import nixpkgs-unstable { inherit system config overlays; };
-          specialArgs = extraSpecialArgs;
+          specialArgs = {
+            inherit inputs;
+          }
+          // extraSpecialArgs;
           modules = [
             ./host/${hostname}/configuration.nix
             home-manager-master.darwinModules.home-manager
@@ -165,7 +168,10 @@
         in
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = extraSpecialArgs;
+          specialArgs = {
+            inherit inputs;
+          }
+          // extraSpecialArgs;
           modules = [
             ./host/${hostname}/configuration.nix
             home-manager.nixosModules.home-manager
@@ -221,21 +227,17 @@
         system = "x86_64-linux";
         nixpkgs = nixos-unstable;
         home-manager = home-manager-nixos-unstable;
-        extraModules = [ inputs.moonshine.nixosModules.default ];
+        extraModules = [
+          determinate.nixosModules.default
+          inputs.moonshine.nixosModules.default
+        ];
       };
 
       darwinConfigurations.pigeon = mkDarwinHost {
         hostname = "pigeon";
         username = "hazel";
         stateVersion = "24.11";
-        extraModules = [
-          determinate.darwinModules.default
-
-          ({ ... }: {
-            # Enable the Determinate Nix module
-            determinateNix.enable = true;
-          })
-        ];
+        extraModules = [ determinate.darwinModules.default ];
         extraSpecialArgs = {
           rosetta-pkgs = import nixpkgs-unstable {
             inherit config;
@@ -252,6 +254,7 @@
         username = "hazel";
         stateVersion = "25.05";
         extraImports = [ inputs.onesignal-private.homeModules.espeon ];
+        extraModules = [ determinate.darwinModules.default ];
       };
     };
 }
