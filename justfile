@@ -70,7 +70,9 @@ _switch_espeon:
 
 # Builds as the user, so private inputs fetch with the user's SSH agent.
 _switch_korriban:
+    @sudo --validate
     nixos-rebuild switch --sudo --flake .#korriban
 
 _boot_korriban:
+    @sudo --validate
     nixos-rebuild boot --sudo --flake .#korriban
