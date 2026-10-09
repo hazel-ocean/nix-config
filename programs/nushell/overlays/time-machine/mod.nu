@@ -2,22 +2,25 @@
 
 const data_volume = "/System/Volumes/Data"
 
-# List backups. Lists local snapshots unless `--target` names a backup volume.
+# List local snapshots, or the backups on a mounted volume.
 export def list [
+  --local (-l)         # List local snapshots
   --target (-t): path  # Mounted backup volume to list
 ]: nothing -> table {
+  require-source $local $target
   let volume = $target | default $data_volume
   print -e $"($volume) in use: (volume-used $volume)"
   backups $target
 }
 
-# Remove all but the newest `k` backups, after confirmation.
-# Trims local snapshots unless `--target` names a backup volume.
+# Remove all but the newest `k` local snapshots or backups, after confirmation.
 export def trim [
+  --local (-l)             # Trim local snapshots
   --keeping (-k): int = 1  # Keep the newest `k` backups
   --target (-t): path      # Mounted backup volume to trim
   --yes (-y)               # Skip the confirmation prompt
 ]: nothing -> nothing {
+  require-source $local $target
   let keeping = [0, $keeping] | math max
   let doomed = (
     backups $target
@@ -59,6 +62,14 @@ export def start-backup [
   yellow "Starting backup..."
   let args = if $blocking { [--block] } else { [] }
   ^tmutil startbackup ..args
+}
+
+def require-source [local: bool, target?: path]: nothing -> nothing {
+  match [$local ($target != null)] {
+    [true true] => { error make {msg: "Pass either --local or --target, not both"} }
+    [false false] => { error make {msg: "Pass --local or --target"} }
+    _ => {}
+  }
 }
 
 def backups [target?: path]: nothing -> table<id: string, date: any, age: any> {
