@@ -157,6 +157,9 @@ let
       enable = lib.elem pkgs.beads config.home.packages;
       prefix = true;
       aliases.bj = "td bd";
+      extraEnv = ''
+        $env.GLAMOUR_STYLE = 'auto'
+      '';
     }
   ];
 
