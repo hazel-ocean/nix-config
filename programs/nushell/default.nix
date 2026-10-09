@@ -131,6 +131,7 @@ let
         wl = "workspace list";
         wr = "workspace rename";
         wi = "workspace info";
+        wdu = "workspace disk-usage";
 
         k = "kubectl";
 
