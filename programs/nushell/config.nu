@@ -45,7 +45,7 @@ def print-workspace-sessions [header: string] {
   print $"(ansi light_blue)($header)(ansi reset)"
   for row in $rows {
     print (
-      $"  (ansi light_purple)($row.session)(ansi reset)"
+      $"  ($row.zellij)"
       + $" (ansi dark_gray)<- ($row.workspace) [($row.state)](ansi reset)"
     )
   }
@@ -66,8 +66,10 @@ def zd [] {
   if ($names | is-empty) { print "No Zellij sessions."; return }
   let chosen = ($names | input list --multi --fuzzy "Sessions to delete:")
   if ($chosen | is-empty) { print "Nothing selected."; return }
+  # `workspace list` paints session names, so strip the colour before matching.
   workspace list
-  | where session in $chosen
+  | where ($it.zellij | default "" | ansi strip) in $chosen
+  | where ($it.workspace | ansi strip) != "(orphan)"
   | print-workspace-sessions "Workspace sessions in the selection:"
   for name in $chosen {
     ^zellij delete-session --force -- $name
@@ -103,7 +105,7 @@ def za [
 # workspace saved. `zellij delete-all-sessions` prompts for confirmation.
 def zda [] {
   workspace list
-  | where state == "exited"
+  | where state == "exited" and ($it.workspace | ansi strip) != "(orphan)"
   | print-workspace-sessions "Workspace sessions to be deleted:"
   ^zellij delete-all-sessions
 }
