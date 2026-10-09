@@ -68,8 +68,9 @@ _switch_pigeon:
 _switch_espeon:
     sudo darwin-rebuild switch --flake .#espeon
 
+# Builds as the user, so private inputs fetch with the user's SSH agent.
 _switch_korriban:
-    sudo nixos-rebuild switch --flake .#korriban
+    nixos-rebuild switch --sudo --flake .#korriban
 
 _boot_korriban:
-    sudo nixos-rebuild boot --flake .#korriban
+    nixos-rebuild boot --sudo --flake .#korriban
