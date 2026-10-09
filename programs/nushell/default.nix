@@ -12,7 +12,6 @@ let
     runCommandLocal
     zoxide
     nushell
-    nufmt
     ;
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
@@ -101,7 +100,7 @@ let
         theme write-startup
       '';
       # Sourced, not inlined: it carries no Nix values, so it stays a real .nu
-      # that nufmt formats and editors highlight.
+      # that editors highlight.
       extraConfig = "source ${themeSrc}/startup.nu";
     }
     {
@@ -361,7 +360,5 @@ in
       enable = true;
       enableNushellIntegration = true;
     };
-
-    home.packages = [ nufmt ];
   };
 }

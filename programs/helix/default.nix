@@ -60,8 +60,6 @@ in
     name = "nu"
     language-servers = ["nushell"]
     indent = { tab-width = 2, unit = "  " }
-    ## Super broken
-    # formatter = { command = "nufmt", args = ["--stdin"] }
 
     ## NextLS seems to not work in VSCode or Helix for me :(
     # [[language]]
