@@ -55,6 +55,21 @@
     };
   };
 
+  # launchd's default soft limit of 256 open files reaches every GUI app and
+  # terminal, and through sudo the root Nix client that fetches flake inputs.
+  # A full flake update exhausts it.
+  launchd.daemons.limit-maxfiles.serviceConfig = {
+    Label = "limit.maxfiles";
+    ProgramArguments = [
+      "/bin/launchctl"
+      "limit"
+      "maxfiles"
+      "65536"
+      "unlimited"
+    ];
+    RunAtLoad = true;
+  };
+
   fonts.packages = import ./font-packages.nix { inherit pkgs; };
 
   environment = {
