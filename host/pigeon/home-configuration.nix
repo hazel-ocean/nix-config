@@ -5,6 +5,7 @@
     ../../programs/claude/darwin.nix
     ../../programs/claude/pigeon.nix
     ../../programs/lan-mouse.nix
+    ../../programs/mise.nix
     ../../programs/rust-dev.nix
   ];
 

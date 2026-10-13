@@ -76,7 +76,6 @@ in
     brews = [
       "cocoapods"
       "mas"
-      "mise"
     ];
 
     casks = [

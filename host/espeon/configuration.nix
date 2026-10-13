@@ -73,7 +73,6 @@ in
       "libpq"
       "libsodium"
       "libyaml"
-      "mise"
       "mkcert"
       "node"
       "postgresql@15"
