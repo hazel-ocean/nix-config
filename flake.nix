@@ -254,7 +254,6 @@
         username = "hazel";
         stateVersion = "25.05";
         extraImports = [ inputs.onesignal-private.homeModules.espeon ];
-        extraModules = [ determinate.darwinModules.default ];
       };
     };
 }

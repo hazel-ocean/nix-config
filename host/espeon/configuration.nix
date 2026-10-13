@@ -13,7 +13,7 @@ in
     ../../system/darwin.nix
   ];
 
-  determinateNix.customSettings.trusted-users = [ USER ];
+  nix.settings.trusted-users = [ USER ];
 
   networking = {
     computerName = HOST_NAME;

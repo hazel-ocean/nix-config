@@ -4,6 +4,7 @@
   lib,
   options,
   inputs,
+  pkgs,
   ...
 }:
 let
@@ -15,6 +16,16 @@ let
     download-buffer-size = 134217728; # 2^27
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
+  # A darwin host without the Determinate module runs upstream Nix, which needs
+  # flakes turned on and does not know lazy-trees.
+  upstreamSettings = removeAttrs settings [ "lazy-trees" ] // {
+    extra-experimental-features = [
+      "nix-command"
+      "flakes"
+      "pipe-operators"
     ];
   };
 
@@ -36,8 +47,16 @@ in
         };
       };
     })
-    (lib.optionalAttrs (!options ? determinateNix) {
+    (lib.mkIf (!options ? determinateNix && !pkgs.stdenv.hostPlatform.isDarwin) {
       nix = { inherit settings registry; };
+    })
+    (lib.mkIf (!options ? determinateNix && pkgs.stdenv.hostPlatform.isDarwin) {
+      nix = {
+        inherit registry;
+        settings = upstreamSettings;
+        gc.automatic = true;
+        optimise.automatic = true;
+      };
     })
   ];
 }
