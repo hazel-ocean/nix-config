@@ -62,12 +62,11 @@ watch:
 _cleanup:
     zellij delete-session {{ z_session }}
 
-# launchd caps root at 256 open files, too few for the tarball cache to fetch a full update.
 _switch_pigeon:
-    sudo sh -c 'ulimit -n 65536 && /run/current-system/sw/bin/darwin-rebuild switch --flake .#pigeon'
+    sudo darwin-rebuild switch --flake .#pigeon
 
 _switch_espeon:
-    sudo sh -c 'ulimit -n 65536 && /run/current-system/sw/bin/darwin-rebuild switch --flake .#espeon'
+    sudo darwin-rebuild switch --flake .#espeon
 
 # Builds as the user, so private inputs fetch with the user's SSH agent.
 _switch_korriban:
