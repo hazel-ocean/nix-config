@@ -66,10 +66,10 @@ _cleanup:
 # full update. darwin-rebuild resolves before sudo, so shell.sh's copy works on
 # a fresh install.
 _switch_pigeon:
-    sudo sh -c $"ulimit -n 65536 && '(which darwin-rebuild | get 0.path)' switch --flake .#pigeon"
+    sudo sh -c $"ulimit -n 65536 && '((which darwin-rebuild).0.path)' switch --flake .#pigeon"
 
 _switch_espeon:
-    sudo sh -c $"ulimit -n 65536 && '(which darwin-rebuild | get 0.path)' switch --flake .#espeon"
+    sudo sh -c $"ulimit -n 65536 && '((which darwin-rebuild).0.path)' switch --flake .#espeon"
 
 # Builds as the user, so private inputs fetch with the user's SSH agent.
 _switch_korriban:
