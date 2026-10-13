@@ -15,6 +15,9 @@ lib.mkIf (vault != null) {
     obsidian-agent-client
   ];
 
+  # Skills scan the vault on disk; the MCP server has no mtime or backlink query.
+  home.sessionVariables.OBSIDIAN_VAULT = vault;
+
   programs.claude-code.mcpServers.obsidian = {
     type = "stdio";
     command = "${pkgs.mcp-obsidian}/bin/mcp-obsidian";
