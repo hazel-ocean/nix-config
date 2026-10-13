@@ -329,13 +329,14 @@ in
       configFile.text = configText;
 
       # Child shells inherit STARSHIP_CONFIG and lose their λ; rare enough to accept.
-      extraEnv = lib.concatLines (
+      # mkBefore so PATH is final before `mise activate nu` snapshots it.
+      extraEnv = lib.mkBefore (lib.concatLines (
         [
           ''$env.STARSHIP_CONFIG = "${starshipNuConfig}"''
           overlayEnvs
         ]
         ++ lib.optional isDarwin darwinEnv
-      );
+      ));
 
       # mkBefore so these land ahead of the other nushell integrations, which use
       # plain priority or mkAfter.
