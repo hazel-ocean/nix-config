@@ -44,6 +44,20 @@ let
   };
   themesDir = "${themesRoot}/nu-themes";
 
+  completionsSrc = ./overlays/completions;
+  # Modules to skip. Add a command here when carapace completes it better.
+  excludedCompletions = [
+    "scoop"
+    "windows"
+    "winget"
+  ];
+  completionsIndex = runCommandLocal "nu-completions-index" { } ''
+    export HOME=$TMPDIR
+    ${nushell}/bin/nu -n ${completionsSrc}/index.nu \
+      ${pkgs.nu-scripts}/custom-completions \
+      ${lib.escapeShellArgs excludedCompletions} > $out
+  '';
+
   hostname = osConfig.networking.hostName;
 
   systemDir = ./overlays/system;
@@ -102,6 +116,21 @@ let
       # Sourced, not inlined: it carries no Nix values, so it stays a real .nu
       # that editors highlight.
       extraConfig = "source ${themeSrc}/startup.nu";
+    }
+    {
+      name = "completions";
+      src = completionsSrc;
+      enable = true;
+      prefix = true;
+      # write-startup generates the loader before config.nu is parsed.
+      extraEnv = ''
+        $env.NU_COMPLETIONS_INDEX = "${completionsIndex}"
+        completions write-startup
+      '';
+      extraConfig = ''
+        const completions_active_file = $nu.data-dir | path join "completions-active.nu"
+        source $completions_active_file
+      '';
     }
     {
       name = "task";
@@ -194,7 +223,7 @@ let
   ) enabledOverlays;
 
   # config.nu loaded every overlay already, so these run bare.
-  overlayConfigs = lib.concatMapStrings (o: o.extraConfig) enabledOverlays;
+  overlayConfigs = lib.concatLines (map (o: o.extraConfig) enabledOverlays);
 
   # Aliases contributed by overlays; defined after overlay loads so their
   # target commands are in scope.
