@@ -14,6 +14,7 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
   - *One idea per sentence.* Keep sentences short. Use the active voice. Use the imperative for instructions.
   - *Full sentences, with articles.* Terseness decides what to say. STE decides how to say it. Cut the content, not the grammar.
   - *State uncertainty plainly.* Write "I did not verify this", "this is not certain", "I did not test this". Do not write "likely", "probably", "seems", "arguably".
+  - *No "the X carries the Y".* Do not write "the message carries the id". Say what is present or absent, or what acts: "the message has no address field", "the header's `request_id` feeds the lookup".
   - Code, identifiers and quoted output stay as they are.
 - **Punctuation**: Never use em dashes. Use commas, colons, semicolons, or hyphens instead.
 - **Attribution**: Omit "Co-Authored-By: Claude" (and any AI attribution) from all copy: commits, PRs, and other output.
@@ -24,9 +25,17 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 - **Counters**: Use counters proactively to aid future debugging. Examples: did an event occur? did an operation succeed or fail? how many times did a thing happen to an entity?
 - **Layout**: Prefer vertical code over horizontal for legibility in 80-column windows. Break long chains, argument lists, and expressions across lines rather than packing them wide. (Coming from Elixir, where verticality, e.g. piped `|>` chains one call per line, is idiomatic most of the time.)
 
-## Rust
+## Languages
 
+### Rust
+
+- **Edition**: New crates use `edition = "2024"`. Use 2021 only when joining a crate or workspace already on it. Check `[workspace.package]` first, since a member inherits from there.
 - Prefer `match` over `if`/`else if` chains, unless the condition is already a plain boolean. Matching on an enum also makes the compiler flag new variants instead of letting them fall into a silent default.
+
+### Nushell
+
+- Don't use underscores to denote private vs public.
+- Prefer nushell (`nu`) for non-trivial scripts and workspace tooling, invoked as a subprocess (`nu -c '...'` or `nu script.nu`). Keep simple one-shot commands (`grep`, `git`, `ls`) as plain POSIX shell.
 
 ## Public Communication & Approvals
 
@@ -40,11 +49,6 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 - To confirm a profile builds: output the build command for the user to run and stop there. Don't execute it yourself. Examples:
   - Build only: `darwin-rebuild build --flake .#espeon`
   - Apply: `just apply` (→ `sudo darwin-rebuild switch --flake .#espeon`)
-
-## Nushell
-
-- Don't use underscores to denote private vs public.
-- Prefer nushell (`nu`) for non-trivial scripts and workspace tooling, invoked as a subprocess (`nu -c '...'` or `nu script.nu`). Keep simple one-shot commands (`grep`, `git`, `ls`) as plain POSIX shell.
 
 ## Task Management
 
