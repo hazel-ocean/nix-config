@@ -46,10 +46,9 @@ let
   # fragments have to be concatenated into a string rather than a derivation.
   context = if cfg.contextFragments == [ ] then ./AGENTS.md else agentContext;
 
-  vendoredSkills = lib.genAttrs (builtins.attrNames (builtins.readDir ./.agents/skills)) (
-    name:
+  withSupplement =
+    name: src:
     let
-      src = ./.agents/skills + "/${name}";
       supplement = ./supplements + "/${name}.md";
     in
     if builtins.pathExists supplement then
@@ -59,10 +58,13 @@ let
         { echo; cat ${supplement}; } >> $out/SKILL.md
       ''}"
     else
-      src
+      src;
+
+  vendoredSkills = lib.genAttrs (builtins.attrNames (builtins.readDir ./.agents/skills)) (
+    name: withSupplement name (./.agents/skills + "/${name}")
   );
 
-  beads-skill = "${pkgs.beads.src}/plugins/beads/skills/beads";
+  beads-skill = withSupplement "beads" "${pkgs.beads.src}/plugins/beads/skills/beads";
 
   # The packaged 1.6.2 tree carries no SKILL.md, so the skill comes from a main
   # rev of the same repo. Drop the rev once nixpkgs ships a release with it.
