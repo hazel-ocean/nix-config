@@ -240,7 +240,11 @@ in
       };
     };
 
-  programs.fzf.enable = true;
+  programs.fzf = {
+    enable = true;
+    # Its completer takes the legacy `spans` input. config.nu binds Ctrl-T and Alt-C.
+    enableNushellIntegration = false;
+  };
 
   programs.bash =
     let

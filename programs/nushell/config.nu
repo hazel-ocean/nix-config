@@ -158,4 +158,50 @@ $env.config.keybindings = (
         }
       ]
     }
+    | append {
+      name: fuzzy_file
+      modifier: control
+      keycode: char_t
+      mode: [emacs, vi_normal, vi_insert]
+      event: [
+        {
+          send: ExecuteHostCommand
+          cmd: "commandline edit --insert (
+            fd --type f
+              | fzf --multi
+                    --layout=reverse
+                    --height=40%
+              | lines
+              | each { to nuon }
+              | str join ' '
+          )"
+        }
+      ]
+    }
+    | append {
+      name: fuzzy_cd
+      modifier: alt
+      keycode: char_c
+      mode: [emacs, vi_normal, vi_insert]
+      event: [
+        {
+          send: ExecuteHostCommand
+          cmd: "let dir = (
+            fd --type d
+              | fzf --layout=reverse
+                    --height=40%
+              | str trim
+          )
+          if $dir != '' { cd $dir }"
+        }
+      ]
+    }
 )
+
+$env.config.completions.external = {
+  enable: true
+  completer: {|place|
+    carapace $place.command.0 nushell ...$place.command
+      | from json
+  }
+}
