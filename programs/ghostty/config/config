@@ -64,14 +64,14 @@ confirm-close-surface = false
 ## Fonts
 font-size = 12
 
-#font-family = Maple Mono NF
-#adjust-cell-height = 35%
-#font-thicken = true
-#font-thicken-strength = 200
-
-font-family = 0xProto Nerd Font Mono
-adjust-cell-height = 14%
+font-family = Maple Mono NF
+adjust-cell-height = 35%
 font-thicken = true
+font-thicken-strength = 200
+
+#font-family = 0xProto Nerd Font Mono
+#adjust-cell-height = 14%
+#font-thicken = true
 
 #font-family = DepartureMono Nerd Font
 #adjust-cell-height = 35%
