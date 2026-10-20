@@ -4,13 +4,15 @@
 # filesize), so every apply goes through a written snippet
 # ($nu.data-dir/theme-active.nu). New shells source it from startup.nu. Live
 # switches bump $env.NU_THEME_GENERATION, whose env_change string hook re-parses
-# and sources the snippet before the next prompt.
+# and sources the snippet before the next prompt. The snippet also derives
+# $env.config.tui from the theme's color_config.
 #
 # Two scopes per polarity. Global is the state file over the Nix defaults.
 # Local is $env.NU_THEME_LOCAL_LIGHT/DARK: this shell and its children only.
 # `reset` drops one scope's override at either level.
 #
 # Loaded with `--prefix`: `main` -> `theme`, subcommands -> `theme <sub>`.
+
 
 def themes-dir []: nothing -> string { $env.NU_THEMES_DIR }
 def state-file []: nothing -> string { $nu.data-dir | path join 'theme-state.nuon' }
@@ -37,12 +39,47 @@ def write-active [name: string] {
     'do --env {'
     $"  use \"(theme-path $name)\" ['set color_config' 'update terminal']"
     '  set color_config'
+    '  theme apply-tui'
     '  update terminal'
     '}'
     ''
   ]
   | str join (char nl)
   | save -f (active-file)
+}
+
+def fg-of [v]: nothing -> string {
+  if ($v | describe | str starts-with 'record') { $v.fg } else { $v }
+}
+
+# Derive the `tui` chrome colors from the active color_config. Called from the
+# snippet right after `set color_config`.
+export def --env 'apply-tui' [] {
+  let c = $env.config.color_config
+  if not (color is-hex ($c.background? | default '')) { return }
+  let header = (fg-of $c.header)
+  $env.config.tui = (
+    $env.config.tui?
+    | default {}
+    | merge {
+      surface: { bg: $c.background }
+      backdrop: { bg: (color mix $c.background '#000000' 0.4) }
+      border: { fg: $c.hints }
+      border_focused: { fg: $c.block }
+      header: $c.header
+      muted: { fg: $c.hints }
+      highlight: { fg: $c.duration, attr: b }
+      tab_active: { fg: $c.block, attr: bu }
+      tab_inactive: { fg: $c.hints }
+      progress: { fg: $c.string }
+      button: { fg: $c.background, bg: $c.block }
+      title_bar: { fg: $c.background, bg: $header, attr: b }
+      status_bar: {
+        fg: $c.foreground
+        bg: (color mix $c.background $c.foreground 0.15)
+      }
+    }
+  )
 }
 
 # Apply the written snippet to the *current* shell at the next prompt. The

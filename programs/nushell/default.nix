@@ -97,11 +97,18 @@ let
       prefix = true;
     }
     {
+      name = "color";
+      src = ./overlays/color;
+      enable = true;
+      prefix = true;
+    }
+    {
       name = "theme";
       src = themeSrc;
       file = "theme.nu";
       enable = true;
       prefix = true;
+      requires = [ "color" ];
       # write-startup generates the file extraConfig sources at parse time, so it
       # has to run here. probe-terminal precedes it to seed the cache resolve reads.
       extraEnv = ''
@@ -200,6 +207,7 @@ let
     {
       file = "mod.nu";
       aliases = { };
+      requires = [ ];
       extraEnv = "";
       extraConfig = "";
     }
@@ -209,17 +217,49 @@ let
   overlayLoad =
     o: "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file} as ${o.name}";
 
-  overlayLoads = lib.concatMapStringsSep "\n" overlayLoad enabledOverlays;
+  overlayLoads = lib.concatMapStringsSep "\n" (
+    o:
+    assert lib.all (d: d ? name) (requiredOverlays o);
+    overlayLoad o
+  ) enabledOverlays;
+
+  overlayIndex = name: lib.lists.findFirstIndex (o: o.name == name) null enabledOverlays;
+
+  # An overlay parsed without its requirements in scope binds their commands as
+  # externals, and a later `overlay use` of the same name reuses that parse.
+  requiredOverlays =
+    o:
+    map (
+      name:
+      let
+        i = overlayIndex name;
+      in
+      if i == null then
+        throw "nushell overlay ${o.name} requires ${name}, which is not enabled"
+      else if i > overlayIndex o.name then
+        throw "nushell overlay ${o.name} requires ${name}, which must come first"
+      else
+        lib.elemAt enabledOverlays i
+    ) o.requires;
 
   # env.nu has no overlay in scope, so each snippet loads its own and drops it:
   # two active frames of one module double every entry in the completion menu.
   overlayEnvs = lib.concatMapStrings (
     o:
-    lib.optionalString (o.extraEnv != "") ''
-      ${overlayLoad o}
-      ${o.extraEnv}
-      overlay hide ${o.name}
-    ''
+    let
+      deps = requiredOverlays o;
+    in
+    lib.optionalString (o.extraEnv != "") (
+      lib.concatLines (
+        map overlayLoad deps
+        ++ [
+          (overlayLoad o)
+          o.extraEnv
+          "overlay hide ${o.name}"
+        ]
+        ++ map (d: "overlay hide ${d.name}") (lib.reverseList deps)
+      )
+    )
   ) enabledOverlays;
 
   # config.nu loaded every overlay already, so these run bare.
@@ -312,6 +352,14 @@ let
           false when the module already exports its own prefix.
         '';
       };
+      requires = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        description = ''
+          Overlays whose commands this one calls. Each must come earlier in the
+          list, and loads around this overlay's `extraEnv` too.
+        '';
+      };
       aliases = lib.mkOption {
         type = lib.types.attrsOf lib.types.str;
         default = { };
@@ -387,11 +435,12 @@ in
     services.pueue.enable = true;
 
     # Multi-shell argument completer — nushell's external completer, covering the
-    # long tail of CLIs (kubectl, terraform, docker, gh, git, …). Its integration
-    # appends to programs.nushell.config, so it composes with configText above.
+    # long tail of CLIs (kubectl, terraform, docker, gh, git, …). config.nu
+    # registers the completer: the integration's closure takes the legacy
+    # positional `spans` input that nushell 0.116 deprecates.
     programs.carapace = {
       enable = true;
-      enableNushellIntegration = true;
+      enableNushellIntegration = false;
     };
   };
 }
