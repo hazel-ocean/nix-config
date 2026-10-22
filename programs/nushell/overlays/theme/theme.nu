@@ -13,6 +13,8 @@
 #
 # Loaded with `--prefix`: `main` -> `theme`, subcommands -> `theme <sub>`.
 
+use color
+
 
 def themes-dir []: nothing -> string { $env.NU_THEMES_DIR }
 def state-file []: nothing -> string { $nu.data-dir | path join 'theme-state.nuon' }

@@ -33,6 +33,31 @@ let
     }
   );
 
+  # Shared modules, on NU_LIB_DIRS so any script can `use <name>`. A bare name
+  # resolves only to <name>/mod.nu, so a `.nu` file links there.
+  nuLib = pkgs.linkFarm "nu-lib" (
+    lib.mapAttrsToList
+      (name: path: {
+        name = if lib.hasSuffix ".nu" "${path}" then "${name}/mod.nu" else name;
+        inherit path;
+      })
+      (
+        lib.mapAttrs (name: _: ./lib + "/${name}") (builtins.readDir ./lib)
+        // cfg.libModules
+      )
+  );
+  libDirsEnv = ''
+    const NU_LIB_DIRS = ["${nuLib}" ...$NU_LIB_DIRS]
+    $env.NU_LIB_DIRS = ($NU_LIB_DIRS | uniq)
+    # A child nu reads NU_LIB_DIRS back as an esep-joined string.
+    $env.ENV_CONVERSIONS = ($env.ENV_CONVERSIONS? | default {} | merge {
+      NU_LIB_DIRS: {
+        from_string: {|s| $s | split row (char esep) }
+        to_string: {|v| $v | str join (char esep) }
+      }
+    })
+  '';
+
   themeSrc = ./overlays/theme;
   # Repo themes join nu_scripts' tree so screenshots/ stays a sibling of nu-themes/.
   themesRoot = pkgs.symlinkJoin {
@@ -98,7 +123,7 @@ let
     }
     {
       name = "color";
-      src = ./overlays/color;
+      src = "${nuLib}/color";
       enable = true;
       prefix = true;
     }
@@ -108,7 +133,6 @@ let
       file = "theme.nu";
       enable = true;
       prefix = true;
-      requires = [ "color" ];
       # write-startup generates the file extraConfig sources at parse time, so it
       # has to run here. probe-terminal precedes it to seed the cache resolve reads.
       extraEnv = ''
@@ -207,7 +231,6 @@ let
     {
       file = "mod.nu";
       aliases = { };
-      requires = [ ];
       extraEnv = "";
       extraConfig = "";
     }
@@ -217,49 +240,17 @@ let
   overlayLoad =
     o: "overlay use ${lib.optionalString o.prefix "--prefix "}${o.src}/${o.file} as ${o.name}";
 
-  overlayLoads = lib.concatMapStringsSep "\n" (
-    o:
-    assert lib.all (d: d ? name) (requiredOverlays o);
-    overlayLoad o
-  ) enabledOverlays;
-
-  overlayIndex = name: lib.lists.findFirstIndex (o: o.name == name) null enabledOverlays;
-
-  # An overlay parsed without its requirements in scope binds their commands as
-  # externals, and a later `overlay use` of the same name reuses that parse.
-  requiredOverlays =
-    o:
-    map (
-      name:
-      let
-        i = overlayIndex name;
-      in
-      if i == null then
-        throw "nushell overlay ${o.name} requires ${name}, which is not enabled"
-      else if i > overlayIndex o.name then
-        throw "nushell overlay ${o.name} requires ${name}, which must come first"
-      else
-        lib.elemAt enabledOverlays i
-    ) o.requires;
+  overlayLoads = lib.concatMapStringsSep "\n" overlayLoad enabledOverlays;
 
   # env.nu has no overlay in scope, so each snippet loads its own and drops it:
   # two active frames of one module double every entry in the completion menu.
   overlayEnvs = lib.concatMapStrings (
     o:
-    let
-      deps = requiredOverlays o;
-    in
-    lib.optionalString (o.extraEnv != "") (
-      lib.concatLines (
-        map overlayLoad deps
-        ++ [
-          (overlayLoad o)
-          o.extraEnv
-          "overlay hide ${o.name}"
-        ]
-        ++ map (d: "overlay hide ${d.name}") (lib.reverseList deps)
-      )
-    )
+    lib.optionalString (o.extraEnv != "") ''
+      ${overlayLoad o}
+      ${o.extraEnv}
+      overlay hide ${o.name}
+    ''
   ) enabledOverlays;
 
   # config.nu loaded every overlay already, so these run bare.
@@ -292,7 +283,15 @@ let
   # config.nu minus the prompt/completion machinery, for `nu -c` callers such as
   # Claude Code's /nu command. overlayConfigs is the reason this can't just be
   # config.nu: it writes OSC colour escapes to stdout ahead of any real output.
-  nonInteractiveText = lib.concatLines ([ overlayLoads ] ++ aliasLoads ++ [ "source ${userConfig}" ]);
+  # Sourced without env.nu, so it sets the parse-time lib dirs itself.
+  nonInteractiveText = lib.concatLines (
+    [
+      ''const NU_LIB_DIRS = ["${nuLib}" ...$NU_LIB_DIRS]''
+      overlayLoads
+    ]
+    ++ aliasLoads
+    ++ [ "source ${userConfig}" ]
+  );
 
   # Only forward known-safe home.sessionVariables; other modules (e.g.
   # programs.starship) also write to this set, and blindly forwarding
@@ -352,14 +351,6 @@ let
           false when the module already exports its own prefix.
         '';
       };
-      requires = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = ''
-          Overlays whose commands this one calls. Each must come earlier in the
-          list, and loads around this overlay's `extraEnv` too.
-        '';
-      };
       aliases = lib.mkOption {
         type = lib.types.attrsOf lib.types.str;
         default = { };
@@ -389,6 +380,15 @@ in
       '';
     };
 
+    libModules = lib.mkOption {
+      type = lib.types.attrsOf (lib.types.either lib.types.path lib.types.str);
+      default = { };
+      description = ''
+        Extra modules for the NU_LIB_DIRS directory, by import name. Each value
+        is a `.nu` file or a directory with a mod.nu.
+      '';
+    };
+
     workspaceRoot = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = "${config.home.homeDirectory}/workbench";
@@ -409,6 +409,7 @@ in
       # mkBefore so PATH is final before `mise activate nu` snapshots it.
       extraEnv = lib.mkBefore (lib.concatLines (
         [
+          libDirsEnv
           ''$env.STARSHIP_CONFIG = "${starshipNuConfig}"''
           overlayEnvs
         ]
