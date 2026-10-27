@@ -6,6 +6,15 @@ let
   inherit (prev) lib stdenv;
 in
 lib.optionalAttrs stdenv.hostPlatform.isDarwin {
+  # upstream: https://github.com/NixOS/nixpkgs/pull/579756
+  # Bun's darwin "system" store reads the keychain, which omits Apple's roots.
+  claude-code = prev.claude-code.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      wrapProgram $out/bin/claude \
+        --set-default NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
+    '';
+  });
+
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (_pyfinal: pyprev: {
       # upstream: https://github.com/NixOS/nixpkgs/issues/320196
