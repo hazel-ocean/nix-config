@@ -420,6 +420,8 @@ in
       # plain priority or mkAfter.
       extraConfig = lib.mkBefore overlayConfigs;
 
+      # sessionVars forwards a safe subset; loading all of them clobbers STARSHIP_CONFIG.
+      loadSessionVariables = false;
       environmentVariables = sessionVars;
       plugins = [ polars ];
     };
