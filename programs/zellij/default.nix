@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -11,6 +12,9 @@ let
     theme_dark "${theme.zellij.dark}"
     theme_light "${theme.zellij.light}"
     ${strings.optionalString stdenv.hostPlatform.isDarwin ''copy_command "pbcopy"''}
+    // The profile path survives a switch. $SHELL resolves to a /nix/store
+    // path, which pins every session to the generation it started under.
+    default_shell "${config.home.profileDirectory}/bin/nu"
     ${builtins.readFile ./config.kdl}
 
     plugins {
