@@ -50,6 +50,7 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 - To confirm a profile builds: output the build command for the user to run and stop there. Don't execute it yourself. Examples:
   - Build only: `darwin-rebuild build --flake .#espeon`
   - Apply: `just apply` (→ `sudo darwin-rebuild switch --flake .#espeon`)
+- **Missing tools**: If a tool is not on the current system, run it with `nix shell nixpkgs#<pkg> -c <cmd>`. Do not install it with another package manager.
 
 ## Task Management
 
