@@ -10,6 +10,7 @@ in
 
   # hostapd and NetworkManager's wpa_supplicant cannot share the radio.
   networking.networkmanager.unmanaged = [ "interface-name:${wlan}" ];
+  networking.wireless.enable = lib.mkForce false;
 
   # NetworkManager forces networking.useDHCP = false, so a native bridge never
   # gets an address.
