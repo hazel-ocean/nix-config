@@ -141,9 +141,11 @@ in
     enable = true;
     nssmdns4 = true; # makes .local discovery nicer
     openFirewall = true;
-    publish = {
-      enable = true;
-      userServices = true; # allow user services (e.g. shairport-sync) to advertise via mDNS
+    # user service publishing lets shairport-sync advertise via mDNS
+    settings.publish = {
+      disable-publishing = false;
+      disable-user-service-publishing = false;
+      publish-addresses = true;
     };
   };
 
