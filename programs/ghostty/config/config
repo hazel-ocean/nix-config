@@ -102,13 +102,16 @@ font-feature = "calt"
 cursor-style = block
 shell-integration-features = no-cursor
 
+# [none | primary | clipboard | both]
+copy-on-select = both
+
 macos-option-as-alt = true
 
 # [visible | hidden]
 macos-window-buttons = visible
 
 # [native | transparent | tabs | hidden]
-macos-titlebar-style = transparent
+macos-titlebar-style = tabs
 
 # [visible | hidden]
 macos-titlebar-proxy-icon = hidden
@@ -121,7 +124,7 @@ window-padding-y = 0,6
 window-height = 25
 window-width = 106
 # Window resizes by cell size
-window-padding-balance = true
+window-padding-balance = equal
 
 # [false | working-directory]
 window-subtitle = false
