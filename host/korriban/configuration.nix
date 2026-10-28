@@ -27,30 +27,6 @@ let
     ''
   ];
 
-  # GTK settings for the stream, bound over the real ones so Plasma keeps
-  # control of its own. 98304 is 96 DPI in GTK's units: KDE writes Plasma's
-  # display scale into gtk-xft-dpi, and every compositor here already scales
-  # GTK apps itself, so the stream would render them twice as large.
-  gtkSettingsDir = "/run/moonshine-gtk";
-  gtkSessionSettings = pkgs.writeShellScript "moonshine-gtk-settings" ''
-    for version in 3.0 4.0; do
-      src="/home/hazel/.config/gtk-$version/settings.ini"
-      dst="${gtkSettingsDir}/gtk-$version-settings.ini"
-      if [ -f "$src" ]; then
-        ${pkgs.gnugrep}/bin/grep -vE \
-          '^(gtk-xft-dpi|gtk-theme-name|gtk-application-prefer-dark-theme)=' \
-          "$src" > "$dst"
-      else
-        printf '[Settings]\n' > "$dst"
-      fi
-      {
-        echo 'gtk-xft-dpi=98304'
-        echo 'gtk-theme-name=Adwaita-dark'
-        echo 'gtk-application-prefer-dark-theme=1'
-      } >> "$dst"
-      ${pkgs.coreutils}/bin/chmod 0644 "$dst"
-    done
-  '';
 in
 {
   imports = [
@@ -363,28 +339,14 @@ in
     };
   };
 
-  systemd.services.moonshine-gtk-settings = {
-    description = "GTK settings for the moonshine stream";
-    before = [ "moonshine.service" ];
-    requiredBy = [ "moonshine.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      RuntimeDirectory = "moonshine-gtk";
-      RuntimeDirectoryPreserve = "yes";
-      ExecStart = gtkSessionSettings;
-    };
-  };
-
-  # moonshine runs the streamed app as a transient user unit, outside its own
-  # namespace, so the overlay has to attach there.
+  # Environment only: any mount option makes the user manager wrap the
+  # session in a user namespace, where setuid binaries such as sudo fail.
   systemd.user.services.moonshine-session = {
     overrideStrategy = "asDropin"; # the unit itself is transient, made by moonshine
-    environment = lib.mkForce { }; # the generator would otherwise clobber the session PATH
-    serviceConfig.BindReadOnlyPaths = [
-      "-${gtkSettingsDir}/gtk-3.0-settings.ini:/home/hazel/.config/gtk-3.0/settings.ini"
-      "-${gtkSettingsDir}/gtk-4.0-settings.ini:/home/hazel/.config/gtk-4.0/settings.ini"
-    ];
+    # mkForce also keeps the generator from clobbering the session PATH.
+    environment = lib.mkForce {
+      GTK_THEME = "Adwaita:dark";
+    };
   };
 
   services.tailscale.enable = true;
