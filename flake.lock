@@ -50,15 +50,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1789077392,
-        "narHash": "sha256-xYTE4CYhThc1Q8u7mcJtR6DkNLzyXD9JvVLzJh/PcUM=",
+        "lastModified": 1793308205,
+        "narHash": "sha256-rXHudHSu3dHZQ+wN0Ooa3FMy6CkKQPy/duoFNuhKJz0=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "33e9ffb253ef7e0457e4a4b27d0b7f56ab9f45a1",
+        "rev": "cbe780e4ab9708426ca9b5a5cb6f59972e474f38",
         "type": "github"
       },
       "original": {
         "owner": "hazel-ocean",
+        "ref": "fix/turn-scoped-notification-body",
         "repo": "clawd-back",
         "type": "github"
       }

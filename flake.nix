@@ -26,7 +26,7 @@
       flake = false;
     };
     clawd-back = {
-      url = "github:hazel-ocean/clawd-back";
+      url = "github:hazel-ocean/clawd-back?ref=fix/turn-scoped-notification-body";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     # Work layer. Contributes only `local.*` options, so the flake still
