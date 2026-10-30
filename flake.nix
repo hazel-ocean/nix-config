@@ -26,7 +26,7 @@
       flake = false;
     };
     clawd-back = {
-      url = "github:hazel-ocean/clawd-back";
+      url = "github:hazel-ocean/clawd-back?ref=feat/home-manager-module";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     # Work layer. Contributes only `local.*` options, so the flake still
@@ -129,6 +129,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "backup";
+                sharedModules = [ inputs.clawd-back.homeManagerModules.default ];
                 users.${username} = import ./home/desktop-user.nix {
                   inherit
                     hostname

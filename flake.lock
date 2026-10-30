@@ -50,15 +50,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1793321140,
-        "narHash": "sha256-h4A9DL6MDuVRhdunHumbxk7aB+/gQI45+oydk71qvaA=",
+        "lastModified": 1793321604,
+        "narHash": "sha256-lj80y/4aGGf1dDoTasYhP94bJpegfnH/594V8HeQb1s=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "1e88db6d0edc633921c0e80b51adf39f7eea4fd2",
+        "rev": "44dbc5152c0f007d90a23b890ab4a8b62c527906",
         "type": "github"
       },
       "original": {
         "owner": "hazel-ocean",
+        "ref": "feat/home-manager-module",
         "repo": "clawd-back",
         "type": "github"
       }
