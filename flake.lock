@@ -50,16 +50,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1793319617,
+        "lastModified": 1793321140,
         "narHash": "sha256-h4A9DL6MDuVRhdunHumbxk7aB+/gQI45+oydk71qvaA=",
         "owner": "hazel-ocean",
         "repo": "clawd-back",
-        "rev": "90215f150f826f005415f50eefd624bd4049a7d9",
+        "rev": "1e88db6d0edc633921c0e80b51adf39f7eea4fd2",
         "type": "github"
       },
       "original": {
         "owner": "hazel-ocean",
-        "ref": "fix/turn-scoped-notification-body",
         "repo": "clawd-back",
         "type": "github"
       }
