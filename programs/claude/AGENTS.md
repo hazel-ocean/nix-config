@@ -36,6 +36,7 @@ How I write, in every medium, with no exceptions and no per-surface carve-outs. 
 
 - Don't use underscores to denote private vs public.
 - Prefer nushell (`nu`) for non-trivial scripts and workspace tooling, invoked as a subprocess (`nu -c '...'` or `nu script.nu`). Keep simple one-shot commands (`grep`, `git`, `ls`) as plain POSIX shell.
+- Pass `--stdin` to read piped input: `cmd | nu --stdin -c '$in | from json'`. Without it, `$in` is empty.
 
 ## Public Communication & Approvals
 
