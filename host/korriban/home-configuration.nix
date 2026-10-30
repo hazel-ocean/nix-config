@@ -1,8 +1,14 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ../../programs/claude
     ../../programs/claude/shared/github.nix
+    ../../programs/claude/shared/personal-projects
     ../../programs/lan-mouse.nix
     ../../services/shairport-sync.nix
     ./home-niri.nix
@@ -10,6 +16,7 @@
 
   home.packages = with pkgs; [
     libreoffice
+    obsidian
     proton-vpn
     sidra
   ];
@@ -47,6 +54,8 @@
   };
 
   programs.claude-code.enable = true;
+
+  local.claude.obsidianVault = "${config.home.homeDirectory}/Obsidian/Personal/";
 
   programs.lan-mouse.enable = true;
 
