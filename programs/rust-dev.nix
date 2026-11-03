@@ -19,6 +19,8 @@ in
   # wrapper too.
   home.file.".cargo/config.toml".source = toml.generate "cargo-config.toml" {
     build.rustc-wrapper = "${pkgs.sccache}/bin/sccache";
+    # The default openssl output has no headers or .pc file.
+    env.PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
   };
 
   home.file."Library/Application Support/Mozilla.sccache/config".source =
