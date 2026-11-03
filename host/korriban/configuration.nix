@@ -404,7 +404,6 @@ in
 
     protonup-ng
     protonplus
-    lutris
     gamescope-wsi
     mangojuice
     (heroic.override {
