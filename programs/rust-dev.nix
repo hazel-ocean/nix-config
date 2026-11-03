@@ -8,10 +8,21 @@ in
   # Each toolchain needs `rustup component add rust-analyzer`: without it, this
   # proxy and the one in ~/.cargo/bin fall back to each other and recurse.
   home.packages = with pkgs; [
-    rustup
-    sccache
+    cargo-audit
+    cargo-bloat
+    cargo-clean-all
+    cargo-clone
+    cargo-edit
+    cargo-expand
+    cargo-flamegraph
+    cargo-generate
+    cargo-info
     cargo-nextest
     cargo-outdated
+    cargo-watch
+    cargo-workspaces
+    rustup
+    sccache
     tokio-console
   ];
 
