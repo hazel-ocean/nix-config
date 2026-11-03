@@ -21,7 +21,7 @@ let
     grex
     zoxide
     ijq
-    # mdcat
+    mdcat
     glow
     icdiff
     tokei
