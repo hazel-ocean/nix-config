@@ -9,6 +9,11 @@ xwayland-satellite {
     path "xwayland-satellite"
 }
 
+// nixpkgs Electron/Chromium wrappers go native Wayland and follow the portal.
+environment {
+    NIXOS_OZONE_WL "1"
+}
+
 // Nested backend only; the DRM session uses HDMI-A-1 below.
 output "winit" {
     scale 1.30
