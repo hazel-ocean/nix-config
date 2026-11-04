@@ -12,11 +12,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792448571,
-        "narHash": "sha256-dPwhBwfkJpgGHvdj2L1eQ/xL2e9jg+T/CuCm04Cu2/w=",
+        "lastModified": 1793311869,
+        "narHash": "sha256-5QZVxkaxPTW1jIyZgwzL7MNLPvieGQ02U9IMNsyMa2U=",
         "ref": "refs/heads/main",
-        "rev": "59a8381bc52819ad49611d386f9e65f7bbca749a",
-        "revCount": 473,
+        "rev": "3923c688f57d35b136b9e0400596806182933be9",
+        "revCount": 497,
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/agent-skills"
       },
@@ -721,11 +721,11 @@
     "onesignal-nushell": {
       "flake": false,
       "locked": {
-        "lastModified": 1792521032,
-        "narHash": "sha256-ZGBHtAn3EVvmLP1FIcyNbqBgphSOFgAROOby0SPQjCI=",
+        "lastModified": 1792693281,
+        "narHash": "sha256-TPS2SQMuweTijGrKLmg6enUJMXsOIme5aSWtYmxX9Ys=",
         "ref": "refs/heads/main",
-        "rev": "bc4dc4c3c623e6ce66dc55f005b17407204fead0",
-        "revCount": 2,
+        "rev": "9d1333c6ebdfd98b6698f17a24b2d4be5b575ca7",
+        "revCount": 3,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal-nushell"
       },
@@ -746,11 +746,11 @@
         "onesignal-nushell": "onesignal-nushell"
       },
       "locked": {
-        "lastModified": 1792800355,
-        "narHash": "sha256-ButOH7OYjPTFNdoK9wyoZu5Ls2tfr4IiUWpOLq+PCFA=",
+        "lastModified": 1793817957,
+        "narHash": "sha256-bo9B/ugQxj9XpbQTWBKqdvdsqaQ88Ws2XbMCytO8H8s=",
         "ref": "refs/heads/main",
-        "rev": "cbb9d376d66a5c1562ba7389cf567eaa2fa656fb",
-        "revCount": 21,
+        "rev": "14848991ce0eb12ffeb171013c9c7033dcfee099",
+        "revCount": 22,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
