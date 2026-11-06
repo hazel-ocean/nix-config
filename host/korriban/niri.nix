@@ -19,6 +19,16 @@
       title = "Niri Desktop";
       # niri-session forces --session (DRM backend); bare niri nests instead.
       command = [ "${config.programs.niri.package}/bin/niri" ];
+      # Plasma writes gtk-xft-dpi as 96 x its 2.35 scale, and GTK has no
+      # portal here to override it, so fonts scale again on top of niri's.
+      # Plasma rewrites the key at its next login.
+      pre_command = [
+        "${pkgs.gnused}/bin/sed"
+        "-i"
+        "/^gtk-xft-dpi=/d"
+        "/home/hazel/.config/gtk-3.0/settings.ini"
+        "/home/hazel/.config/gtk-4.0/settings.ini"
+      ];
       # Nested niri draws its own cursor.
       hide_cursor = true;
       stdout = "journal";
