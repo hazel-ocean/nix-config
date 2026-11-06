@@ -3,6 +3,8 @@
 # same namespace on that host only.
 
 const REPO = "~/.config/nix-config"
+const KORRIBAN_LAN = "192.168.5.83"
+const INITRD_SSH_PORT = 2222
 
 # Open the nix-config session in zellij.
 export def admin []: nothing -> nothing {
@@ -46,4 +48,33 @@ export def aliases [--shell: string@aliases-for]: nothing -> nothing {
 export def edit-me []: nothing -> nothing {
   let dir = ($REPO | path expand | path join programs nushell overlays system)
   ^$env.EDITOR $dir
+}
+
+def port-open [host: string, port: int]: nothing -> bool {
+  let args = match $nu.os-info.name {
+    "macos" => [-z -G 2 $host $port]
+    _ => [-z -w 2 $host $port]
+  }
+  (^nc ...$args | complete).exit_code == 0
+}
+
+# Wait for korriban's initrd on the LAN, then enter the LUKS passphrase.
+export def "korriban unlock" [
+  --host: string = $KORRIBAN_LAN
+  --timeout: duration = 5min
+]: nothing -> nothing {
+  let deadline = (date now) + $timeout
+  print $"Waiting for ($host):($INITRD_SSH_PORT)..."
+  while not (port-open $host $INITRD_SSH_PORT) {
+    if (date now) > $deadline {
+      error make {
+        msg: $"korriban initrd not reachable after ($timeout)"
+      }
+    }
+    sleep 2sec
+  }
+  # The initrd sshd drops the session when it switches root.
+  try {
+    ^ssh -t -p $INITRD_SSH_PORT $"root@($host)"
+  }
 }

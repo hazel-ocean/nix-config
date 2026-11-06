@@ -465,6 +465,8 @@ in
   boot.initrd.systemd.network.networks."10-lan" = {
     matchConfig.MACAddress = "9c:6b:00:c4:89:30";
     networkConfig.DHCP = "yes";
+    # NetworkManager identifies by MAC; matching it keeps the lease and IP.
+    dhcpV4Config.ClientIdentifier = "mac";
   };
   boot.initrd.systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
 
