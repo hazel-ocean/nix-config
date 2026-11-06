@@ -23,11 +23,13 @@
       # portal here to override it, so fonts scale again on top of niri's.
       # Plasma rewrites the key at its next login.
       pre_command = [
-        "${pkgs.gnused}/bin/sed"
-        "-i"
-        "/^gtk-xft-dpi=/d"
-        "/home/hazel/.config/gtk-3.0/settings.ini"
-        "/home/hazel/.config/gtk-4.0/settings.ini"
+        [
+          "${pkgs.gnused}/bin/sed"
+          "-i"
+          "/^gtk-xft-dpi=/d"
+          "/home/hazel/.config/gtk-3.0/settings.ini"
+          "/home/hazel/.config/gtk-4.0/settings.ini"
+        ]
       ];
       # Nested niri draws its own cursor.
       hide_cursor = true;
