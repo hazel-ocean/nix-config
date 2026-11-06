@@ -444,8 +444,30 @@ in
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon, start at boot
-  boot.initrd.network.ssh.enable = true;
+  # Remote LUKS unlock: `ssh -p 2222 root@korriban` lands in the password
+  # prompt. Tailscale is not up in the initrd, so this needs the LAN.
+  boot.initrd.availableKernelModules = [ "r8169" ];
+  boot.initrd.network = {
+    enable = true;
+    ssh = {
+      enable = true;
+      # A separate port keeps the initrd host key out of the main known_hosts
+      # entry.
+      port = 2222;
+      # Copied unencrypted into the initrd on the ESP.
+      hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
+      authorizedKeys = map builtins.readFile [
+        ../pigeon/ssh/id_ed25519.pub
+        ../espeon/ssh/id_ed25519.pub
+      ];
+    };
+  };
+  boot.initrd.systemd.network.networks."10-lan" = {
+    matchConfig.MACAddress = "9c:6b:00:c4:89:30";
+    networkConfig.DHCP = "yes";
+  };
+  boot.initrd.systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
+
   services.openssh = {
     enable = true;
     startWhenNeeded = true;
