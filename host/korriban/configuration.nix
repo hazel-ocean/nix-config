@@ -449,6 +449,9 @@ in
   boot.initrd.availableKernelModules = [ "r8169" ];
   boot.initrd.network = {
     enable = true;
+    # An address left on enp12s0 makes NetworkManager assume it as a
+    # standalone link, so br0 never gets its port.
+    flushBeforeStage2 = true;
     ssh = {
       enable = true;
       # A separate port keeps the initrd host key out of the main known_hosts
