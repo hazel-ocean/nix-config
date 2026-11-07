@@ -54,6 +54,10 @@ in
   # ignores `iw reg set`, so the only way to reach US is to hear a neighbour's
   # country IE. A soft rfkill block resets the domain the same way.
   systemd.services.hostapd = {
+    # NetworkManager applies its saved WirelessEnabled state to rfkill on every
+    # start, which can soft-block this radio. The restart reruns preStart.
+    after = [ "NetworkManager.service" ];
+    partOf = [ "NetworkManager.service" ];
     path = [
       pkgs.iproute2
       pkgs.iw
