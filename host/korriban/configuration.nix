@@ -487,7 +487,6 @@ in
   networking.firewall = {
     enable = true;
     trustedInterfaces = [ "tailscale0" ];
-    logRefusedPackets = true;
     logRefusedConnections = true;
     allowedUDPPorts = [
       config.services.tailscale.port
