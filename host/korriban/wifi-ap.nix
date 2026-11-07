@@ -10,6 +10,9 @@ in
 
   # hostapd and NetworkManager's wpa_supplicant cannot share the radio.
   networking.networkmanager.unmanaged = [ "interface-name:${wlan}" ];
+  # The initrd leaves enp12s0 up with carrier. NetworkManager would activate
+  # its default profile on it before ensureProfiles writes br0-enp12s0.
+  networking.networkmanager.settings.main.no-auto-default = "interface-name:${lan}";
   networking.wireless.enable = lib.mkForce false;
 
   # NetworkManager forces networking.useDHCP = false, so a native bridge never
