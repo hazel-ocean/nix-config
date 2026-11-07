@@ -58,9 +58,18 @@ def port-open [host: string, port: int]: nothing -> bool {
   (^nc ...$args | complete).exit_code == 0
 }
 
+def ssh-ready [host: string]: nothing -> bool {
+  let result = (
+    ^ssh -o BatchMode=yes -o ConnectTimeout=5 $host true
+    | complete
+  )
+  $result.exit_code == 0
+}
+
 # Wait for korriban's initrd on the LAN, then enter the LUKS passphrase.
 export def "korriban unlock" [
   --host: string = $KORRIBAN_LAN
+  --ssh-host: string = "korriban"
   --timeout: duration = 5min
 ]: nothing -> nothing {
   let deadline = (date now) + $timeout
@@ -74,20 +83,22 @@ export def "korriban unlock" [
     sleep 2sec
   }
   # The initrd sshd drops the session when it switches root.
-  # The exit code is non-zero either way, so the main sshd is the signal.
+  # The exit code is non-zero either way, so a real login is the signal.
   try {
     ^ssh -t -p $INITRD_SSH_PORT $"root@($host)"
   }
-  print $"Waiting for ($host):22..."
+  # sshd.socket listens on the LAN seconds after switch-root, long before
+  # Tailscale is up, so an open port 22 does not mean `ssh korriban` works.
+  print $"Waiting for ssh ($ssh_host)..."
   let boot_deadline = (date now) + 2min
-  mut booted = (port-open $host 22)
+  mut booted = (ssh-ready $ssh_host)
   while not $booted and (date now) < $boot_deadline {
     sleep 2sec
-    $booted = (port-open $host 22)
+    $booted = (ssh-ready $ssh_host)
   }
   if $booted {
     print $"(ansi green)korriban unlocked and booted(ansi reset)"
   } else {
-    print $"(ansi red)korriban sshd not up after 2min; unlock failed(ansi reset)"
+    print $"(ansi red)ssh ($ssh_host) failed for 2min after unlock(ansi reset)"
   }
 }
