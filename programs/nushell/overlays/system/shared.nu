@@ -74,7 +74,20 @@ export def "korriban unlock" [
     sleep 2sec
   }
   # The initrd sshd drops the session when it switches root.
+  # The exit code is non-zero either way, so the main sshd is the signal.
   try {
     ^ssh -t -p $INITRD_SSH_PORT $"root@($host)"
+  }
+  print $"Waiting for ($host):22..."
+  let boot_deadline = (date now) + 2min
+  mut booted = (port-open $host 22)
+  while not $booted and (date now) < $boot_deadline {
+    sleep 2sec
+    $booted = (port-open $host 22)
+  }
+  if $booted {
+    print $"(ansi green)korriban unlocked and booted(ansi reset)"
+  } else {
+    print $"(ansi red)korriban sshd not up after 2min; unlock failed(ansi reset)"
   }
 }
