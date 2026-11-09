@@ -21,10 +21,9 @@ def --wrapped et3 [...rest] { clear; lsd ...$rest --tree --depth=3 }
 def --wrapped et4 [...rest] { clear; lsd ...$rest --tree --depth=4 }
 def --wrapped etr [...rest] { clear; lsd ...$rest --tree }
 
-def eg  [] { clear; git status }
-def egg [] { clear; git status; echo; git diff }
-def egc [] { clear; git status; echo; git diff --cached }
-
+def eg  [...rest] { clear; git status ...$rest }
+def egg [...rest] { clear; git status; echo; git diff ...$rest }
+def egc [...rest] { clear; git status; echo; git diff --cached ...$rest }
 
 def tf [] { terraform }
 
