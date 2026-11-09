@@ -138,7 +138,7 @@ Keep it high level. One line per item, with the bead id inline so each claim is 
 - Skipped as not relevant: <paths>
 
 **Metadata**
-- pr-url: add https://github.com/<org>/<repo>/pull/<PR number>
+- pr-url: add [<repo>#<PR number>](https://github.com/<org>/<repo>/pull/<PR number>)
 - description: <current> -> <proposed> (scope changed by hz-xxx.n)
 ```
 

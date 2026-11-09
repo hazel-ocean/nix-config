@@ -177,17 +177,17 @@ project: <Project Name>
 notes-uri: "[<Project Name>](obsidian://open?vault=Personal&file=<path>)"
 beads-epic: <epic-id>
 pr-url:
-  - https://github.com/<org>/<repo>/pull/<PR number>
+  - "[<repo>#<PR number>](https://github.com/<org>/<repo>/pull/<PR number>)"
 ```
 
 - `description`: one line, 60 characters or fewer, so it fits a terminal column. A claim about the work, not a label.
 - `project`: the Project Name. Other skills resolve the Obsidian folder from it.
 - `notes-uri`: the Obsidian project note.
 - `beads-epic`: the epic id.
-- `pr-url`: added once a PR exists. Write each entry as a bare URL. A markdown label hides the state that `workspace info` paints.
+- `pr-url`: added once a PR exists, one entry per PR, labelled `<repo>#<PR number>`.
 - Write a key only when it has a real value. No placeholders.
 
-A key ending in `-url`, `-uri` or `-link` renders as a clickable link.
+A key ending in `-url`, `-uri` or `-link` renders as a clickable link. Write every link value as a quoted markdown link, `"[<label>](<url>)"`, never as a bare URL. The quotes keep YAML from reading the brackets as a list.
 
 ### 9. Report Back
 

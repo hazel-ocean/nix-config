@@ -83,7 +83,7 @@ Update the project note's frontmatter:
 When the project has a workspace, update `.workspace.meta.yaml` too, with `Edit` so keys added by hand survive:
 
 - Set `status: done`.
-- Make sure `pr-url` lists every shipped PR, each as a bare URL.
+- Make sure `pr-url` lists every shipped PR, each as `"[<repo>#<PR number>](<url>)"`.
 
 ### 6. Append to the daily note
 
