@@ -746,11 +746,11 @@
         "onesignal-nushell": "onesignal-nushell"
       },
       "locked": {
-        "lastModified": 1793817957,
-        "narHash": "sha256-bo9B/ugQxj9XpbQTWBKqdvdsqaQ88Ws2XbMCytO8H8s=",
+        "lastModified": 1794262152,
+        "narHash": "sha256-0PBunbtxGwF6EPEpGPM3pr8EmFZ9CdWXG2Ec2WQgX5o=",
         "ref": "refs/heads/main",
-        "rev": "14848991ce0eb12ffeb171013c9c7033dcfee099",
-        "revCount": 22,
+        "rev": "c12dbad2b2f9c9601a034b74d4893d9fda631933",
+        "revCount": 23,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
