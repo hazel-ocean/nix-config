@@ -14,3 +14,5 @@ programs/claude/settings.json.bak
 programs/claude/settings.json.tmp.*
 
 private/
+
+.zellij_session
