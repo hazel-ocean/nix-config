@@ -49,12 +49,15 @@ let
   libDirsEnv = ''
     const NU_LIB_DIRS = ["${nuLib}" ...$NU_LIB_DIRS]
     $env.NU_LIB_DIRS = ($NU_LIB_DIRS | uniq)
-    # A child nu reads NU_LIB_DIRS back as an esep-joined string.
+    # Externals see a list variable only through a conversion, and a child nu
+    # reads it back as an esep-joined string.
+    let colon_separated_values = {
+      from_string: {|s| $s | split row (char esep) }
+      to_string: {|v| $v | str join (char esep) }
+    }
     $env.ENV_CONVERSIONS = ($env.ENV_CONVERSIONS? | default {} | merge {
-      NU_LIB_DIRS: {
-        from_string: {|s| $s | split row (char esep) }
-        to_string: {|v| $v | str join (char esep) }
-      }
+      NU_LIB_DIRS: $colon_separated_values
+      WORKBENCH_EXTRA_WORKSPACE_DIRS: $colon_separated_values
     })
   '';
 
@@ -368,6 +371,15 @@ in
         overlay and the aliases that come with it.
       '';
     };
+
+    workspaceExtraDirs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = ''
+        Directories outside `workspaceRoot` that the `workspace` module lists
+        as workspaces, one per entry.
+      '';
+    };
   };
 
   config = {
@@ -393,7 +405,11 @@ in
 
       # sessionVars forwards a safe subset; loading all of them clobbers STARSHIP_CONFIG.
       loadSessionVariables = false;
-      environmentVariables = sessionVars;
+      environmentVariables =
+        sessionVars
+        // lib.optionalAttrs (cfg.workspaceExtraDirs != [ ]) {
+          WORKBENCH_EXTRA_WORKSPACE_DIRS = cfg.workspaceExtraDirs;
+        };
       plugins = [ polars ];
     };
 

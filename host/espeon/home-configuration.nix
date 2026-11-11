@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ../../programs/claude
@@ -37,4 +42,5 @@
     run ${pkgs.duti}/bin/duti -s dev.zed.Zed public.utf8-plain-text all
   '';
 
+  local.nushell.workspaceExtraDirs = [ "${config.home.homeDirectory}/.config/nix-config" ];
 }

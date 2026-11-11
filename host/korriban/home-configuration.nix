@@ -46,6 +46,7 @@
   };
 
   home.sessionVariables.BROWSER = "firefox";
+  local.nushell.workspaceExtraDirs = [ "${config.home.homeDirectory}/.config/nix-config" ];
 
   services.shairport-sync = {
     enable = true;

@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ../../programs/claude
@@ -27,4 +32,9 @@
       ~/.config/nix-config/programs/ghostty/config \
       ~/.config/ghostty
   '';
+
+  local.nushell.workspaceExtraDirs = [
+    "${config.home.homeDirectory}/.config/nix-config"
+    "${config.home.homeDirectory}/Projects/Proffie"
+  ];
 }
