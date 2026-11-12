@@ -305,6 +305,7 @@ let
       "FZF_DEFAULT_COMMAND"
       "BAT_CONFIG_PATH"
       "BD_JSON_ENVELOPE"
+      "BEADS_DIR"
     ]
   ) config.home.sessionVariables;
 
