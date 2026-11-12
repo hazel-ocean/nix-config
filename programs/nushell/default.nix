@@ -43,6 +43,10 @@ let
       })
       (
         lib.mapAttrs (name: _: ./lib + "/${name}") (builtins.readDir ./lib)
+        // {
+          # nu_scripts documents its hooks as `use nu-hooks/<hook>/...`.
+          nu-hooks = "${pkgs.nu-scripts}/nu-hooks/nu-hooks";
+        }
         // cfg.libModules
       )
   );
@@ -143,6 +147,28 @@ let
       file = "task.nu";
       enable = config.services.pueue.enable;
       prefix = true;
+    }
+    {
+      name = "nuenv";
+      src = ./overlays/nuenv;
+      enable = true;
+      # The commands already start with `nuenv`.
+      prefix = false;
+      extraConfig = ''
+        $env.config.hooks.pre_prompt = (
+          $env.config.hooks.pre_prompt?
+          | default []
+          | append (nuenv hooks).pre_prompt
+        )
+        $env.config.hooks.env_change.PWD = (
+          $env.config.hooks.env_change.PWD?
+          | default []
+          | append (nuenv hooks).pwd
+        )
+        $env.config.hooks.env_change.NUENV_TICK = (nuenv hooks).tick
+        # Set at startup, so the tick hook fires on the first prompt.
+        $env.NUENV_TICK = 0
+      '';
     }
     {
       name = "time-machine";
