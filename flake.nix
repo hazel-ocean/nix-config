@@ -29,8 +29,8 @@
       url = "github:hazel-ocean/clawd-back?ref=feat/home-manager-module";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    # Work layer. Contributes only `local.*` options, so the flake still
-    # evaluates for a host that never imports it.
+    # Work layer: `local.*` options and the sms-commons nushell module. The
+    # flake still evaluates for a host that never imports it.
     onesignal-private = {
       url = "git+ssh://git@github.com/hazel-ocean/onesignal";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

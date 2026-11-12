@@ -718,22 +718,6 @@
       },
       "parent": []
     },
-    "onesignal-nushell": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1792693281,
-        "narHash": "sha256-TPS2SQMuweTijGrKLmg6enUJMXsOIme5aSWtYmxX9Ys=",
-        "ref": "refs/heads/main",
-        "rev": "9d1333c6ebdfd98b6698f17a24b2d4be5b575ca7",
-        "revCount": 3,
-        "type": "git",
-        "url": "ssh://git@github.com/hazel-ocean/onesignal-nushell"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/hazel-ocean/onesignal-nushell"
-      }
-    },
     "onesignal-private": {
       "inputs": {
         "agent-skills": "agent-skills",
@@ -743,14 +727,14 @@
         "nixpkgs": [
           "nixpkgs-unstable"
         ],
-        "onesignal-nushell": "onesignal-nushell"
+        "sms-commons": "sms-commons"
       },
       "locked": {
-        "lastModified": 1794263606,
-        "narHash": "sha256-CpEVU7BeG/kMYCgE6wuEBWeDol9gQ8Vm9tHnppt32JU=",
+        "lastModified": 1794511702,
+        "narHash": "sha256-xkvLEWQ5r2kHx1j5QLelcQWQhF1k3dYJegEpBFve2k0=",
         "ref": "refs/heads/main",
-        "rev": "9b5738044978270e7c009eff261a3cd43190c733",
-        "revCount": 25,
+        "rev": "a800c573a4a93990c76a9b7f2f060ab1a4609c75",
+        "revCount": 26,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
@@ -935,6 +919,22 @@
         "owner": "wimpysworld",
         "repo": "sidra",
         "type": "github"
+      }
+    },
+    "sms-commons": {
+      "locked": {
+        "lastModified": 1794353244,
+        "narHash": "sha256-vKo6mc6upst5Yyqj2ve0J7OKOdm01IG7Y/lFhkePgh4=",
+        "ref": "add-os-nushell-commands",
+        "rev": "20d978c9644c91195e1deed1f6423ea7cce5e29f",
+        "revCount": 2,
+        "type": "git",
+        "url": "ssh://git@github.com/OneSignal/sms-commons"
+      },
+      "original": {
+        "ref": "add-os-nushell-commands",
+        "type": "git",
+        "url": "ssh://git@github.com/OneSignal/sms-commons"
       }
     },
     "systems": {
