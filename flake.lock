@@ -757,11 +757,11 @@
         "sms-commons": "sms-commons"
       },
       "locked": {
-        "lastModified": 1794602847,
-        "narHash": "sha256-SAYEKQZlwuNC0+OrJY1RR3vObKfUouflAuaHWgpAyHA=",
+        "lastModified": 1794610700,
+        "narHash": "sha256-LZ3aDc5xzVmCZRa6enHW22jZqNhIFyVIf13N92ZRz6A=",
         "ref": "refs/heads/main",
-        "rev": "65b1fff345cb103ab2ab6f8bb4dfab14d686570e",
-        "revCount": 27,
+        "rev": "f2b5256c70de55287005fc0a1608ecc52eea30a9",
+        "revCount": 28,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
