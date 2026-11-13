@@ -121,7 +121,7 @@ $env.PROMPT_INDICATOR_VI_INSERT = {||
 }
 $env.PROMPT_INDICATOR_VI_NORMAL = {|| $"\n(ansi blue_bold) λ (ansi reset)" }
 
-$env.config.edit_mode = "vi"
+$env.config.edit_mode = "helix"
 # Use cursor shapes to differentiate instead
 $env.config.cursor_shape.vi_insert = "blink_block"
 $env.config.cursor_shape.vi_normal = "block"
@@ -135,7 +135,7 @@ $env.config.keybindings = (
       name: fuzzy_history
       modifier: control
       keycode: char_r
-      mode: [emacs, vi_normal, vi_insert]
+      mode: [emacs, vi_normal, vi_insert, helix_normal, helix_insert]
       event: [
         {
           send: ExecuteHostCommand
@@ -161,7 +161,7 @@ $env.config.keybindings = (
       name: fuzzy_file
       modifier: control
       keycode: char_t
-      mode: [emacs, vi_normal, vi_insert]
+      mode: [emacs, vi_normal, vi_insert, helix_normal, helix_insert]
       event: [
         {
           send: ExecuteHostCommand
@@ -181,7 +181,7 @@ $env.config.keybindings = (
       name: fuzzy_cd
       modifier: alt
       keycode: char_c
-      mode: [emacs, vi_normal, vi_insert]
+      mode: [emacs, vi_normal, vi_insert, helix_normal, helix_insert]
       event: [
         {
           send: ExecuteHostCommand
