@@ -50,20 +50,42 @@ export def edit-me []: nothing -> nothing {
   ^$env.EDITOR $dir
 }
 
+# `complete` swallows the Ctrl-C that kills the child. A negative exit code
+# is the signal, so raise it here.
+def succeeded []: record -> bool {
+  let code = $in.exit_code
+  if $code < 0 {
+    error make { msg: "interrupted" }
+  }
+  $code == 0
+}
+
 def port-open [host: string, port: int]: nothing -> bool {
   let args = match $nu.os-info.name {
     "macos" => [-z -G 2 $host $port]
     _ => [-z -w 2 $host $port]
   }
-  (^nc ...$args | complete).exit_code == 0
+  ^nc ...$args | complete | succeeded
 }
 
 def ssh-ready [host: string]: nothing -> bool {
-  let result = (
-    ^ssh -o BatchMode=yes -o ConnectTimeout=5 $host true
-    | complete
-  )
-  $result.exit_code == 0
+  ^ssh -o BatchMode=yes -o ConnectTimeout=5 $host true
+  | complete
+  | succeeded
+}
+
+def wait-port-closed [
+  host: string
+  port: int
+  timeout: duration
+]: nothing -> bool {
+  let deadline = (date now) + $timeout
+  mut open = (port-open $host $port)
+  while $open and (date now) < $deadline {
+    sleep 2sec
+    $open = (port-open $host $port)
+  }
+  not $open
 }
 
 # Wait for korriban's initrd on the LAN, then enter the LUKS passphrase.
@@ -86,6 +108,13 @@ export def "korriban unlock" [
   # The exit code is non-zero either way, so a real login is the signal.
   try {
     ^ssh -t -p $INITRD_SSH_PORT $"root@($host)"
+  }
+  # The initrd sshd stops at switch-root. If it still listens, the session
+  # ended some other way: a lost connection, Ctrl-C at the prompt, or `~.`.
+  if not (wait-port-closed $host $INITRD_SSH_PORT 30sec) {
+    error make {
+      msg: $"initrd on ($host):($INITRD_SSH_PORT) still waits for the passphrase"
+    }
   }
   # sshd.socket listens on the LAN seconds after switch-root, long before
   # Tailscale is up, so an open port 22 does not mean `ssh korriban` works.
