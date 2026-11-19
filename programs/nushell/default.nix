@@ -61,9 +61,15 @@ let
     }
     $env.ENV_CONVERSIONS = ($env.ENV_CONVERSIONS? | default {} | merge {
       NU_LIB_DIRS: $colon_separated_values
-      WORKBENCH_EXTRA_WORKSPACE_DIRS: $colon_separated_values
     })
   '';
+
+  workbenchToml = pkgs.formats.toml { };
+  workbenchSettings =
+    cfg.workspaceSettings
+    // lib.optionalAttrs (cfg.workspaceExtraDirs != [ ]) {
+      extra-workspace-dirs = cfg.workspaceExtraDirs;
+    };
 
   themeSrc = ./overlays/theme;
   # Repo themes join nu_scripts' tree so screenshots/ stays a sibling of nu-themes/.
@@ -306,6 +312,7 @@ let
       "BAT_CONFIG_PATH"
       "BD_JSON_ENVELOPE"
       "BEADS_DIR"
+      "PERSONAL_BEADS_DIR"
     ]
   ) config.home.sessionVariables;
 
@@ -404,7 +411,18 @@ in
       default = [ ];
       description = ''
         Directories outside `workspaceRoot` that the `workspace` module lists
-        as workspaces, one per entry.
+        as workspaces, one per entry. Written to the config file as
+        `extra-workspace-dirs`.
+      '';
+    };
+
+    workspaceSettings = lib.mkOption {
+      type = workbenchToml.type;
+      default = { };
+      description = ''
+        Keys for the `workspace` module's config file,
+        `workbench/config.toml` under the XDG config home. When any setting
+        is present, Nix owns the whole file.
       '';
     };
   };
@@ -432,12 +450,12 @@ in
 
       # sessionVars forwards a safe subset; loading all of them clobbers STARSHIP_CONFIG.
       loadSessionVariables = false;
-      environmentVariables =
-        sessionVars
-        // lib.optionalAttrs (cfg.workspaceExtraDirs != [ ]) {
-          WORKBENCH_EXTRA_WORKSPACE_DIRS = cfg.workspaceExtraDirs;
-        };
+      environmentVariables = sessionVars;
       plugins = [ polars ];
+    };
+
+    xdg.configFile."workbench/config.toml" = lib.mkIf (workbenchSettings != { }) {
+      source = workbenchToml.generate "workbench-config.toml" workbenchSettings;
     };
 
     # Out-of-store symlink to the working-tree config.nu, which the generated
