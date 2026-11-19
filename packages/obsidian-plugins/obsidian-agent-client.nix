@@ -7,9 +7,9 @@
 buildNpmPackage {
   inherit src;
   pname = "obsidian-agent-client";
-  version = "0.13.0";
+  version = "0.13.2";
 
-  npmDepsHash = "sha256-1yWfV6sMdYX+8isJVA57s/JGQWpN1v1XIUnMrThOh4s=";
+  npmDepsHash = "sha256-RnTo+AVZjWzLjkg7o8MNOlwEnfXdzHLMLovN5P4CnHw=";
   npmBuildScript = "build";
   dontNpmPack = true; # Don't try to run npm pack
 
