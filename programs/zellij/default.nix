@@ -8,6 +8,23 @@ let
   inherit (lib) strings;
   inherit (pkgs) stdenv theme zellijPlugins room;
 
+  # The clawd-back module exists only on hosts that import it.
+  clawdBack = config.programs.clawd-back.enable or false;
+
+  # ClawdBack posts the desktop notifications, so Zellij must not post them
+  # too.
+  noDesktopNotifications = ''
+    host_notification_protocol "off"
+
+    attention {
+      desktop_notifications {
+        needs_you false
+        failed false
+        done false
+      }
+    }
+  '';
+
   configText = ''
     theme_dark "${theme.zellij.dark}"
     theme_light "${theme.zellij.light}"
@@ -16,6 +33,7 @@ let
     // path, which pins every session to the generation it started under.
     default_shell "${config.home.profileDirectory}/bin/nu"
     ${builtins.readFile ./config.kdl}
+    ${strings.optionalString clawdBack noDesktopNotifications}
 
     plugins {
       room location="file:${room}/lib/zellij/plugins/room.wasm"
