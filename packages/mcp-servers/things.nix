@@ -21,6 +21,15 @@ let
     sourcePreference = "wheel";
   };
 
+  # things-py ships only an sdist and omits setuptools from its build deps.
+  buildFixups = final: prev: {
+    things-py = prev.things-py.overrideAttrs (old: {
+      nativeBuildInputs =
+        old.nativeBuildInputs
+        ++ final.resolveBuildSystem { setuptools = [ ]; };
+    });
+  };
+
   pythonSet =
     (callPackage pyproject-nix.build.packages {
       inherit python;
@@ -28,6 +37,7 @@ let
       (lib.composeManyExtensions [
         pyproject-build-systems.overlays.default
         overlay
+        buildFixups
       ]);
 
   venv = pythonSet.mkVirtualEnv "mcp-things-env" workspace.deps.default;
