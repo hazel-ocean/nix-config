@@ -757,11 +757,11 @@
         "sms-commons": "sms-commons"
       },
       "locked": {
-        "lastModified": 1795058357,
-        "narHash": "sha256-b6BKbcyWaQmr0YdN7Lf3Atvz9BX06+4rfJ3XyVT4hoE=",
+        "lastModified": 1795206881,
+        "narHash": "sha256-v9vFjd0X25BEtLGTHQnmrBdSy4jEJ/1ojQnwErTROKo=",
         "ref": "refs/heads/main",
-        "rev": "2640ee70eb7f4086d478ee9b05eea2d2490ebde8",
-        "revCount": 32,
+        "rev": "e54f8b9e00d1393967572ea3f2fe8e84efe0e86d",
+        "revCount": 33,
         "type": "git",
         "url": "ssh://git@github.com/hazel-ocean/onesignal"
       },
@@ -950,11 +950,11 @@
     },
     "sms-commons": {
       "locked": {
-        "lastModified": 1794353244,
-        "narHash": "sha256-vKo6mc6upst5Yyqj2ve0J7OKOdm01IG7Y/lFhkePgh4=",
+        "lastModified": 1795206046,
+        "narHash": "sha256-Ywe+ajN+wcV11NliCo3GEXGW+SU8p5A1PGvR0f1lJiY=",
         "ref": "add-os-nushell-commands",
-        "rev": "20d978c9644c91195e1deed1f6423ea7cce5e29f",
-        "revCount": 2,
+        "rev": "5a770638950bd37b93e24c175a18f9f8af9c24cc",
+        "revCount": 8,
         "type": "git",
         "url": "ssh://git@github.com/OneSignal/sms-commons"
       },
