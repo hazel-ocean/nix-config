@@ -31,7 +31,7 @@ def zvi [] { nvim (fzf --preview 'bat --style=numbers --color=always {}') }
 def zhx [] { hx (fzf --preview 'bat --style=numbers --color=always {}') }
 def zgc [] { git checkout (git branch | fzf) }
 
-# Zellij session management. `zd` multi-selects live sessions to force-delete;
+# Zellij session management. `zd` multi-selects sessions to force-delete;
 # `zda` drops all resurrectable (exited) sessions via `zellij delete-all-sessions`
 # (its own y/N prompt confirms). Both first flag any workspace-tracked sessions
 # that would be affected. `workspace list` resolves once its overlay is loaded.
@@ -59,20 +59,41 @@ def zellij-session-names []: nothing -> list<string> {
   | where {|l| $l | is-not-empty }
 }
 
-# Multi-select live Zellij sessions to force-delete; flags any a workspace saved.
+# Names can contain spaces, so split on the `[Created ...]` marker.
+def zellij-sessions []: nothing -> table<name: string, exited: bool> {
+  let r = (^zellij list-sessions --no-formatting | complete)
+  if $r.exit_code != 0 { return [] }
+  $r.stdout
+  | lines
+  | parse --regex '^(?<name>.*?) \[Created [^\]]*\](?<tail>.*)$'
+  | each {|s| {name: $s.name, exited: ($s.tail | str contains "EXITED")} }
+}
+
+# Blue for an active session, red for an exited one.
+def zellij-session-label []: record<name: string, exited: bool> -> string {
+  let colour = if $in.exited { ansi red } else { ansi blue }
+  $"($colour)($in.name)(ansi reset)"
+}
+
+# Multi-select Zellij sessions to force-delete; flags any a workspace saved.
 def zd [] {
-  let names = (zellij-session-names)
-  if ($names | is-empty) { print "No Zellij sessions."; return }
-  let chosen = ($names | input list --multi --fuzzy "Sessions to delete:")
+  let sessions = (zellij-sessions)
+  if ($sessions | is-empty) { print "No Zellij sessions."; return }
+  let chosen = (
+    $sessions
+    | input list --multi --fuzzy --display {|s| $s | zellij-session-label }
+      "Sessions to delete:"
+  )
   if ($chosen | is-empty) { print "Nothing selected."; return }
+  let names = ($chosen | get name)
   # `workspace list` paints session names, so strip the colour before matching.
   workspace list
-  | where ($it.zellij | default "" | ansi strip) in $chosen
+  | where ($it.zellij | default "" | ansi strip) in $names
   | where ($it.workspace | ansi strip) != "(orphan)"
   | print-workspace-sessions "Workspace sessions in the selection:"
-  for name in $chosen {
-    ^zellij delete-session --force -- $name
-    print $"deleted (ansi light_purple)($name)(ansi reset)"
+  for session in $chosen {
+    ^zellij delete-session --force -- $session.name
+    print $"deleted ($session | zellij-session-label)"
   }
 }
 
@@ -103,6 +124,13 @@ def za [
 # Delete all resurrectable (exited) Zellij sessions, warning first about any a
 # workspace saved. `zellij delete-all-sessions` prompts for confirmation.
 def zda [] {
+  let sessions = (zellij-sessions)
+  if ($sessions | is-not-empty) {
+    print $"Sessions \((ansi red)exited(ansi reset) are deleted\):"
+    for session in $sessions {
+      print $"  ($session | zellij-session-label)"
+    }
+  }
   workspace list
   | where state == "exited" and ($it.workspace | ansi strip) != "(orphan)"
   | print-workspace-sessions "Workspace sessions to be deleted:"
