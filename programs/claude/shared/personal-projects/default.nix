@@ -8,10 +8,6 @@
 
   local.claude = {
     contextFragments = [ ./context.md ];
-    extraSkills = {
-      checkpoint = ./skills/checkpoint;
-      new-project = ./skills/new-project;
-      close-project = ./skills/close-project;
-    };
+    skillDirs = [ ./skills ];
   };
 }

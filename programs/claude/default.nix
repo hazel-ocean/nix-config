@@ -60,9 +60,27 @@ let
     else
       src;
 
-  vendoredSkills = lib.genAttrs (builtins.attrNames (builtins.readDir ./.agents/skills)) (
-    name: withSupplement name (./.agents/skills + "/${name}")
-  );
+  # Each subdirectory of `dir` is one skill, named after the subdirectory.
+  skillsIn =
+    dir:
+    lib.pipe dir [
+      builtins.readDir
+      (lib.filterAttrs (_: type: type == "directory"))
+      (lib.mapAttrs (name: _: dir + "/${name}"))
+    ];
+
+  vendoredSkills = lib.mapAttrs withSupplement (skillsIn ./.agents/skills);
+
+  skillSets = [ vendoredSkills ] ++ map skillsIn cfg.skillDirs ++ [ cfg.extraSkills ];
+
+  # A merge keeps the last definition of a name, so a clash would silently
+  # drop a skill.
+  duplicateSkills = lib.pipe skillSets [
+    (lib.concatMap builtins.attrNames)
+    (lib.groupBy lib.id)
+    (lib.filterAttrs (_: names: builtins.length names > 1))
+    builtins.attrNames
+  ];
 
   beads-skill = withSupplement "beads" "${pkgs.beads.src}/plugins/beads/skills/beads";
 
@@ -98,10 +116,16 @@ in
       description = "Output style from ./personas that sets the voice. Null keeps the default.";
     };
 
+    skillDirs = lib.mkOption {
+      type = lib.types.listOf lib.types.path;
+      default = [ ];
+      description = "Directories whose subdirectories each install as a skill of the same name.";
+    };
+
     extraSkills = lib.mkOption {
       type = lib.types.attrsOf lib.types.path;
       default = { };
-      description = "Skill directories to install alongside the vendored set.";
+      description = "Single skill directories, keyed by skill name.";
     };
 
     contextFragments = lib.mkOption {
@@ -121,15 +145,19 @@ in
   };
 
   config = {
+    assertions = [
+      {
+        assertion = duplicateSkills == [ ];
+        message = "Claude skills defined more than once: ${lib.concatStringsSep ", " duplicateSkills}";
+      }
+    ];
+
     programs.claude-code = {
       inherit context;
-      skills =
-        vendoredSkills
-        // cfg.extraSkills
-        // {
-          gh-pr-review = gh-pr-review-skill;
-          beads = beads-skill;
-        };
+      skills = lib.mergeAttrsList skillSets // {
+        gh-pr-review = gh-pr-review-skill;
+        beads = beads-skill;
+      };
       commands.nu = ./commands/nu.md;
       outputStyles = personas;
     };
