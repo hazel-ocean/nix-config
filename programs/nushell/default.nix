@@ -439,6 +439,8 @@ in
         [
           libDirsEnv
           ''$env.STARSHIP_CONFIG = "${starshipNuConfig}"''
+          # Palette slots, not RGB, so `theme apply-palette` (OSC 4) recolors ls.
+          ''$env.LS_COLORS = "fi=0:no=0:di=1;34:ln=36:ex=1;32:or=31:mi=31:pi=33:so=35:bd=1;33:cd=1;33"''
           overlayEnvs
         ]
         ++ lib.optional isDarwin darwinEnv

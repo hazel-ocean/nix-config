@@ -5,7 +5,7 @@
 # ($nu.data-dir/theme-active.nu). New shells source it from startup.nu. Live
 # switches bump $env.NU_THEME_GENERATION, whose env_change string hook re-parses
 # and sources the snippet before the next prompt. The snippet also derives
-# $env.config.tui from the theme's color_config.
+# $env.config.tui and the terminal's ANSI palette from the theme's color_config.
 #
 # Two scopes per polarity. Global is the state file over the Nix defaults.
 # Local is $env.NU_THEME_LOCAL_LIGHT/DARK: this shell and its children only.
@@ -43,6 +43,7 @@ def write-active [name: string] {
     '  set color_config'
     '  theme apply-tui'
     '  update terminal'
+    '  theme apply-palette'
     '}'
     ''
   ]
@@ -82,6 +83,44 @@ export def --env 'apply-tui' [] {
       }
     }
   )
+}
+
+# Set ANSI palette slots 0-15 (OSC 4) from the active color_config, so
+# programs that name slots, like LS_COLORS, follow the theme. The themes have
+# no bright variants, so 9-14 repeat 1-6.
+export def 'apply-palette' [] {
+  let c = $env.config.color_config
+  let bg = ($c.background? | default '')
+  let fg = ($c.foreground? | default '')
+  if not ((color is-hex $bg) and (color is-hex $fg)) { return }
+  let pick = {|keys|
+    $keys
+    | each {|k| fg-of ($c | get -o $k) }
+    | where {|v| color is-hex $v }
+    | get -o 0
+  }
+  let hues = [
+    (do $pick [float nothing])
+    (do $pick [string])
+    (do $pick [duration range])
+    (do $pick [block])
+    (do $pick [binary int])
+    (do $pick [closure record])
+  ]
+  let hints = (do $pick [hints] | default (color mix $bg $fg 0.5))
+  [
+    (color mix $bg $fg 0.15)
+    ...$hues
+    (color mix $bg $fg 0.85)
+    $hints
+    ...$hues
+    $fg
+  ]
+  | enumerate
+  | where item != null
+  | each {|s| $"(ansi -o $'4;($s.index);($s.item)')(char bel)" }
+  | str join
+  | print -n
 }
 
 # Apply the written snippet to the *current* shell at the next prompt. The
