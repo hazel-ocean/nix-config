@@ -77,24 +77,24 @@ let
     jsonnet-bundler
   ];
 
-  lsdAliases = {
-    er = "clear; ls -l";
-    r = "clear; ls";
-    ra = "clear; ls -a";
+  ezaAliases = {
+    er = "clear; eza -l";
+    r = "clear; eza";
+    ra = "clear; eza -a";
     e = "clear";
-    era = "clear; ls -la";
-    err = "clear; ls -lR";
-    erra = "clear; ls -lRa";
-    et = "clear; ls --tree --depth 1";
-    eta = "clear; ls -a --tree --depth 1";
-    et0 = "clear; ls --tree --depth 0";
-    et1 = "clear; ls --tree --depth 1";
-    et2 = "clear; ls --tree --depth 2";
-    et3 = "clear; ls --tree --depth 3";
-    et4 = "clear; ls --tree --depth 4";
-    etr = "clear; ls --tree";
-    re = "clear; ls *";
-    rea = "clear; ls -a *";
+    era = "clear; eza -la";
+    err = "clear; eza -lR";
+    erra = "clear; eza -lRa";
+    et = "clear; eza --tree --level 1";
+    eta = "clear; eza -a --tree --level 1";
+    et0 = "clear; eza --tree --level 0";
+    et1 = "clear; eza --tree --level 1";
+    et2 = "clear; eza --tree --level 2";
+    et3 = "clear; eza --tree --level 3";
+    et4 = "clear; eza --tree --level 4";
+    etr = "clear; eza --tree";
+    re = "clear; eza *";
+    rea = "clear; eza -a *";
   };
 
   shellFor = program: {
@@ -181,7 +181,7 @@ let
       dvprune = "docker volume prune --all --force";
       daprune = "dsprune && diprune && dcprune && dnprune && dvprune && dsprune";
     }
-    // lsdAliases
+    // ezaAliases
     // lib.optionalAttrs isLinux {
       open = "xdg-open";
       cdcopy = "pwd | xsel -ib";
@@ -266,9 +266,8 @@ in
       initExtra = shell.init;
     };
 
-  programs.lsd = {
+  programs.eza = {
     enable = true;
-    # enableAliases = true;
-    settings.color.when = "never";
+    colors = "never";
   };
 }
