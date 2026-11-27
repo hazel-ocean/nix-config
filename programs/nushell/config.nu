@@ -8,14 +8,30 @@ def blank []: nothing -> nothing {
 }
 alias eb = blank
 
-def --wrapped r [...rest]   { clear; ls ...$rest * }
-def --wrapped ra [...rest]  { clear; ls ...$rest -a * }
-def --wrapped er [...rest]  { clear; ls ...$rest -l * }
-def --wrapped era [...rest] { clear; ls ...$rest -la }
+# `ls ...[]` lists nothing, and a glob that matches nothing is an error, so
+# fall back to the current directory and walk subdirectories by hand.
+def ls-in [paths: list<glob>, --all (-a), --long (-l)] {
+  match $paths {
+    [] => { ls --all=$all --long=$long }
+    _ => { ls --all=$all --long=$long ...$paths }
+  }
+}
+
+def ls-sub [paths: list<glob>, --all (-a), --long (-l)] {
+  ls-in $paths --all=$all
+  | where type == dir
+  | each {|dir| ls --all=$all --long=$long $dir.name }
+  | flatten
+}
+
+def r [...paths: glob]   { clear; ls-in $paths }
+def ra [...paths: glob]  { clear; ls-in $paths --all }
+def er [...paths: glob]  { clear; ls-in $paths --long }
+def era [...paths: glob] { clear; ls-in $paths --all --long }
 def --wrapped err [...rest]  { clear; ^eza ...$rest -lR }
 def --wrapped erra [...rest] { clear; ^eza ...$rest -lRa }
-def --wrapped re [...rest]  { clear; ls ...$rest */* }
-def --wrapped rea [...rest] { clear; ls ...$rest -a */* }
+def re [...paths: glob]  { clear; ls-sub $paths }
+def rea [...paths: glob] { clear; ls-sub $paths --all }
 def --wrapped et [...rest]  { clear; ^eza ...$rest --tree --level=1 }
 def --wrapped eta [...rest] { clear; ^eza ...$rest -a --tree --level=1 }
 def --wrapped et0 [...rest] { clear; ^eza ...$rest --tree --level=0 }
