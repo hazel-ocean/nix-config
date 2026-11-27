@@ -12,18 +12,18 @@ def --wrapped r [...rest]   { clear; ls ...$rest * }
 def --wrapped ra [...rest]  { clear; ls ...$rest -a * }
 def --wrapped er [...rest]  { clear; ls ...$rest -l * }
 def --wrapped era [...rest] { clear; ls ...$rest -la }
-def --wrapped err [...rest]  { clear; ^eza --color=never ...$rest -lR }
-def --wrapped erra [...rest] { clear; ^eza --color=never ...$rest -lRa }
+def --wrapped err [...rest]  { clear; ^eza ...$rest -lR }
+def --wrapped erra [...rest] { clear; ^eza ...$rest -lRa }
 def --wrapped re [...rest]  { clear; ls ...$rest */* }
 def --wrapped rea [...rest] { clear; ls ...$rest -a */* }
-def --wrapped et [...rest]  { clear; ^eza --color=never ...$rest --tree --level=1 }
-def --wrapped eta [...rest] { clear; ^eza --color=never ...$rest -a --tree --level=1 }
-def --wrapped et0 [...rest] { clear; ^eza --color=never ...$rest --tree --level=0 }
-def --wrapped et1 [...rest] { clear; ^eza --color=never ...$rest --tree --level=1 }
-def --wrapped et2 [...rest] { clear; ^eza --color=never ...$rest --tree --level=2 }
-def --wrapped et3 [...rest] { clear; ^eza --color=never ...$rest --tree --level=3 }
-def --wrapped et4 [...rest] { clear; ^eza --color=never ...$rest --tree --level=4 }
-def --wrapped etr [...rest] { clear; ^eza --color=never ...$rest --tree }
+def --wrapped et [...rest]  { clear; ^eza ...$rest --tree --level=1 }
+def --wrapped eta [...rest] { clear; ^eza ...$rest -a --tree --level=1 }
+def --wrapped et0 [...rest] { clear; ^eza ...$rest --tree --level=0 }
+def --wrapped et1 [...rest] { clear; ^eza ...$rest --tree --level=1 }
+def --wrapped et2 [...rest] { clear; ^eza ...$rest --tree --level=2 }
+def --wrapped et3 [...rest] { clear; ^eza ...$rest --tree --level=3 }
+def --wrapped et4 [...rest] { clear; ^eza ...$rest --tree --level=4 }
+def --wrapped etr [...rest] { clear; ^eza ...$rest --tree }
 
 def eg  [...rest] { clear; git status ...$rest }
 def egg [...rest] { clear; git status; echo; git diff ...$rest }

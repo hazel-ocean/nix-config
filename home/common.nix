@@ -266,8 +266,5 @@ in
       initExtra = shell.init;
     };
 
-  programs.eza = {
-    enable = true;
-    colors = "never";
-  };
+  programs.eza.enable = true;
 }
