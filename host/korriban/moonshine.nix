@@ -49,6 +49,8 @@ in
           pre_command = [ steamShutdownPreCommand ];
         }
       ];
+      # The Host check accepts only IPs, localhost, <hostname> and <hostname>.local.
+      ui.allowed_hosts = [ "${config.networking.hostName}.tail6b27c3.ts.net" ];
       # The control panel has no password: anyone in these ranges can pair
       # and stream. Its settings edits fail, because the config is in the store.
       ui.allowed_networks = [
