@@ -1,8 +1,23 @@
 # Niri both as a login session and as a moonshine-streamed app.
 # Plasma is the default session; niri is selectable at the greeter.
-{ config, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.niri.enable = true;
+
+  # Nested niri 26.04 shows its host cursor, which moonshine draws next to
+  # niri's own. Upstream main hides it (803462c7), and no release has it yet.
+  programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri;
+  warnings = lib.optional (lib.versionOlder "26.04" pkgs.niri.version) ''
+    nixpkgs has niri ${pkgs.niri.version}. If it includes niri 803462c7,
+    remove the niri flake input and programs.niri.package from
+    host/korriban/niri.nix.
+  '';
 
   # System-wide, not home.packages: niri runs under moonshine's service PATH.
   environment.systemPackages = [
@@ -31,8 +46,6 @@
           "/home/hazel/.config/gtk-4.0/settings.ini"
         ]
       ];
-      # Nested niri draws its own cursor.
-      hide_cursor = true;
       stdout = "journal";
       stderr = "journal";
     }

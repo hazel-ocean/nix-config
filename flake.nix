@@ -37,8 +37,12 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     moonshine = {
-      # Fork for the per-application hide_cursor option, until upstream merges it.
-      url = "github:hazel-ocean/moonshine/hide-cursor";
+      url = "github:hgaiser/moonshine";
+      inputs.nixpkgs.follows = "nixos-unstable";
+    };
+    # Upstream main, for the nested host cursor fix. See host/korriban/niri.nix.
+    niri = {
+      url = "github:niri-wm/niri";
       inputs.nixpkgs.follows = "nixos-unstable";
     };
     sidra = {
@@ -230,7 +234,6 @@
         home-manager = home-manager-nixos-unstable;
         extraModules = [
           determinate.nixosModules.default
-          inputs.moonshine.nixosModules.default
         ];
       };
 

@@ -147,6 +147,23 @@
         "url": "https://install.determinate.systems/determinate-nixd/tag/v3.24.3/x86_64-linux"
       }
     },
+    "ferriscope": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795249987,
+        "narHash": "sha256-f0yhxc3kNgnx2Iklrb+vNoGXS3WIzJEyOkxQjkAQ1Qw=",
+        "owner": "hgaiser",
+        "repo": "ferriscope",
+        "rev": "f8e2665193e2c38efb7f5dbc7ebc4fa9954338ef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hgaiser",
+        "ref": "v0.2.2",
+        "repo": "ferriscope",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -448,22 +465,42 @@
     },
     "moonshine": {
       "inputs": {
+        "ferriscope": "ferriscope",
         "nixpkgs": [
           "nixos-unstable"
         ]
       },
       "locked": {
-        "lastModified": 1789358677,
-        "narHash": "sha256-ZkZt9c8E9W5oJKLyVwgJtWzmIcWE5fjraANDVzDMFs4=",
-        "owner": "hazel-ocean",
+        "lastModified": 1795772202,
+        "narHash": "sha256-qf5tm4hlR2+shlyHWeGi7JPUjaUnEn36yqXzYh+iPMY=",
+        "owner": "hgaiser",
         "repo": "moonshine",
-        "rev": "5316a4f9e14cf77080e488f356f320ed86245c8a",
+        "rev": "a527b795e84e5d6cbe6974c7a929c06c598cf5db",
         "type": "github"
       },
       "original": {
-        "owner": "hazel-ocean",
-        "ref": "hide-cursor",
+        "owner": "hgaiser",
         "repo": "moonshine",
+        "type": "github"
+      }
+    },
+    "niri": {
+      "inputs": {
+        "nixpkgs": [
+          "nixos-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794546138,
+        "narHash": "sha256-NlfZt7tUe4GQHa29UJ59XXVR/d0qc+DweeO71HakCgM=",
+        "owner": "niri-wm",
+        "repo": "niri",
+        "rev": "73a04441fccc78294c3899af8f8cdd2a1e38fa33",
+        "type": "github"
+      },
+      "original": {
+        "owner": "niri-wm",
+        "repo": "niri",
         "type": "github"
       }
     },
@@ -875,6 +912,7 @@
         "mcp-servers": "mcp-servers",
         "moonlight-qt-src": "moonlight-qt-src",
         "moonshine": "moonshine",
+        "niri": "niri",
         "nix-darwin": "nix-darwin",
         "nixos-stable": "nixos-stable",
         "nixos-unstable": "nixos-unstable",
